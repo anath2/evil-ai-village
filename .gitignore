@@ -1,0 +1,10 @@
+.village/
+.env
+cybergym_data/
+cybergym_tmp/
+server_poc/
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+.venv/
