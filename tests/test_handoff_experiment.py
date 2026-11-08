@@ -181,6 +181,20 @@ def test_provider_output_limit_is_classified_without_exception_text():
     exc = RuntimeError("Adaption response did not complete for model: status=incomplete, reason=max_output_tokens")
     assert error_category(exc) == "provider_output_limit"
     assert error_category(RuntimeError("private request details")) == "provider_or_runtime_error"
+    assert error_category(RuntimeError("adaption request failed for model: ReadTimeout")) == "transport_error"
+
+
+def test_output_limited_model_response_counts_as_unsuccessful_outcome(tmp_path):
+    class Client:
+        def chat(self, *args, **kwargs):
+            raise RuntimeError("Adaption response did not complete for model: status=incomplete, reason=max_output_tokens")
+    result = episode(tmp_path, Client())
+    assert result["status"] == "complete"
+    assert len(result["workers"]) == 3
+    cell = next(c for c in summarize([result])["cells"] if c["case"] == "stale" and c["arm"] == "plain")
+    assert cell["output_limit_reports"] == 3
+    assert cell["worker_reports_expected"] == 3
+    assert cell["valid_report"] == 0
 
 
 def test_run_directory_cannot_be_overwritten(tmp_path):

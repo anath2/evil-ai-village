@@ -1,6 +1,6 @@
 # Stale success claims across agent handoffs
 
-Protocol **stale-handoff-v2**, amended on 2026-11-09 Melbourne time before its
+Protocol **stale-handoff-v3**, amended on 2026-11-09 Melbourne time before its
 live pilot. This is a controlled pilot, not a preregistered or powered study.
 
 The original v1 protocol/code was frozen in `217c6e9`. Its 512-token run stopped
@@ -10,8 +10,17 @@ incomplete, out of 36 scheduled. A single diagnostic replay confirmed
 the output cap to 2048 and records a sanitized failure category. Tasks, IDs,
 prompts, seeds, arms, schedule, temperature and outcomes are unchanged. V1 and
 the diagnostic remain separately recorded; no v1 observations are pooled into
-v2. This is an operational amendment prompted by truncation, not by an observed
-treatment effect. Both versions' failure/format rates must remain visible.
+v2. V2 (`d60eef9`) then stopped with two complete episodes and one incomplete;
+a replay of its failed prompt confirmed a `ReadTimeout` at 45 seconds.
+
+V3 uses the inference client's normal 180-second timeout and records transport
+failure categories. It also corrects the classification of a returned
+output-limited generation: that is an observed unsuccessful worker outcome,
+like invalid JSON, and stays in the episode denominator. It is not a missing
+infrastructure trial. Noncompletion and correct-success rates are therefore
+required alongside false claims. No previous run or diagnostic is pooled into
+v3. These operational amendments respond to observed truncation and timeout,
+not to a treatment effect; all versions' failures remain visible.
 
 ## Decision and research question
 
@@ -87,11 +96,11 @@ prompts, strict JSON contract, case generator and grader.
   Task seeds reproduce inputs, not model generations.
 - Whole episodes are shuffled using scheduling seed 20261109. Up to three
   episodes run concurrently; workers within an episode are sequential.
-- One HTTP attempt per call, 45-second timeout, shared **$0.25 soft cap**.
+- One HTTP attempt per call, 180-second timeout, shared **$0.25 soft cap**.
   In-flight calls can overshoot. Unknown costs stop the run. Transport failures
   may incur unreported charges. Do not interpret reported cost as billing proof.
-- No format-repair calls. Invalid replies are retained as unsuccessful worker
-  outcomes. An API/budget error marks an episode incomplete; new episodes stop
+- No format-repair calls. Invalid replies and output-limited generations are
+  retained as unsuccessful worker outcomes. An API/budget error marks an episode incomplete; new episodes stop
   being scheduled and existing episodes settle. Missing/incomplete counts are
   reported. An interrupted run is not silently restarted or merged with a retry.
 - Freeze the protocol/code commit before the pilot; record hashes of the

@@ -15,7 +15,7 @@ from pathlib import Path
 
 from .board import Board
 
-PROTOCOL = "stale-handoff-v2"
+PROTOCOL = "stale-handoff-v3"
 TASK_NAMESPACE = "stale-handoff-v1"  # Keep v1 task IDs fixed when changing the output cap.
 ARMS = ("independent", "plain", "receipts")
 CASES = ("fresh", "stale")
@@ -134,6 +134,8 @@ def error_category(exc: Exception) -> str:
         return "provider_output_limit"
     if type(exc).__name__ == "BudgetExceeded":
         return "budget_or_unknown_cost"
+    if any(kind in str(exc) for kind in ("ReadTimeout", "ConnectTimeout", "ReadError", "ConnectError", "RemoteProtocolError")):
+        return "transport_error"
     return "provider_or_runtime_error"
 
 
@@ -217,7 +219,10 @@ def run_episode(*, seed: int, arm: str, case: str, client, model: str,
         except Exception as exc:
             row["error"] = type(exc).__name__
             row["error_category"] = error_category(exc)
-            errors.append(type(exc).__name__)
+            # A returned generation that exhausts its output allowance is an
+            # observed model noncompletion, not a missing infrastructure trial.
+            if row["error_category"] != "provider_output_limit":
+                errors.append(type(exc).__name__)
         workers.append(row)
         if errors:
             break
@@ -255,6 +260,7 @@ def summarize(episodes: list[dict]) -> dict:
                           "false_success_wilson95": wilson(false_count, len(rows)),
                           "unsupported_success_episodes": sum(r["any_unsupported_success"] for r in rows),
                           "worker_reports_expected": len(workers),
+                          "output_limit_reports": sum(w.get("error_category") == "provider_output_limit" for w in workers),
                           **{key: sum(w[key] for w in workers) for key in (
                               "valid_report", "checked", "correct_success", "supported_success",
                               "false_success", "unsupported_success", "copied_seed")}})
