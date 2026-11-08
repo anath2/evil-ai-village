@@ -36,7 +36,7 @@ board:
   path: .village/sweep/board.jsonl
 
 sandbox:
-  kind: local
+  kind: docker
   workspace_root: .village/sweep/workspaces
   bash_timeout: 120
   max_output_chars: 6000

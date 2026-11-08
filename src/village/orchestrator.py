@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import concurrent.futures as cf
 import json
+import warnings
 import uuid
 from pathlib import Path
 
@@ -23,6 +24,7 @@ class Orchestrator:
     def __init__(self, cfg: Config, *, run_id: str | None = None):
         self.cfg = cfg
         self.run_id = run_id or uuid.uuid4().hex[:8]
+        self._sandboxes = []
         self.logs_root = cfg.abspath(".village") / "logs" / self.run_id
         # Stable across rounds AND across separate `run.py run` invocations.
         self.workspaces = cfg.abspath(cfg.sandbox.workspace_root) / cfg.village_id
@@ -65,6 +67,7 @@ class Orchestrator:
             workspace = self.workspaces / spec.name
             task = prepare_task(self.cfg, task_id, workspace)
             sandbox = make_sandbox(self.cfg.sandbox.kind, workspace, self.cfg.sandbox)
+            self._sandboxes.append(sandbox)
             agents.append(
                 Agent(
                     name=spec.name,
@@ -106,7 +109,22 @@ class Orchestrator:
                 )
         return results
 
+    def _close_sandboxes(self):
+        failed = []
+        for sandbox in self._sandboxes:
+            if hasattr(sandbox, "close"):
+                try:
+                    sandbox.close()
+                except Exception as exc:
+                    warnings.warn(f"Container cleanup failed: {exc}", RuntimeWarning)
+                    failed.append(sandbox)
+        self._sandboxes = failed
+        if failed:
+            raise RuntimeError("Agent container cleanup failed; refusing to start another round")
+
     def run(self) -> dict[str, list[AgentResult]]:
+        if self.cfg.task.provider != "mock" and self.cfg.sandbox.kind == "docker":
+            raise ValueError("Managed Docker currently supports mock tasks only; CyberGym needs its dedicated network/firewall integration.")
         board = Board(self.cfg.abspath(self.cfg.board.path))
         client = create_client(budget_usd=self.cfg.village.budget_usd)
         self.inference_provider = client.provider
@@ -134,6 +152,7 @@ class Orchestrator:
                 for a in agents:
                     print(f"  - {a.name:8s} {a.tier:6s} {a.model:38s} task={a.task.task_id} mem={len(a.memory or [])}")
                 results = self._run_agents(agents)
+                self._close_sandboxes()
                 all_results[rnd.name] = results
                 self.cost_available = client.cost_available
                 self.total_cost_usd = client.total_cost_usd
@@ -154,6 +173,7 @@ class Orchestrator:
             if client.provider == "adaption":
                 print(f"[village:{self.run_id}] provider-reported cost {client.total_reported_cost:.8f} ({client.cost_unit} units)")
             client.close()
+            self._close_sandboxes()
 
         self._write_village_summary(all_results, board)
         return all_results

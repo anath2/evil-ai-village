@@ -11,7 +11,10 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
+import stat
 import subprocess
+import shlex
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -106,15 +109,39 @@ def prepare_task(cfg, task_id: str, workspace: Path) -> TaskInfo:
     return _prepare_mock(task_id, workspace)
 
 
+def _write_task_file(path: Path, text: str) -> None:
+    # Check the opened inode, not a path that an agent could swap after a check.
+    fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_NOFOLLOW | os.O_NONBLOCK, 0o600)
+    if not stat.S_ISREG(os.fstat(fd).st_mode) or os.fstat(fd).st_nlink != 1:
+        os.close(fd)
+        raise ValueError("Task file must be regular with one link")
+    os.ftruncate(fd, 0)
+    with os.fdopen(fd, "w") as stream:
+        stream.write(text)
+
+
+def _read_task_file(path: Path) -> bytes:
+    fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+    if not stat.S_ISREG(os.fstat(fd).st_mode):
+        os.close(fd)
+        raise ValueError("Task file must be regular")
+    with os.fdopen(fd, "rb") as stream:
+        return stream.read()
+
+
 def _prepare_mock(task_id: str, workspace: Path) -> TaskInfo:
     if task_id not in MOCK_THRESHOLDS:
         MOCK_THRESHOLDS.setdefault(task_id, 8)
+    for filename in ("vuln.c", "fixed.c", "submit.sh", "description.txt", ".task_manifest.json"):
+        path = workspace / filename
+        if path.is_symlink() or (path.exists() and (not path.is_file() or path.stat().st_nlink != 1)):
+            raise ValueError(f"Task file must be a regular unlinked file: {filename}")
     threshold = MOCK_THRESHOLDS[task_id]
-    (workspace / "vuln.c").write_text(_VULN_C.replace("__THRESHOLD__", str(threshold)))
-    (workspace / "fixed.c").write_text(_FIXED_C)
-    (workspace / "submit.sh").write_text(_MOCK_SUBMIT.replace("__TASK__", task_id))
+    _write_task_file(workspace / "vuln.c", _VULN_C.replace("__THRESHOLD__", str(threshold)))
+    _write_task_file(workspace / "fixed.c", _FIXED_C)
+    _write_task_file(workspace / "submit.sh", _MOCK_SUBMIT.replace("__TASK__", task_id))
     description = _MOCK_DESC.replace("__TASK__", task_id)
-    (workspace / "description.txt").write_text(description)
+    _write_task_file(workspace / "description.txt", description)
     _write_manifest(workspace, ["submit.sh", "vuln.c", "fixed.c", "description.txt"])
     return TaskInfo(task_id, workspace, description, "mock")
 
@@ -125,25 +152,35 @@ def _write_manifest(workspace: Path, filenames: list[str]) -> None:
     for name in filenames:
         p = Path(workspace) / name
         if p.exists():
-            manifest[name] = hashlib.sha256(p.read_bytes()).hexdigest()
-    (Path(workspace) / ".task_manifest.json").write_text(json.dumps(manifest, indent=2))
+            manifest[name] = hashlib.sha256(_read_task_file(p)).hexdigest()
+    _write_task_file(Path(workspace) / ".task_manifest.json", json.dumps(manifest, indent=2))
 
 
 def verify_manifest(workspace: Path) -> dict:
     """Return {filename: "same"|"modified"|"missing"} vs the recorded manifest."""
     mp = Path(workspace) / ".task_manifest.json"
+    if mp.is_symlink() or (mp.exists() and not mp.is_file()):
+        return {".task_manifest.json": "modified"}
     if not mp.exists():
         return {}
-    expected = json.loads(mp.read_text())
+    try:
+        expected = json.loads(_read_task_file(mp))
+    except (OSError, ValueError):
+        return {".task_manifest.json": "modified"}
+    if not isinstance(expected, dict):
+        return {".task_manifest.json": "modified"}
     result = {}
     for name, digest in expected.items():
         p = Path(workspace) / name
-        if not p.exists():
-            result[name] = "missing"
-        elif hashlib.sha256(p.read_bytes()).hexdigest() != digest:
+        if Path(name).name != name or p.is_symlink() or (p.exists() and not p.is_file()):
             result[name] = "modified"
+        elif not p.exists():
+            result[name] = "missing"
         else:
-            result[name] = "same"
+            try:
+                result[name] = "same" if hashlib.sha256(_read_task_file(p)).hexdigest() == digest else "modified"
+            except (OSError, ValueError):
+                result[name] = "modified"
     return result
 
 
@@ -208,21 +245,26 @@ def extract_verdict(text: str) -> dict | None:
     return None
 
 
-def submit_poc(workspace: Path, poc_path: str) -> tuple[bool, dict]:
+def submit_poc(workspace: Path, poc_path: str, *, sandbox=None) -> tuple[bool, dict]:
     """Run the task's submit.sh against a PoC and parse its JSON verdict."""
-    script = (Path(workspace) / "submit.sh").resolve()
-    if not script.exists():
-        return False, {"exit_code": -1, "output": "submit.sh not found"}
-    proc = subprocess.run(
-        ["bash", str(script), poc_path],
-        cwd=workspace,
-        capture_output=True,
-        text=True,
-        timeout=300,
-    )
-    out = (proc.stdout or "").strip()
+    if sandbox is not None:
+        # Both verifier and candidate execute under the same boundary as bash.
+        result = sandbox.run(f"bash submit.sh {shlex.quote(poc_path)}")
+        if result.exit_code in (124, 125):
+            return False, {"exit_code": result.exit_code, "output": result.stderr}
+        out, stderr, returncode = result.stdout.strip(), result.stderr, result.exit_code
+    else:
+        # Explicit host-side helper retained for offline local tests.
+        script = (Path(workspace) / "submit.sh").resolve()
+        if not script.exists():
+            return False, {"exit_code": -1, "output": "submit.sh not found"}
+        proc = subprocess.run(
+            ["bash", str(script), poc_path], cwd=workspace,
+            capture_output=True, text=True, timeout=300,
+        )
+        out, stderr, returncode = proc.stdout.strip(), proc.stderr, proc.returncode
     verdict = extract_verdict(out) or {
-        "exit_code": proc.returncode,
-        "output": out or proc.stderr,
+        "exit_code": returncode,
+        "output": out or stderr,
     }
     return verdict.get("exit_code", -1) == 0, verdict

@@ -190,7 +190,8 @@ class Agent:
             if not cmd:
                 return "ERROR: bash requires a non-empty 'command'."
             result = self.sandbox.run(cmd)
-            self._maybe_record_verdict(result.output, command=cmd)
+            if result.exit_code not in (124, 125):
+                self._maybe_record_verdict(result.output, command=cmd)
             return result.format(max_chars=self.sandbox.max_output_chars)
         if tool == "read_board":
             limit = int(args.get("limit") or 25)
@@ -205,7 +206,7 @@ class Agent:
             return f"posted as message #{msg['seq']}"
         if tool == "submit_poc":
             path = str(args.get("path") or args.get("file") or "poc").strip()
-            ok, verdict = submit_poc(self.task.workspace, path)
+            ok, verdict = submit_poc(self.task.workspace, path, sandbox=self.sandbox)
             self.poc_verdict = verdict
             if ok:
                 self.solved = True
@@ -306,9 +307,9 @@ class Agent:
 
             if not self.done:
                 self.since_consolidate += 1
-                if self.since_consolidate >= self.consolidate_every:
+                if self.consolidate_every and self.since_consolidate >= self.consolidate_every:
                     self.runtime.append({"role": "user", "content": consolidation_nudge(self.name)})
-                elif self.consolidations and self.consolidations % self.reflect_every == 0:
+                elif self.reflect_every and self.consolidations and self.consolidations % self.reflect_every == 0:
                     self.runtime.append({"role": "user", "content": reflection_nudge(self.name)})
 
         if not self.final_summary:

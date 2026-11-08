@@ -230,7 +230,7 @@ def test_run_accounts_cost_and_stops_before_next_request(monkeypatch, tmp_path, 
         lambda **kwargs: create_client(transport=httpx.MockTransport(respond), **kwargs))
     path = tmp_path / 'config.yaml'
     path.write_text('village: {name: test, max_steps: 3, budget_usd: 0.001}\n'
-                    'board: {path: board.jsonl}\nagents: [{name: scout, model: model}]\n')
+                    'sandbox: {kind: local}\nboard: {path: board.jsonl}\nagents: [{name: scout, model: model}]\n')
     orchestrator = Orchestrator(load_config(path), run_id='budget-check')
     results = orchestrator.run()['round']
     assert len(calls) == 1

@@ -45,7 +45,7 @@ def cmd_tasks(args: argparse.Namespace) -> int:
     orch = Orchestrator(cfg)
     board = Board(cfg.abspath(cfg.board.path))
     for i, spec in enumerate(cfg.agents):
-        task_id = orch._assign_task(spec, i)
+        task_id = orch._task_for(spec, i, list(cfg.task.ids))
         info = prepare_task(cfg, task_id, orch.workspaces / spec.name)
         print(f"{spec.name:8s} task={info.task_id:16s} -> {info.workspace}")
     return 0

@@ -15,6 +15,8 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import os
+import stat
 import re
 import time
 from dataclasses import dataclass, field
@@ -106,7 +108,12 @@ class MemoryStore:
     def save(self, path: Path) -> None:
         path = Path(path)
         path.parent.mkdir(parents=True, exist_ok=True)
-        with path.open("w") as fh:
+        fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_NOFOLLOW | os.O_NONBLOCK, 0o600)
+        if not stat.S_ISREG(os.fstat(fd).st_mode) or os.fstat(fd).st_nlink != 1:
+            os.close(fd)
+            raise ValueError("Memory must be a regular file with one link")
+        os.ftruncate(fd, 0)
+        with os.fdopen(fd, "w") as fh:
             for e in self.entries:
                 fh.write(json.dumps(e.to_json()) + "\n")
 
@@ -116,7 +123,13 @@ class MemoryStore:
         path = Path(path)
         if not path.exists():
             return store
-        for line in path.read_text().splitlines():
+        fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+        if not stat.S_ISREG(os.fstat(fd).st_mode):
+            os.close(fd)
+            raise ValueError("Memory must be a regular file")
+        with os.fdopen(fd) as fh:
+            lines = fh.read().splitlines()
+        for line in lines:
             line = line.strip()
             if not line:
                 continue

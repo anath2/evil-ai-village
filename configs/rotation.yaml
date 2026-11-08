@@ -41,7 +41,7 @@ board:
   path: .village/rotation/board.jsonl   # shared across rounds (append-only)
 
 sandbox:
-  kind: local
+  kind: docker
   workspace_root: .village/rotation/workspaces
   bash_timeout: 120
   max_output_chars: 6000

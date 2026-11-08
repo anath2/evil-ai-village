@@ -19,7 +19,9 @@ See [`docs/design.md`](docs/design.md) for the full rationale.
 
 ## Safety
 
-This runs entirely offline against synthetic, deliberately-vulnerable targets.
+Mock targets run locally in network-disabled Docker containers; inference uses
+the selected remote provider. The `local` sandbox explicitly runs shell commands
+as your host user and is for trusted development only.
 For any real CyberGym run you **must** use CyberGym's `docker` isolation and
 its Squid firewall, and never expose the submission server to the internet.
 Agents run for research only; logs are append-only and auditable.
@@ -29,6 +31,7 @@ Agents run for research only; logs are append-only and auditable.
 ```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -e .
+docker build -t evil-ai-village/agent:latest -f docker/agent.Dockerfile docker
 cp .env.example .env          # add your OPENROUTER_API_KEY
 
 python run.py tasks           # materialize mock workspaces
@@ -98,19 +101,14 @@ the existing multi-agent/sweep rosters. Recheck `/models` when availability chan
 | `mock:2` | crashes on input > 12 bytes |
 | `mock:impossible` | never crashable — reproduces the incident's "impossible task" pressure |
 
-## Real CyberGym
+## Real CyberGym (integration pending)
 
-```bash
-# after installing cybergym and downloading the subset (see CyberGym README)
-# set task.provider: cybergym in configs/village.yaml, then:
-python -m cybergym.firewall start
-python3 -m cybergym.server --host $HOST --port 8666 --mask_map_path mask_map.json \
-    --log_dir ./server_poc --db_path ./server_poc/poc.db
-python run.py run
-```
-
-Set `sandbox.kind: docker` for isolation. Each agent gets its own task dir from
-`cybergym.task.gen_task`.
+Task generation is present, but the managed runner currently supports mock tasks
+only and rejects CyberGym runs. Real CyberGym needs its target/server images,
+isolated Docker network, and Squid allowlist proxy wired into container creation.
+Follow the [upstream setup](https://github.com/sunblaze-ucb/cybergym#evaluation)
+when implementing that integration; keep the submission server private. Changing
+`task.provider` alone does not produce a working isolated CyberGym deployment.
 
 ## How it works
 
@@ -252,3 +250,49 @@ The existing `--budget` option also applies to `check-models` and sweeps.
 Validation: `pytest -q` checks both HTTP request formats and budget accounting;
 `check-models` verifies actual provider access without starting agents.
 See the [Adaption Responses API](https://docs.adaptionlabs.ai/api/resources/responses/methods/create).
+
+## Isolated mock run with Adaption
+
+On a Linux Docker host, with Docker accessible to your non-root user and
+Adaption configured in `.env`:
+
+```bash
+docker build -t evil-ai-village/agent:latest -f docker/agent.Dockerfile docker
+python scripts/verify_docker.py
+# Continue only after all checks pass:
+python run.py run --config configs/adaption-docker-smoke.yaml
+```
+
+The smoke config uses two `deepseek-v4-flash` agents, eight turns each, and a
+$0.01 soft budget. The shipped village configs default to Docker; explicitly
+choose `sandbox.kind: local` only for trusted, unisolated development.
+
+Each agent gets a non-root container with no network, dropped capabilities,
+Docker's default seccomp profile, no new privileges, CPU/memory/process limits,
+a read-only root filesystem, a private writable/executable `/tmp`, and only its
+own workspace mounted read-write. API keys, the Docker socket, the repository,
+board, and logs stay outside it. Bash, file tools, and explicit PoC grading run
+inside the container. Memory and task-file handling reject host symlink writes.
+The workspace is intentionally writable: agents can damage their own files or
+tamper with mock task files, which the manifest check can flag. Docker shares
+the host kernel, and the workspace has no disk quota; this is a bounded local
+mock-development setup, not a hardened service for hostile tenants.
+
+Containers are removed on normal exit, startup failure, or handled interruption.
+A command timeout removes that agent's entire container, including descendants;
+the timed-out container cannot be reused. Docker stdout/stderr are combined and
+capture is bounded by `max_output_chars` bytes; exceeding it removes the container
+as well, rather than accumulating unbounded output in the harness. SIGKILL or daemon/host failure can leave
+containers behind. Inspect with `docker ps -a --filter label=evil-ai-village.managed=true`
+and remove only the named containers belonging to your stopped run.
+
+MCP also defaults to Docker and closes its container through the SDK lifecycle.
+Install `pip install -e '.[mcp]'`, then run `python scripts/mcp_smoke.py` for a
+no-inference stdio check of commands, positive/negative grading, and the board.
+`--sandbox local` explicitly enables unisolated MCP development.
+
+This design follows [Docker least-privilege controls](https://docs.docker.com/engine/containers/run/)
+and retains the [default seccomp profile](https://docs.docker.com/engine/security/seccomp/).
+[CyberGym's existing firewall design](https://github.com/sunblaze-ucb/cybergym#firewall-restrict-agent-internet-access)
+is the next step for real targets, rather than enabling unrestricted network
+access on these mock containers.

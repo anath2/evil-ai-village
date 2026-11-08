@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 import asyncio
+import json
 import sys
 from pathlib import Path
 
@@ -64,12 +65,15 @@ async def main() -> int:
             )
             r = await session.call_tool("grade_poc", {"path": "poc.bin"})
             print("\ngrade_poc(valid) ->", _text(r))
-            assert '"solved": true' in _text(r).replace('"solved":true', '"solved": true') or "true" in _text(r)
+            verdict = json.loads(_text(r))
+            assert verdict['solved'] is True and verdict['exit_code'] == 0
 
             # A too-short PoC must fail.
             await session.call_tool("bash", {"command": "printf AA > bad.bin"})
             r = await session.call_tool("grade_poc", {"path": "bad.bin"})
             print("\ngrade_poc(short) ->", _text(r))
+            verdict = json.loads(_text(r))
+            assert verdict['solved'] is False and verdict['exit_code'] == 1
 
             await session.call_tool("post_message", {"text": "MCP server online, PoC works."})
             r = await session.call_tool("read_board", {"limit": 5})

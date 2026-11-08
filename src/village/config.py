@@ -49,7 +49,7 @@ class BoardSettings:
 
 @dataclass
 class SandboxSettings:
-    kind: str = "local"  # local | docker
+    kind: str = "docker"  # docker | local (explicit unisolated development)
     workspace_root: str = ".village/workspaces"
     bash_timeout: int = 120
     max_output_chars: int = 8000

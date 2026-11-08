@@ -25,8 +25,8 @@ board:
 
 sandbox:
   # local = subprocess on host (dev only, mock tasks only).
-  # docker = exec into an isolated agent container (use for real CyberGym).
-  kind: local
+  # docker = managed offline container for mock tasks; CyberGym integration is separate.
+  kind: docker
   workspace_root: .village/workspaces
   bash_timeout: 120
   max_output_chars: 8000
