@@ -21,7 +21,9 @@ Qwen mock config at a $0.01 soft budget. No branch switching is required.
 
 ## Start here
 
-Use Python 3.10+ in a fresh checkout:
+Use Python 3.12+ in a fresh checkout (the `cybergym` and `concordia` extras
+require >=3.12; the base package alone still works on 3.10, but uv's universal
+lock resolves all extras, so 3.12+ is required for `uv sync`):
 
 ```bash
 python -m venv .venv

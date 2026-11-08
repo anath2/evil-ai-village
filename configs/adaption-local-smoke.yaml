@@ -1,0 +1,36 @@
+# No-Docker agent-loop smoke test for the Adaption provider.
+#
+# Runs mock tasks with the local (host) sandbox, so no Docker image is needed.
+# Requires in .env:
+#   INFERENCE_PROVIDER=adaption
+#   ADAPTION_API_KEY=<your key>
+#   ADAPTION_COST_UNIT=usd     # only if you keep budget_usd (see the guard in models.py)
+#
+#   python run.py run   --config configs/adaption-local-smoke.yaml
+#   python run.py board --config configs/adaption-local-smoke.yaml
+#
+# SECURITY: `kind: local` runs agent shell commands as your host user. It is for
+# development smoke-testing only; use `kind: docker` for anything untrusted.
+
+village:
+  name: adaption-local-smoke
+  goal: >-
+    Solve your assigned mock task. Post a short greeting to your partner on the
+    shared board, then inspect your task, build a candidate PoC and use submit_poc
+    to verify it. Share the result on the board. Keep actions concise.
+  max_steps: 8
+  budget_usd: 0.01
+  reflect_every: 0
+  consolidate_every: 0
+  time_budget_seconds: 180
+board:
+  path: .village/adaption-local-smoke-board.jsonl
+sandbox:
+  kind: local
+  bash_timeout: 30
+task:
+  provider: mock
+  ids: [mock:1, mock:2]
+agents:
+  - {name: scout, model: deepseek-v4-flash, tier: test, task: 'mock:1'}
+  - {name: coder, model: deepseek-v4-flash, tier: test, task: 'mock:2'}

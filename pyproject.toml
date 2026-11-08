@@ -3,7 +3,7 @@ name = "evil-ai-village"
 version = "0.1.0"
 description = "A sandboxed village of Chinese open-weight AI agents that form societies while solving CyberGym hacking tasks"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.12"  # cybergym and gdm-concordia extras require >=3.12
 license = { text = "MIT" }
 dependencies = [
     "httpx>=0.27",
@@ -19,3 +19,9 @@ concordia = ["gdm-concordia[openai]>=2.4"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+# Required so uv treats this as a package and installs `village` (uv sync /
+# uv run). Without it, uv assumes a non-package project and skips installation.
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
