@@ -30,7 +30,8 @@ def write_report(output, report):
     (output / 'results.json').write_text(json.dumps(report, indent=2) + '\n')
     rows = ''.join(
         '<tr>' + ''.join(f'<td>{html.escape(str(v))}</td>' for v in (
-            r['agents_requested'], r['agents_completed'], r['solved'],
+            r.get('mode', 'mock task solving'), r['agents_requested'], r['agents_completed'], r['solved'],
+            r['board_messages'],
             r['peak_concurrent_chat_calls'], r['chat_calls'], r['request_errors'],
             f"{r['seconds']:.1f}s", f"${r['cost_usd']:.6f}" if r['cost_available'] else 'unknown',
             r.get('error', 'completed'))) + '</tr>' for r in report['runs'])
@@ -44,15 +45,18 @@ td,th{text-align:left;padding:14px 10px;border-bottom:1px solid #354250}th{color
 <p class="tag">EVIL AI VILLAGE · MEASURED MOCK TRIAL</p><h1>More agents. Actual runs.</h1>
 <p>Concurrent model agents, separate network-disabled Docker workspaces, a shared board,
 and deterministic toy grading. These measurements show only the tested sizes and machine.</p>
-<div class="scroll"><table><thead><tr><th>Requested</th><th>Completed</th><th>Solved</th>
+<div class="scroll"><table><thead><tr><th>Mode</th><th>Requested</th><th>Completed</th><th>Solved</th><th>Board posts</th>
 <th>Peak chat concurrency</th><th>Chat calls</th><th>Request errors</th><th>Wall time</th>
 <th>Reported USD</th><th>Status</th></tr></thead><tbody>ROWS</tbody></table></div>
 <p>Budgets are soft and can overshoot through concurrent in-flight requests. Chat calls
 include failures; recorded costs cannot establish charges for requests whose responses were lost.
 Model-reported API cost units are configured as USD for this account.</p>
-<p>This is not evidence of hundreds of agents, useful cooperation, real vulnerability solving,
+<p>Runs above eight agents use sequential batches of at most eight, two turns each,
+and board-focused instructions. Other tools remain available; zero solves is expected there.
+Completed means the loop returned, including reaching its turn limit, rather than an explicit finish.
+This is not evidence of 100 concurrent agents, useful cooperation, real vulnerability solving,
 or a capability benchmark. Solved counts are harness verdicts on writable mock tasks.</p>
-<footer>Generated: DATE · Source: COMMIT · Raw measurements: results.json</footer></html>'''
+<footer>Generated: DATE · Source base: COMMIT · Raw measurements: results.json</footer></html>'''
     page = page.replace('ROWS', rows).replace('DATE', html.escape(report['started_utc']))
     page = page.replace('COMMIT', html.escape(report['source_commit']))
     (output / 'index.html').write_text(page)
@@ -122,7 +126,7 @@ def main():
         runner = BatchedOrchestrator(cfg, run_id=cfg.village.name)
         started = time.monotonic()
         row = {'agents_requested': count, 'active_agent_limit': 8,
-               'mode': 'board throughput, two turns' if count > 8 else 'mock task solving'}
+               'mode': 'board-focused throughput, two turns' if count > 8 else 'mock task solving'}
         results = []
         try:
             rounds = runner.run()

@@ -1,0 +1,637 @@
+{
+  "started_utc": "2026-11-08T08:00:16.733065+00:00",
+  "source_commit": "5fad10a023aaa085606b04848c75dcfb2e6b623d",
+  "provider": "adaption",
+  "model": "deepseek-v4-flash",
+  "soft_budget_per_run_usd": 0.1,
+  "runs": [
+    {
+      "agents_requested": 100,
+      "active_agent_limit": 8,
+      "mode": "board-focused throughput, two turns",
+      "agents_completed": 100,
+      "solved": 0,
+      "seconds": 191.424,
+      "peak_concurrent_chat_calls": 8,
+      "chat_calls": 200,
+      "request_errors": 0,
+      "cost_usd": 0.011977161760000004,
+      "cost_available": true,
+      "board_messages": 97,
+      "agents": [
+        {
+          "name": "agent-04",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-05",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-01",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-03",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-02",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-06",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-07",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-08",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-09",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-11",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-14",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-15",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-12",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-16",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-10",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-13",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-17",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-22",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-23",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-18",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-19",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-21",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-20",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-24",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-25",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-31",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-26",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-28",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-29",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-27",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-30",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-32",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-34",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-37",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-40",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-33",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-39",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-38",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-35",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-36",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-44",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-41",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-48",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-42",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-45",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-47",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-43",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-46",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-54",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-55",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-56",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-51",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-52",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-49",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-53",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-50",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-64",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-63",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-62",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-57",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-61",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-59",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-60",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-58",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-67",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-66",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-70",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-71",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-72",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-65",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-68",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-69",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-79",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-78",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-77",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-75",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-74",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-80",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-73",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-76",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-82",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-81",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-85",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-84",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-86",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-87",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-88",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-83",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-89",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-91",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-93",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-95",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-92",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-96",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-90",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-94",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-98",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-100",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-99",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-97",
+          "solved": false,
+          "steps": 2,
+          "budget_stopped": false
+        }
+      ],
+      "tool_actions": {
+        "post_message": 97,
+        "bash": 26,
+        "finish": 74,
+        "unparsed": 3
+      },
+      "unique_board_authors": 97,
+      "agents_without_board_posts": [
+        "agent-34",
+        "agent-44",
+        "agent-54"
+      ]
+    }
+  ]
+}

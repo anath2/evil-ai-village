@@ -5,6 +5,10 @@ source snapshot before this closeout; the following commit adds this handoff,
 disables unfinished integration at the runner/MCP entry points, and caps the
 Qwen mock config at a $0.01 soft budget. No branch switching is required.
 
+Follow-up: [measured scaling progress](../reports/README.md) records subsequent
+live 2/4/8-agent mock runs and a 100-agent throughput trial batched eight at a
+time, with costs, timing, incomplete instruction compliance, and portable reports.
+
 ## Supported checkpoint
 
 - OpenRouter chat completions and Adaption Responses share the inference client,
