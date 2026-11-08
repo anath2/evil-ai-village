@@ -186,11 +186,30 @@ def compute_metrics(*, summary, social, log_dir, base, count, active, seconds, s
     calls = max(1, int(base.get("calls") or 0))
     planned = max(1, count * max(1, steps))
     latencies = base.get("latencies") or []
+    if not latencies:
+        # Recomputing from a saved run: derive call latency from event timestamps.
+        for evs in events.values():
+            prev = None
+            for e in evs:
+                ts = e.get("ts")
+                if isinstance(ts, (int, float)) and e.get("type") == "usage" and prev is not None:
+                    delta = ts - prev
+                    if 0 <= delta < 600:
+                        latencies.append(round(delta, 3))
+                if isinstance(ts, (int, float)):
+                    prev = ts
 
     board_messages = summary.get("board_messages") or 0
     coalitions = (social or {}).get("coalitions") or {}
     coalition_list = coalitions.get("coalitions") or []
-    largest = max((c.get("size") or len(c.get("members") or []) or 0 for c in coalition_list), default=0)
+
+    def _size(c):
+        # detect_coalitions returns member lists; tolerate dict-shaped variants too.
+        if isinstance(c, (list, tuple, set)):
+            return len(c)
+        return c.get("size") or len(c.get("members") or []) or 0
+
+    largest = max((_size(c) for c in coalition_list), default=0)
     isolates = coalitions.get("isolates") or []
 
     influence = (social or {}).get("influence") or {}
