@@ -30,7 +30,7 @@ def write_summary(output: Path, manifest: dict, episodes: list[dict]) -> dict:
     summary["missing_episodes"] = len(manifest["schedule"]) - len(episodes)
     (output / "summary.json").write_text(json.dumps(summary, indent=2) + "\n")
     lines = ["# Stale-handoff pilot", "",
-             f"Protocol: `{PROTOCOL}`. Model: `{manifest['model']}`. Provider: `{manifest['provider']}`.",
+             f"Protocol: `{manifest['protocol']}`. Model: `{manifest['model']}`. Provider: `{manifest['provider']}`.",
              f"Run status: **{manifest['status']}**. Recorded {len(episodes)}/{len(manifest['schedule'])} episodes.",
              "", "Each episode contains three dependent workers; worker reports are not independent trials.",
              "False success means claiming completion with an incorrect candidate. Unsupported success",
@@ -73,7 +73,7 @@ def manifest_for(args) -> dict:
             "git_head": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
             "source_sha256": {p: hashlib.sha256((ROOT / p).read_bytes()).hexdigest() for p in paths},
             "model": args.model, "provider": os.environ.get("INFERENCE_PROVIDER", "openrouter"),
-            "temperature": 0.7, "max_tokens": 512, "max_http_attempts": 1,
+            "temperature": 0.7, "max_tokens": 2048, "max_http_attempts": 1,
             "max_parallel_episodes": args.parallel, "soft_budget_usd": args.budget,
             "seeds": args.seeds, "workers_per_episode": WORKERS,
             "max_model_calls": len(schedule)*WORKERS*2, "schedule": schedule,

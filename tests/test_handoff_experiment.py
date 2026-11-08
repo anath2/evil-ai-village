@@ -4,7 +4,7 @@ import pytest
 
 from village.board import Board
 from village.handoff_experiment import (
-    InvalidReply, Task, Verifier, board_view, parse_reply, run_episode, summarize,
+    InvalidReply, Task, Verifier, board_view, error_category, parse_reply, run_episode, summarize,
     tasks_for, wilson,
 )
 from village.models import BudgetExceeded, ChatResult
@@ -175,6 +175,12 @@ def test_uncertainty_does_not_disappear_with_zero_observed_failures():
     lower, upper = wilson(0, 6)
     assert lower == pytest.approx(0)
     assert .39 < upper < .40
+
+
+def test_provider_output_limit_is_classified_without_exception_text():
+    exc = RuntimeError("Adaption response did not complete for model: status=incomplete, reason=max_output_tokens")
+    assert error_category(exc) == "provider_output_limit"
+    assert error_category(RuntimeError("private request details")) == "provider_or_runtime_error"
 
 
 def test_run_directory_cannot_be_overwritten(tmp_path):

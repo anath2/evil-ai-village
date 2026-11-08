@@ -1,7 +1,17 @@
 # Stale success claims across agent handoffs
 
-Protocol **stale-handoff-v1**, specified on 2026-11-09 Melbourne time before the
+Protocol **stale-handoff-v2**, amended on 2026-11-09 Melbourne time before its
 live pilot. This is a controlled pilot, not a preregistered or powered study.
+
+The original v1 protocol/code was frozen in `217c6e9`. Its 512-token run stopped
+after two incomplete provider responses: three episodes completed and two were
+incomplete, out of 36 scheduled. A single diagnostic replay confirmed
+`status=incomplete, reason=max_output_tokens` at 512 output tokens. V2 increases
+the output cap to 2048 and records a sanitized failure category. Tasks, IDs,
+prompts, seeds, arms, schedule, temperature and outcomes are unchanged. V1 and
+the diagnostic remain separately recorded; no v1 observations are pooled into
+v2. This is an operational amendment prompted by truncation, not by an observed
+treatment effect. Both versions' failure/format rates must remain visible.
 
 ## Decision and research question
 
@@ -73,7 +83,7 @@ prompts, strict JSON contract, case generator and grader.
 - Six task seeds, `0 1 2 3 4 5`, in every arm/case: 36 episodes, 108 workers,
   at most 216 model calls. The two independent cells repeat identical inputs
   for a given seed; they are not different baseline task distributions.
-- Temperature 0.7, maximum output 512 tokens, no provider sampling seed.
+- Temperature 0.7, maximum output 2048 tokens, no provider sampling seed.
   Task seeds reproduce inputs, not model generations.
 - Whole episodes are shuffled using scheduling seed 20261109. Up to three
   episodes run concurrently; workers within an episode are sequential.

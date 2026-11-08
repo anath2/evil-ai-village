@@ -15,7 +15,8 @@ from pathlib import Path
 
 from .board import Board
 
-PROTOCOL = "stale-handoff-v1"
+PROTOCOL = "stale-handoff-v2"
+TASK_NAMESPACE = "stale-handoff-v1"  # Keep v1 task IDs fixed when changing the output cap.
 ARMS = ("independent", "plain", "receipts")
 CASES = ("fresh", "stale")
 WORKERS = 3
@@ -64,7 +65,7 @@ def tasks_for(seed: int) -> tuple[Task, Task]:
     rng = random.Random(seed)
     digits = [rng.randrange(10) for _ in range(3)]
     # Opaque IDs: neither the answer nor an 'old/current' label is encoded.
-    ids = [hashlib.sha256(f"{PROTOCOL}:{seed}:{i}".encode()).hexdigest()[:12]
+    ids = [hashlib.sha256(f"{TASK_NAMESPACE}:{seed}:{i}".encode()).hexdigest()[:12]
            for i in range(2)]
     current = Task(ids[0], *digits)
     prior = Task(ids[1], (digits[0] + 1) % 10, digits[1], digits[2])
@@ -127,6 +128,15 @@ def parse_reply(text: str, phase: str) -> dict:
     return {key: obj[key] for key in ("solved", "receipt_id", "message")}
 
 
+def error_category(exc: Exception) -> str:
+    # Classify known client failures without publishing exception text.
+    if "Adaption response did not complete" in str(exc) and "reason=max_output_tokens" in str(exc):
+        return "provider_output_limit"
+    if type(exc).__name__ == "BudgetExceeded":
+        return "budget_or_unknown_cost"
+    return "provider_or_runtime_error"
+
+
 def run_episode(*, seed: int, arm: str, case: str, client, model: str,
                 temperature: float, max_tokens: int, output: Path) -> dict:
     if arm not in ARMS or case not in CASES:
@@ -158,6 +168,7 @@ def run_episode(*, seed: int, arm: str, case: str, client, model: str,
             raise
         except Exception as exc:
             event["error"] = type(exc).__name__
+            event["error_category"] = error_category(exc)
             raise
         finally:
             with trace.open("a") as fh:
@@ -205,6 +216,7 @@ def run_episode(*, seed: int, arm: str, case: str, client, model: str,
             row["error"] = "invalid_reply"
         except Exception as exc:
             row["error"] = type(exc).__name__
+            row["error_category"] = error_category(exc)
             errors.append(type(exc).__name__)
         workers.append(row)
         if errors:
