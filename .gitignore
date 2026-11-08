@@ -8,3 +8,15 @@ __pycache__/
 *.egg-info/
 .pytest_cache/
 .venv/
+
+# Ralph loop runtime state
+.ralph/
+
+# Experiment data — commit only curated summaries (README.md, metrics.json).
+# Raw boards, transcripts, graphs, and per-run logs are local artifacts.
+reports/**/board.jsonl
+reports/**/logs/
+reports/**/social_graph.json
+reports/**/social_report.md
+reports/**/effective-config.json
+reports/experiment-2026-11-08-run1/

@@ -1,0 +1,39 @@
+{
+  "completion_rate": 1.0,
+  "turn_yield": 0.87,
+  "error_rate": 0.028,
+  "error_taxonomy": {
+    "no_choices": 3,
+    "other": 1,
+    "incomplete": 12
+  },
+  "retry_rate": 0.276,
+  "starvation_rate": 0.0,
+  "abort_reasons": {
+    "sandbox_lost": 22
+  },
+  "sandbox_lost": 22,
+  "truncated_responses": 16,
+  "latency_p50": 38.801,
+  "latency_p95": 143.82,
+  "throughput_agents_per_min": 1.52,
+  "saturation": 1.0,
+  "cost_per_agent": 0.003177,
+  "cost_per_successful_turn": 0.000609,
+  "participation_rate": 0.34,
+  "board_density": 0.36,
+  "isolate_rate": 0.39,
+  "largest_coalition": 57,
+  "agents_logged": 100,
+  "calls": 577,
+  "errors": 16,
+  "solved": 0,
+  "board_messages": 36,
+  "cost_usd": 0.317724,
+  "seconds": 3940.39,
+  "peak": 8,
+  "time_budget_seconds": 900,
+  "timeout_seconds": 120.0,
+  "retries_limit": 5,
+  "model_concurrency": 2
+}
