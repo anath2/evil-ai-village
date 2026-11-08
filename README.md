@@ -4,6 +4,18 @@
 checkpoint, verification, setup, and unfinished work. All source work is on `main`.
 The supported demo uses mock tasks; the preserved CyberGym integration is unfinished.
 
+**Current research experiment:** [stale success claims across agent handoffs](docs/experiments/stale-handoff.md)
+compares independent workers, a plain shared board, and task-bound verifier
+receipts, with fresh/stale evidence controls. It is a text-only, deterministically
+graded pilot using the existing inference client and board. See the protocol
+for exact prompts, outcomes, reproduction, and limitations.
+
+**Sprint provenance:** code through `3f9fb70` is the inherited baseline for this
+experiment; subsequent experiment code/results are separately recorded in Git.
+The initial commit is dated November 7, 2026. That does not prove when every
+component was authored; the team still needs to identify any pre-November-6 work
+before claiming sprint-only contributions in a submission.
+
 A **sandboxed village of Chinese open-weight AI agents** that form societies
 while solving hacking tasks. Inspired by [AI Village](https://theaidigest.org/village)
 and the 2026 OpenAI/ExploitGym → Hugging Face incident documented by
