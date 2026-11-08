@@ -45,8 +45,10 @@ Outputs land in `.village/`:
 
 ## Model roster
 
-Defaults live in [`configs/village.yaml`](configs/village.yaml). The tiers are
-intentional — capability asymmetry is a variable of interest.
+The default **OpenRouter roster** lives in [`configs/village.yaml`](configs/village.yaml).
+`small`, `mid`, and `large` are broad model-size labels, not measured capability
+rankings; `reason` identifies a reasoning-focused model rather than a size.
+Capability asymmetry is a variable of interest, but size alone does not prove it.
 
 | tier | models |
 |---|---|
@@ -55,7 +57,38 @@ intentional — capability asymmetry is a variable of interest.
 | large | `deepseek/deepseek-v3.2`, `qwen/qwen3-235b-a22b-2507` |
 | reason | `deepseek/deepseek-r1-0528` |
 
-Swap in any OpenRouter model ID; tiers are free-form labels used for analysis.
+Swap in a supported OpenRouter model ID; tiers are free-form labels used for analysis.
+
+**Adaption-only options**, as returned by `GET /api/v1/models` on 2026-11-08:
+
+| approximate size group | Adaption model ID | model |
+|---|---|---|
+| mid (~26B total, MoE) | `gemma-4-26b-a4b-it` | Google Gemma 4 26B A4B Instruct |
+| mid (27B) | `qwen3.8-27b` | Qwen 3.8 27B |
+| mid (~31B) | `gemma-4-31b-it` | Google Gemma 4 31B Instruct |
+| large (MoE) | `deepseek-v4-flash` | DeepSeek V4 Flash |
+| large (MoE) | `glm-53-flash` | GLM 5.3 Flash |
+| large (397B total, MoE) | `qwen3.5-397b` | Qwen 3.5 397B |
+| large (MoE) | `glm-5.2` | GLM 5.2 |
+
+These seven IDs are the complete catalogue visible to the checked Adaption
+account, not additional OpenRouter IDs. **None of the original OpenRouter roster
+IDs are listed by Adaption.** No separate small-model or
+R1-style reasoning endpoint was listed. Google Gemma is included as an optional
+alternative to the default Chinese-model roster.
+
+Groups describe approximate total model size; MoE active parameters differ.
+They are not an ordering by quality or cost. Sizes refer to the published model
+families ([Qwen](https://huggingface.co/Qwen),
+[GLM](https://huggingface.co/zai-org),
+[Gemma](https://huggingface.co/google/gemma-4-26B-A4B-it),
+[DeepSeek](https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash)); the exact
+revision behind Adaption's DeepSeek alias remains unverified.
+
+Select `INFERENCE_PROVIDER=adaption` and use these IDs in an Adaption config;
+[`configs/adaption.yaml`](configs/adaption.yaml) provides the DeepSeek inference
+check. Switching providers does not automatically translate model IDs or change
+the existing multi-agent/sweep rosters. Recheck `/models` when availability changes.
 
 ## Mock tasks
 
