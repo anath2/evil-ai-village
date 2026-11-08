@@ -179,3 +179,43 @@ python integrations/concordia_openrouter.py qwen/qwen3.5-9b
 - [x] **M4** capability-mix sweep + budget cap + coalition/free-riding/norm metrics
 - [ ] **M5** emergent (undisclosed) coordination channel
 - [ ] **M6** population burst mode (~hundreds of short-lived agents)
+
+## Adaption inference (optional)
+
+OpenRouter remains the default; its model rosters and chat-completions API are
+preserved. Set these values in your ignored `.env` to use Adaption instead:
+
+```dotenv
+INFERENCE_PROVIDER=adaption
+ADAPTION_API_KEY=your-key-here
+ADAPTION_COST_UNIT=usd
+```
+
+`ADAPTION_COST_UNIT=usd` asserts that `usage.cost` is USD, including credits worth
+$1 each. Confirm this for your account before enabling USD budgets. Optional
+`ADAPTION_BASE_URL` and `ADAPTION_ORGANIZATION_ID` configure the endpoint and org.
+
+```bash
+python run.py check-models --config configs/adaption.yaml
+```
+
+This makes a short inference-only request to `deepseek-v4-flash` under a $0.01
+soft budget. It runs no agent shell commands. For village runs, use an existing
+config with model IDs supported by Adaption and review its sandbox settings;
+sandbox behavior is unchanged by this integration. Set `INFERENCE_PROVIDER=openrouter`
+to return to OpenRouter with its existing configs.
+
+Both providers share `InferenceClient.chat()` and `ChatResult`. Reported cost
+feeds the shared budget, per-agent logs, and run summaries. Incomplete responses
+are charged to the client-wide totals even if no usable reply is returned.
+Missing or invalid costs stop budgeted runs; uncapped runs mark USD costs unknown.
+Client-wide `total_cost_usd` is cumulative across rounds. Historical results
+without cost metadata remain unknown rather than being repriced.
+
+Budget checks happen before each HTTP attempt. They remain soft: in-flight calls
+can overshoot, and retries after transport failures can incur unreported charges.
+The existing `--budget` option also applies to `check-models` and sweeps.
+
+Validation: `pytest -q` checks both HTTP request formats and budget accounting;
+`check-models` verifies actual provider access without starting agents.
+See the [Adaption Responses API](https://docs.adaptionlabs.ai/api/resources/responses/methods/create).

@@ -1,0 +1,8 @@
+# Direct inference smoke check only: no agent shell commands are executed by check-models.
+# Confirm this model is available to your account; replace with an ID from GET /models.
+village:
+  name: adaption-smoke
+  budget_usd: 0.01
+  max_steps: 1
+agents:
+  - {name: smoke, model: deepseek-v4-flash, tier: test}

@@ -5,7 +5,7 @@ Usage:
     python run.py run                 # run the village (default)
     python run.py board               # print the shared board
     python run.py tasks               # materialize task workspaces only
-    python run.py check-models        # verify OpenRouter access per model
+    python run.py check-models        # verify inference access per model
 """
 
 from __future__ import annotations
@@ -40,7 +40,6 @@ def cmd_sweep(args: argparse.Namespace) -> int:
 def cmd_tasks(args: argparse.Namespace) -> int:
     from village.board import Board
     from village.cybergym import prepare_task
-    from village.models import OpenRouterClient
 
     cfg = load_config(args.config)
     orch = Orchestrator(cfg)
@@ -75,7 +74,7 @@ def cmd_analyze(args: argparse.Namespace) -> int:
 def cmd_check_models(args: argparse.Namespace) -> int:
     from scripts.check_models import main as check_main
 
-    return check_main(args.config)
+    return check_main(args.config, args.budget)
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -91,7 +90,7 @@ def build_parser() -> argparse.ArgumentParser:
     sub.add_parser("sweep", parents=[common], help="run a capability-mix sweep")
     sub.add_parser("board", parents=[common], help="print the shared board")
     sub.add_parser("tasks", parents=[common], help="materialize task workspaces only")
-    sub.add_parser("check-models", parents=[common], help="verify OpenRouter model access")
+    sub.add_parser("check-models", parents=[common], help="verify inference model access")
     analyze = sub.add_parser("analyze", parents=[common], help="generate the social report for a run")
     analyze.add_argument("--run", default=None, help="run id (default: latest)")
     analyze.add_argument("--round", default=None, help="round name (default: latest)")

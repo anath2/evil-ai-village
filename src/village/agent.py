@@ -11,7 +11,7 @@ from pathlib import Path
 from .board import Board, format_board
 from .cybergym import TaskInfo, extract_verdict, submit_poc
 from .memory import MemoryStore
-from .models import BudgetExceeded, OpenRouterClient
+from .models import BudgetExceeded, InferenceClient
 from .prompts import (
     REFLECTION_QUESTIONS,
     build_kickoff,
@@ -47,7 +47,7 @@ class Agent:
     tier: str
     task: TaskInfo
     goal: str
-    client: OpenRouterClient
+    client: InferenceClient
     sandbox: LocalSandbox | DockerSandbox
     board: Board
     round_name: str = ""
@@ -126,6 +126,12 @@ class Agent:
                 max_tokens=700,
             )
             self.cost_usd += res.cost_usd
+            self._log({"type": "usage", "model": self.model,
+                       "prompt_tokens": res.prompt_tokens,
+                       "completion_tokens": res.completion_tokens,
+                       "reported_cost": res.reported_cost,
+                       "cost_usd": res.cost_usd if getattr(self.client, "cost_available", False) else None,
+                       "cost_unit": getattr(self.client, "cost_unit", "usd")})
             text = res.text.strip()
         except Exception as exc:  # noqa: BLE001
             text = f"(reflection failed: {exc})"
@@ -255,6 +261,12 @@ class Agent:
             try:
                 res = self.client.chat(self.model, self._messages(), temperature=self.temperature)
                 self.cost_usd += res.cost_usd
+                self._log({"type": "usage", "model": self.model,
+                           "prompt_tokens": res.prompt_tokens,
+                           "completion_tokens": res.completion_tokens,
+                           "reported_cost": res.reported_cost,
+                           "cost_usd": res.cost_usd if getattr(self.client, "cost_available", False) else None,
+                           "cost_unit": getattr(self.client, "cost_unit", "usd")})
                 text = res.text
             except BudgetExceeded as exc:
                 self.budget_stopped = True

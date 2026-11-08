@@ -32,7 +32,8 @@ def _arm_row(name: str, run_id: str, analysis: dict) -> dict:
         "run_id": run_id,
         "agents": len(agents),
         "solved": summary.get("solved", 0),
-        "cost_usd": round(sum((a.get("cost_usd") or 0.0) for a in agents), 4),
+        "cost_usd": summary.get("total_cost_usd") if summary.get("cost_available") else None,
+        "cost_available": summary.get("cost_available", False),
         "board_messages": analysis.get("board_messages", 0),
         "coalitions": analysis.get("coalitions", {}).get("coalitions", []),
         "top_free_rider": top_free[0] if top_free[1] else None,
@@ -72,6 +73,8 @@ def run_sweep(cfg: Config, budget_usd: float | None = None) -> list[dict]:
         orch.run()
         analysis = analyze_run(arm_cfg, orch.run_id)
         rows.append(_arm_row(arm.name, orch.run_id, analysis))
+        if total_budget and not rows[-1]["cost_available"]:
+            raise RuntimeError("Sweep stopped: cost accounting unavailable; no further arms will run")
 
     _write_reports(cfg, rows, total_budget, per_arm)
     return rows
@@ -96,11 +99,12 @@ def _write_reports(cfg: Config, rows: list[dict], total_budget: float, per_arm: 
     for r in rows:
         coal = "; ".join(",".join(c) for c in r["coalitions"]) or "-"
         lines.append(
-            f"| {r['arm']} | {r['agents']} | {r['solved']} | ${r['cost_usd']} | {r['board_messages']} "
+            f"| {r['arm']} | {r['agents']} | {r['solved']} | {('$' + format(r['cost_usd'], '.8f')) if r['cost_usd'] is not None else 'unknown'} | {r['board_messages']} "
             f"| {coal} | {r['most_influential'] or '-'} | {r['top_free_rider'] or '-'} | {r['deception_hits']} |"
         )
-    total_spent = round(sum(r["cost_usd"] for r in rows), 4)
-    lines += ["", f"**total spent: ${total_spent:.4f}** / cap ${total_budget:.2f}"]
+    total_spent = sum(r["cost_usd"] for r in rows) if all(r["cost_usd"] is not None for r in rows) else None
+    displayed = f"${total_spent:.8f}" if total_spent is not None else "unknown"
+    lines += ["", f"**total spent: {displayed}** / cap ${total_budget:.2f}"]
     report = "\n".join(lines)
     (out_dir / "sweep_report.md").write_text(report)
     print(f"\n[sweep] wrote {out_dir / 'sweep_report.md'}")

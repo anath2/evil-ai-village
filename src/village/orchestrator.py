@@ -15,7 +15,7 @@ from .agent import Agent, AgentResult
 from .board import Board
 from .config import Config, AgentSpec, GoalRound
 from .cybergym import prepare_task
-from .models import OpenRouterClient
+from .models import InferenceClient, create_client
 from .sandbox import make_sandbox
 
 
@@ -51,7 +51,7 @@ class Orchestrator:
     def build_agents(
         self,
         board: Board,
-        client: OpenRouterClient,
+        client: InferenceClient,
         *,
         goal: str,
         task_ids: list[str],
@@ -102,13 +102,15 @@ class Orchestrator:
                 flag = "SOLVED" if res.solved else "no-solve"
                 print(
                     f"[village:{self.run_id}] {res.name} finished ({flag}) "
-                    f"steps={res.steps} cost=${res.cost_usd:.4f} mem={res.memories}"
+                    f"steps={res.steps} cost={'$' + format(res.cost_usd, '.8f') if agent.client.cost_available else 'unknown'} mem={res.memories}"
                 )
         return results
 
     def run(self) -> dict[str, list[AgentResult]]:
         board = Board(self.cfg.abspath(self.cfg.board.path))
-        client = OpenRouterClient(budget_usd=self.cfg.village.budget_usd)
+        client = create_client(budget_usd=self.cfg.village.budget_usd)
+        self.inference_provider = client.provider
+        self.cost_available = client.cost_available
         rounds = self._rounds()
         multi = len(rounds) > 1
         all_results: dict[str, list[AgentResult]] = {}
@@ -133,14 +135,24 @@ class Orchestrator:
                     print(f"  - {a.name:8s} {a.tier:6s} {a.model:38s} task={a.task.task_id} mem={len(a.memory or [])}")
                 results = self._run_agents(agents)
                 all_results[rnd.name] = results
+                self.cost_available = client.cost_available
+                self.total_cost_usd = client.total_cost_usd
+                self.total_reported_cost = getattr(client, "total_reported_cost", None)
+                self.cost_unit = getattr(client, "cost_unit", "usd")
                 self._write_round_summary(log_dir, rnd, results, board, task_ids)
         finally:
             cap = f" / cap ${client.budget_usd:.2f}" if client.budget_usd else ""
             hit = " [BUDGET CAP HIT]" if client.budget_exhausted else ""
             print(
-                f"\n[village:{self.run_id}] total cost ${client.total_cost_usd:.4f}{cap}{hit} "
+                f"\n[village:{self.run_id}] total cost {'$' + format(client.total_cost_usd, '.8f') if client.cost_available else 'unknown'}{cap}{hit} "
                 f"({client.total_prompt_tokens} prompt + {client.total_completion_tokens} completion tokens)"
             )
+            self.cost_available = client.cost_available
+            self.total_cost_usd = client.total_cost_usd
+            self.total_reported_cost = getattr(client, "total_reported_cost", None)
+            self.cost_unit = getattr(client, "cost_unit", "usd")
+            if client.provider == "adaption":
+                print(f"[village:{self.run_id}] provider-reported cost {client.total_reported_cost:.8f} ({client.cost_unit} units)")
             client.close()
 
         self._write_village_summary(all_results, board)
@@ -153,6 +165,11 @@ class Orchestrator:
         log_dir.mkdir(parents=True, exist_ok=True)
         summary = {
             "run_id": self.run_id,
+            "inference_provider": getattr(self, "inference_provider", "unknown"),
+            "cost_available": getattr(self, "cost_available", False),
+            "cost_unit": getattr(self, "cost_unit", "unverified"),
+            "total_reported_cost": getattr(self, "total_reported_cost", None),
+            "total_cost_usd": getattr(self, "total_cost_usd", None),
             "village_id": self.cfg.village_id,
             "round": rnd.name,
             "goal": rnd.goal or self.cfg.village.goal,
@@ -173,6 +190,11 @@ class Orchestrator:
         self.logs_root.mkdir(parents=True, exist_ok=True)
         summary = {
             "run_id": self.run_id,
+            "inference_provider": getattr(self, "inference_provider", "unknown"),
+            "cost_available": getattr(self, "cost_available", False),
+            "cost_unit": getattr(self, "cost_unit", "unverified"),
+            "total_reported_cost": getattr(self, "total_reported_cost", None),
+            "total_cost_usd": getattr(self, "total_cost_usd", None),
             "village_id": self.cfg.village_id,
             "workspace_root": str(self.workspaces),
             "board_path": str(self.cfg.abspath(self.cfg.board.path)),
