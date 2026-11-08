@@ -5,6 +5,7 @@ village:
     shared board, then inspect your task, build a candidate PoC and use submit_poc
     to verify it. Share the result on the board. Keep actions concise.
   max_steps: 8
+  budget_usd: 0.01
   reflect_every: 0
   consolidate_every: 0
   time_budget_seconds: 180

@@ -1,5 +1,9 @@
 # Evil AI Village
 
+**Partner handoff:** see [docs/handoff.md](docs/handoff.md) for the current
+checkpoint, verification, setup, and unfinished work. All source work is on `main`.
+The supported demo uses mock tasks; the preserved CyberGym integration is unfinished.
+
 A **sandboxed village of Chinese open-weight AI agents** that form societies
 while solving hacking tasks. Inspired by [AI Village](https://theaidigest.org/village)
 and the 2026 OpenAI/ExploitGym → Hugging Face incident documented by
@@ -103,12 +107,12 @@ the existing multi-agent/sweep rosters. Recheck `/models` when availability chan
 
 ## Real CyberGym (integration pending)
 
-Task generation is present, but the managed runner currently supports mock tasks
-only and rejects CyberGym runs. Real CyberGym needs its target/server images,
-isolated Docker network, and Squid allowlist proxy wired into container creation.
-Follow the [upstream setup](https://github.com/sunblaze-ucb/cybergym#evaluation)
-when implementing that integration; keep the submission server private. Changing
-`task.provider` alone does not produce a working isolated CyberGym deployment.
+An unfinished bridge, setup/server/verification scripts, optional dependency, and
+config are preserved for continuation. Village runs reject non-mock providers,
+and MCP rejects `--task-metadata`, before starting inference or containers.
+The standalone CyberGym scripts remain experimental and are not part of the
+supported demo. End-to-end grading and the isolation/network/firewall design
+remain unverified. See the [handoff](docs/handoff.md) before continuing this work.
 
 ## How it works
 

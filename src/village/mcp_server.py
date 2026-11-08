@@ -32,16 +32,15 @@ from .config import SandboxSettings
 
 
 def build_server(workspace: Path, board_path: Path, agent: str, timeout: int = 120, sandbox_kind: str = "docker", task_metadata: Path | None = None):
+    if task_metadata is not None:
+        raise ValueError(
+            "CyberGym MCP integration is unfinished and disabled. See docs/handoff.md."
+        )
     from mcp.server.mcpserver import MCPServer
 
     workspace = Path(workspace).resolve()
     sandbox = None
     task = None
-    if task_metadata is not None:
-        from .cybergym_bridge import load_task_metadata
-        if sandbox_kind != 'docker':
-            raise ValueError('CyberGym MCP requires Docker')
-        task = load_task_metadata(workspace, task_metadata)
 
     @asynccontextmanager
     async def lifespan(_):
