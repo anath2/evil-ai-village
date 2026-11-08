@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import subprocess
+import base64
 import selectors
 import time
 import os
@@ -108,13 +109,13 @@ class DockerSandbox:
         self.timeout = timeout
         self.max_output_chars = max_output_chars
 
-    def run(self, command: str) -> ExecResult:
+    def run(self, command: str, *, max_output_bytes: int | None = None) -> ExecResult:
         if self._closed:
             raise RuntimeError("Agent container is closed; start a new run")
         try:
             code, output = _capture_docker(
                 ["docker", "exec", "--workdir", "/workspace", self.container, "bash", "-c", command],
-                self.timeout, max(1, self.max_output_chars),
+                self.timeout, max(1, max_output_bytes or self.max_output_chars),
             )
             return ExecResult(command, code, output, "")
         except subprocess.TimeoutExpired:
@@ -176,6 +177,24 @@ class DockerSandbox:
             self.close()
             raise RuntimeError("File write timed out; agent container removed") from None
         return Path(relpath)
+
+    def read_bytes(self, relpath: str, max_bytes: int = 1024 * 1024) -> bytes:
+        # The trusted controller extracts a bounded artifact; no host path is opened.
+        script = (
+            "import base64,pathlib,sys; p=pathlib.Path(sys.argv[1]).resolve(); "
+            "assert p.is_relative_to(pathlib.Path('/workspace')), 'PoC must be in workspace'; "
+            "assert p.is_file(), 'PoC must be a regular file'; "
+            "d=p.open('rb').read(int(sys.argv[2])+1); "
+            "assert len(d)<=int(sys.argv[2]), 'PoC too large'; "
+            "sys.stdout.buffer.write(base64.b64encode(d))"
+        )
+        result = self.run(
+            f"python3 -c {shlex.quote(script)} {shlex.quote(relpath)} {int(max_bytes)}",
+            max_output_bytes=((max_bytes + 2) // 3) * 4 + 4096,
+        )
+        if result.exit_code:
+            raise ValueError("Could not read PoC artifact from agent container")
+        return base64.b64decode(result.stdout, validate=True)
 
     def read_file(self, relpath: str, max_chars: int = 20000) -> str:
         result = self.run(f"head -c {int(max_chars)} -- {shlex.quote(relpath)}")

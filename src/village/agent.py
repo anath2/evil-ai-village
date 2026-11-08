@@ -190,7 +190,7 @@ class Agent:
             if not cmd:
                 return "ERROR: bash requires a non-empty 'command'."
             result = self.sandbox.run(cmd)
-            if result.exit_code not in (124, 125):
+            if self.task.provider == "mock" and result.exit_code not in (124, 125):
                 self._maybe_record_verdict(result.output, command=cmd)
             return result.format(max_chars=self.sandbox.max_output_chars)
         if tool == "read_board":
@@ -206,7 +206,7 @@ class Agent:
             return f"posted as message #{msg['seq']}"
         if tool == "submit_poc":
             path = str(args.get("path") or args.get("file") or "poc").strip()
-            ok, verdict = submit_poc(self.task.workspace, path, sandbox=self.sandbox)
+            ok, verdict = submit_poc(self.task.workspace, path, sandbox=self.sandbox, task=self.task)
             self.poc_verdict = verdict
             if ok:
                 self.solved = True

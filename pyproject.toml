@@ -13,6 +13,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=8.0"]
+cybergym = ["cybergym[server] @ https://github.com/sunblaze-ucb/cybergym/archive/c6fe2027d39471375920b92cf1025e23a99ffda5.zip"]
 mcp = ["mcp>=2.0"]
 concordia = ["gdm-concordia[openai]>=2.4"]
 

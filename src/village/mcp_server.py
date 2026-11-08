@@ -31,11 +31,17 @@ from .sandbox import make_sandbox
 from .config import SandboxSettings
 
 
-def build_server(workspace: Path, board_path: Path, agent: str, timeout: int = 120, sandbox_kind: str = "docker"):
+def build_server(workspace: Path, board_path: Path, agent: str, timeout: int = 120, sandbox_kind: str = "docker", task_metadata: Path | None = None):
     from mcp.server.mcpserver import MCPServer
 
     workspace = Path(workspace).resolve()
     sandbox = None
+    task = None
+    if task_metadata is not None:
+        from .cybergym_bridge import load_task_metadata
+        if sandbox_kind != 'docker':
+            raise ValueError('CyberGym MCP requires Docker')
+        task = load_task_metadata(workspace, task_metadata)
 
     @asynccontextmanager
     async def lifespan(_):
@@ -86,7 +92,7 @@ def build_server(workspace: Path, board_path: Path, agent: str, timeout: int = 1
         )
     )
     def grade_poc(path: str) -> str:
-        ok, verdict = submit_poc(workspace, path, sandbox=sandbox)
+        ok, verdict = submit_poc(workspace, path, sandbox=sandbox, task=task)
         verdict["solved"] = ok
         return json.dumps(verdict, ensure_ascii=False)
 
@@ -109,6 +115,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--workspace", required=True, help="agent task workspace")
     parser.add_argument("--board", default=".village/board.jsonl", help="shared board path")
     parser.add_argument("--agent", required=True, help="agent name")
+    parser.add_argument("--task-metadata", type=Path, help="Controller-owned CyberGym metadata outside workspace")
     parser.add_argument("--sandbox", choices=["docker", "local"], default="docker")
     parser.add_argument("--timeout", type=int, default=120, help="bash timeout seconds")
     parser.add_argument(
@@ -116,7 +123,7 @@ def main(argv: list[str] | None = None) -> int:
     )
     args = parser.parse_args(argv)
 
-    server = build_server(Path(args.workspace), Path(args.board), args.agent, args.timeout, args.sandbox)
+    server = build_server(Path(args.workspace), Path(args.board), args.agent, args.timeout, args.sandbox, args.task_metadata)
     server.run(transport=args.transport)
     return 0
 

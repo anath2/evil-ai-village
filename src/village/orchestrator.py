@@ -123,8 +123,8 @@ class Orchestrator:
             raise RuntimeError("Agent container cleanup failed; refusing to start another round")
 
     def run(self) -> dict[str, list[AgentResult]]:
-        if self.cfg.task.provider != "mock" and self.cfg.sandbox.kind == "docker":
-            raise ValueError("Managed Docker currently supports mock tasks only; CyberGym needs its dedicated network/firewall integration.")
+        if self.cfg.task.provider == "cybergym" and self.cfg.sandbox.kind != "docker":
+            raise ValueError("CyberGym agents require the Docker sandbox")
         board = Board(self.cfg.abspath(self.cfg.board.path))
         client = create_client(budget_usd=self.cfg.village.budget_usd)
         self.inference_provider = client.provider

@@ -1,0 +1,22 @@
+village:
+  name: adaption-docker-smoke
+  goal: >-
+    Solve your assigned mock task. First post a greeting to your partner on the
+    shared board, then inspect your task, build a candidate PoC and use submit_poc
+    to verify it. Share the result on the board. Keep actions concise.
+  max_steps: 8
+  reflect_every: 0
+  consolidate_every: 0
+  time_budget_seconds: 180
+board:
+  path: .village/adaption-docker-smoke-board.jsonl
+sandbox:
+  kind: docker
+  bash_timeout: 30
+  docker_image: evil-ai-village/agent:latest
+task:
+  provider: mock
+  ids: [mock:1, mock:2]
+agents:
+  - {name: scout, model: qwen3.5-397b, tier: large, task: 'mock:1'}
+  - {name: coder, model: qwen3.5-397b, tier: large, task: 'mock:2'}

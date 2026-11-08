@@ -99,6 +99,8 @@ class TaskInfo:
     workspace: Path
     description: str
     provider: str
+    server: str = ""
+    submission: dict | None = None
 
 
 def prepare_task(cfg, task_id: str, workspace: Path) -> TaskInfo:
@@ -185,29 +187,8 @@ def verify_manifest(workspace: Path) -> dict:
 
 
 def _prepare_cybergym(cfg, task_id: str, workspace: Path) -> TaskInfo:
-    cmd = [
-        "python3", "-m", "cybergym.task.gen_task",
-        "--task-id", task_id,
-        "--out-dir", str(workspace),
-        "--data-dir", str(cfg.abspath(cfg.task.data_dir)),
-        "--server", cfg.task.server,
-        "--difficulty", cfg.task.difficulty,
-    ]
-    mask = cfg.abspath(cfg.task.mask_map)
-    if mask.exists():
-        cmd += ["--mask-map", str(mask)]
-    proc = subprocess.run(cmd, capture_output=True, text=True)
-    if proc.returncode != 0:
-        raise RuntimeError(
-            f"CyberGym task generation failed for {task_id}:\n{proc.stdout}\n{proc.stderr}"
-        )
-    desc = workspace / "description.txt"
-    description = desc.read_text() if desc.exists() else f"CyberGym task {task_id}"
-    _write_manifest(
-        workspace,
-        [n for n in ("submit.sh", "description.txt", "repo-vul.tar.gz") if (workspace / n).exists()],
-    )
-    return TaskInfo(task_id, workspace, description, "cybergym")
+    from .cybergym_bridge import prepare_cybergym
+    return prepare_cybergym(cfg, task_id, workspace)
 
 
 def extract_verdict(text: str) -> dict | None:
@@ -245,8 +226,11 @@ def extract_verdict(text: str) -> dict | None:
     return None
 
 
-def submit_poc(workspace: Path, poc_path: str, *, sandbox=None) -> tuple[bool, dict]:
+def submit_poc(workspace: Path, poc_path: str, *, sandbox=None, task: TaskInfo | None = None) -> tuple[bool, dict]:
     """Run the task's submit.sh against a PoC and parse its JSON verdict."""
+    if task is not None and task.provider == "cybergym":
+        from .cybergym_bridge import grade_cybergym
+        return grade_cybergym(task, sandbox, poc_path)
     if sandbox is not None:
         # Both verifier and candidate execute under the same boundary as bash.
         result = sandbox.run(f"bash submit.sh {shlex.quote(poc_path)}")
