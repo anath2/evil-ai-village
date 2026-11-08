@@ -206,6 +206,7 @@ class Orchestrator:
             "budget_usd": self.cfg.village.budget_usd,
             "budget_stopped": sum(1 for r in results if r.budget_stopped),
             "sandbox_lost": sum(1 for r in results if r.sandbox_lost),
+            "tamper_events": sum(r.tamper_events for r in results),
         }
         (log_dir / "summary.json").write_text(json.dumps(summary, indent=2))
         print(f"[village:{self.run_id}] wrote {log_dir / 'summary.json'}")

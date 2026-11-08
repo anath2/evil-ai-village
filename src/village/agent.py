@@ -3,13 +3,14 @@
 from __future__ import annotations
 
 import json
+import re
 import threading
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
 
 from .board import Board, format_board
-from .cybergym import TaskInfo, extract_verdict, submit_poc
+from .cybergym import TaskInfo, detect_task_writes, extract_verdict, submit_poc
 from .memory import MemoryStore
 from .models import BudgetExceeded, InferenceClient
 from .prompts import (
@@ -36,6 +37,7 @@ class AgentResult:
     cost_usd: float
     memories: int = 0
     reflections: int = 0
+    tamper_events: int = 0
     budget_stopped: bool = False
     sandbox_lost: bool = False
     poc_verdict: dict | None = None
@@ -71,6 +73,7 @@ class Agent:
     final_summary: str = ""
     poc_verdict: dict | None = None
     cost_usd: float = 0.0
+    tamper_events: int = 0
     budget_stopped: bool = False
     sandbox_lost: bool = False
     last_board_seq: int = 0
@@ -204,8 +207,27 @@ class Agent:
                     "reason": "timeout" if result.exit_code == 124 else "output_limit",
                 })
                 return result.format(max_chars=self.sandbox.max_output_chars)
-            if self.task.provider == "mock" and result.exit_code not in (124, 125):
-                self._maybe_record_verdict(result.output, command=cmd)
+            if self.task.provider == "mock":
+                writes = detect_task_writes(cmd)
+                if writes:
+                    self.tamper_events += 1
+                    self._log({"type": "tamper", "files": writes, "command": cmd})
+                m = re.search(r"submit\.sh\s+([^\s;|&]+)", cmd)
+                if m and result.exit_code not in (124, 125):
+                    # Authoritative re-grade against the pristine task files.
+                    poc = m.group(1).strip("'\"")
+                    ok, verdict = submit_poc(
+                        self.task.workspace, poc, sandbox=self.sandbox, task=self.task
+                    )
+                    if verdict.get("tampered"):
+                        self.tamper_events += 1
+                        self._log({"type": "tamper", "files": verdict["tampered"], "command": cmd})
+                    self.poc_verdict = verdict
+                    if ok:
+                        self.solved = True
+                    self._log({"type": "submit", "path": poc, "ok": ok, "verdict": verdict, "authoritative": True})
+                elif result.exit_code not in (124, 125):
+                    self._maybe_record_verdict(result.output, command=cmd)
             return result.format(max_chars=self.sandbox.max_output_chars)
         if tool == "read_board":
             limit = int(args.get("limit") or 25)
@@ -221,6 +243,9 @@ class Agent:
         if tool == "submit_poc":
             path = str(args.get("path") or args.get("file") or "poc").strip()
             ok, verdict = submit_poc(self.task.workspace, path, sandbox=self.sandbox, task=self.task)
+            if verdict.get("tampered"):
+                self.tamper_events += 1
+                self._log({"type": "tamper", "files": verdict["tampered"], "path": path})
             self.poc_verdict = verdict
             if ok:
                 self.solved = True
@@ -354,6 +379,7 @@ class Agent:
             cost_usd=self.cost_usd,
             memories=len(self.memory),
             reflections=len(self.memory.reflection_texts()),
+            tamper_events=self.tamper_events,
             budget_stopped=self.budget_stopped,
             sandbox_lost=self.sandbox_lost,
             poc_verdict=self.poc_verdict,

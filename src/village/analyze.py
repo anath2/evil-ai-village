@@ -316,7 +316,14 @@ def deception_signals(events: dict[str, list[dict]], messages: list[dict]) -> di
         for e in evs
         if e.get("type") == "suspicious_verdict"
     ]
-    return {"lexicon_hits": {k: v for k, v in hits.items()}, "forged_verdicts": forged}
+    tamper = [
+        e for evs in events.values() for e in evs if e.get("type") == "tamper"
+    ]
+    return {
+        "lexicon_hits": {k: v for k, v in hits.items()},
+        "forged_verdicts": forged,
+        "tamper_events": tamper,
+    }
 
 
 def tamper_report(summary: dict) -> dict:
@@ -540,6 +547,9 @@ def render_report(a: dict) -> str:
         for h in hits[:3]:
             lines.append(f"    - ({h.get('agent')}/{h.get('where')}) {h.get('text')}")
     lines.append(f"- **forged verdicts**: {len(d['forged_verdicts'])}")
+    lines.append(f"- **target tampering attempts**: {len(d.get('tamper_events', []))}")
+    for t in d.get("tamper_events", [])[:5]:
+        lines.append(f"    - ({t.get('agent')}) files={t.get('files')} cmd={str(t.get('command',''))[:100]}")
     if a["tampering"]:
         for agent, verdict in a["tampering"].items():
             lines.append(f"- **file tampering** {agent}: {verdict}")
