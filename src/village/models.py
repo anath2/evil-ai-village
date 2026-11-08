@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import math
 import os
+import random
 import threading
 import time
 from dataclasses import dataclass
@@ -25,6 +26,9 @@ class ChatResult:
     cost_usd: float = 0.0
     raw: dict | None = None
     reported_cost: float | None = None
+    # True when the provider stopped early (e.g. max_output_tokens) and we
+    # returned partial text rather than failing the whole turn.
+    truncated: bool = False
 
 
 class InferenceClient:
@@ -34,12 +38,25 @@ class InferenceClient:
     cost_available = True
     cost_unit = "usd"
 
+    RETRYABLE_STATUS = frozenset({429, 500, 502, 503, 504})
+
     def __init__(self, timeout: float = 180.0, max_retries: int = 3, budget_usd: float = 0.0,
-                 transport: httpx.BaseTransport | None = None):
+                 transport: httpx.BaseTransport | None = None,
+                 backoff_base: float = 1.0, backoff_cap: float = 30.0,
+                 model_concurrency: int = 0):
         self.timeout = timeout
         if max_retries < 1:
             raise ValueError("max_retries must allow at least one attempt")
         self.max_retries = max_retries
+        self.backoff_base = float(backoff_base)
+        self.backoff_cap = float(backoff_cap)
+        # Per-model in-flight cap. 0 = unlimited (one shared client).
+        self.model_concurrency = max(0, int(model_concurrency or 0))
+        self._model_locks: dict[str, threading.Semaphore] = {}
+        self._model_lock_guard = threading.Lock()
+        # Retry accounting for the reliability metrics (guarded by _cost_lock).
+        self.retry_count = 0
+        self.truncated_count = 0
         self.budget_usd = float(budget_usd or 0.0)
         if not math.isfinite(self.budget_usd) or self.budget_usd < 0:
             raise ValueError("Budget must be a finite nonnegative number")
@@ -96,6 +113,44 @@ class InferenceClient:
                     f"budget cap ${self.budget_usd:.6f} reached (spent ${self.total_cost_usd:.6f})"
                 )
 
+    def _model_semaphore(self, model: str) -> threading.Semaphore | None:
+        """Return the per-model semaphore, or None when no cap is configured."""
+        if self.model_concurrency <= 0:
+            return None
+        with self._model_lock_guard:
+            sem = self._model_locks.get(model)
+            if sem is None:
+                sem = threading.Semaphore(self.model_concurrency)
+                self._model_locks[model] = sem
+            return sem
+
+    def _backoff_seconds(self, attempt: int) -> float:
+        """Exponential backoff with full jitter, capped."""
+        ceiling = min(self.backoff_cap, self.backoff_base * (2 ** attempt))
+        return random.uniform(0.0, max(0.0, ceiling))
+
+    @staticmethod
+    def _retry_after_seconds(response: httpx.Response) -> float | None:
+        """Parse a Retry-After header in seconds, if present and sane."""
+        raw = response.headers.get("retry-after") if response is not None else None
+        if not raw:
+            return None
+        try:
+            value = float(raw.strip())
+        except (TypeError, ValueError):
+            return None
+        if not math.isfinite(value) or value < 0:
+            return None
+        return min(value, 120.0)
+
+    def _count_retry(self) -> None:
+        with self._cost_lock:
+            self.retry_count += 1
+
+    def _count_truncated(self) -> None:
+        with self._cost_lock:
+            self.truncated_count += 1
+
     @property
     def budget_exhausted(self) -> bool:
         with self._cost_lock:
@@ -108,7 +163,25 @@ class InferenceClient:
         messages: list[dict],
         *,
         temperature: float = 0.7,
-        max_tokens: int = 2048,
+        max_tokens: int = 4096,
+        stop: list[str] | None = None,
+    ) -> ChatResult:
+        """One model call, throttled by the per-model in-flight cap."""
+        sem = self._model_semaphore(model)
+        if sem is None:
+            return self._chat(model, messages, temperature=temperature,
+                              max_tokens=max_tokens, stop=stop)
+        with sem:
+            return self._chat(model, messages, temperature=temperature,
+                              max_tokens=max_tokens, stop=stop)
+
+    def _chat(
+        self,
+        model: str,
+        messages: list[dict],
+        *,
+        temperature: float = 0.7,
+        max_tokens: int = 4096,
         stop: list[str] | None = None,
     ) -> ChatResult:
         payload = self._payload(model, messages, temperature, max_tokens, stop)
@@ -120,11 +193,24 @@ class InferenceClient:
                 resp = self._client.post(self._url(), headers=self._headers(), json=payload)
                 resp.raise_for_status()
             except httpx.HTTPStatusError as exc:
-                if exc.response.status_code not in (429, 500, 502, 503, 504):
-                    raise RuntimeError(f"{self.provider} HTTP {exc.response.status_code} for {model}") from None
+                status = exc.response.status_code
+                if status not in self.RETRYABLE_STATUS:
+                    # 4xx other than 429 is our bug (bad payload/key): fail fast.
+                    raise RuntimeError(
+                        f"{self.provider} HTTP {status} for {model}"
+                    ) from None
                 last_err = exc
+                self._count_retry()
+                if attempt + 1 < self.max_retries:
+                    # 429 honors Retry-After; 5xx uses jittered backoff.
+                    delay = self._retry_after_seconds(exc.response) \
+                        if status == 429 else None
+                    time.sleep(delay if delay is not None else self._backoff_seconds(attempt))
             except httpx.TransportError as exc:
                 last_err = exc
+                self._count_retry()
+                if attempt + 1 < self.max_retries:
+                    time.sleep(self._backoff_seconds(attempt))
             else:
                 try:
                     data = resp.json()
@@ -133,9 +219,10 @@ class InferenceClient:
                     self._account_usage({}, ("prompt_tokens", "completion_tokens"))
                     raise RuntimeError(f"{self.provider} returned invalid JSON for {model}") from None
                 return self._parse(model, data)
-            if attempt + 1 < self.max_retries:
-                time.sleep(2**attempt)
-        raise RuntimeError(f"{self.provider} request failed for {model}: {type(last_err).__name__}")
+        raise RuntimeError(
+            f"{self.provider} request failed for {model} after {self.max_retries} attempts: "
+            f"{type(last_err).__name__}: {last_err}"
+        )
 
     def _url(self):
         raise NotImplementedError
@@ -224,27 +311,44 @@ class AdaptionClient(InferenceClient):
                 "max_output_tokens": max_tokens, "stream": False, "store": False,
                 "agentic_memory": False, "tools": [], "tool_choice": "none"}
 
+    @staticmethod
+    def _extract_text(data: dict) -> str:
+        return "".join(
+            part.get("text", "")
+            for item in data.get("output", []) if item.get("type") == "message"
+            for part in item.get("content", []) if part.get("type") == "output_text"
+        ).strip()
+
     def _parse(self, model, data):
         # Incomplete/failed generations can still consume tokens and money.
         pt, ct, cost = self._account_usage(data, ("input_tokens", "output_tokens"))
         if not isinstance(data, dict):
             raise RuntimeError(f"Adaption returned an invalid response for {model}")
+        truncated = False
         if data.get("error") or data.get("status") != "completed":
+            reason = (data.get("incomplete_details") or {}).get("reason", "unknown")
+            # A reasoning model that hit the output cap still produced usable
+            # partial text. Failing the turn wastes the tokens we already paid for.
+            if not data.get("error") and reason == "max_output_tokens":
+                text = self._extract_text(data)
+                if text:
+                    truncated = True
+                    self._count_truncated()
+                    return ChatResult(
+                        text=text, prompt_tokens=pt, completion_tokens=ct,
+                        cost_usd=cost if self.cost_unit == "usd" and cost is not None else 0.0,
+                        raw=data, reported_cost=cost, truncated=True,
+                    )
             raise RuntimeError(
                 f"Adaption response did not complete for {model}: "
-                f"status={data.get('status')}, "
-                f"reason={(data.get('incomplete_details') or {}).get('reason', 'unknown')}"
+                f"status={data.get('status')}, reason={reason}"
             )
-        text = "".join(
-            part.get("text", "")
-            for item in data.get("output", []) if item.get("type") == "message"
-            for part in item.get("content", []) if part.get("type") == "output_text"
-        ).strip()
+        text = self._extract_text(data)
         if not text:
             raise RuntimeError(f"Adaption returned no reply text for {model}")
         return ChatResult(text=text, prompt_tokens=pt, completion_tokens=ct,
                           cost_usd=cost if self.cost_unit == "usd" and cost is not None else 0.0,
-                          raw=data, reported_cost=cost)
+                          raw=data, reported_cost=cost, truncated=truncated)
 
 
 def create_client(*, budget_usd=0.0, **kwargs) -> InferenceClient:

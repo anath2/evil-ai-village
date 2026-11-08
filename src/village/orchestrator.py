@@ -205,6 +205,7 @@ class Orchestrator:
             "solved": sum(1 for r in results if r.solved),
             "budget_usd": self.cfg.village.budget_usd,
             "budget_stopped": sum(1 for r in results if r.budget_stopped),
+            "sandbox_lost": sum(1 for r in results if r.sandbox_lost),
         }
         (log_dir / "summary.json").write_text(json.dumps(summary, indent=2))
         print(f"[village:{self.run_id}] wrote {log_dir / 'summary.json'}")
@@ -228,6 +229,7 @@ class Orchestrator:
                     "solved": sum(1 for r in results if r.solved),
                     "agents": len(results),
                     "cost_usd": round(sum(r.cost_usd for r in results), 4),
+                    "sandbox_lost": sum(1 for r in results if r.sandbox_lost),
                     "memories": {r.name: r.memories for r in results},
                     "reflections": {r.name: r.reflections for r in results},
                 }

@@ -254,3 +254,116 @@ def test_malformed_usage_cannot_bypass_budget(monkeypatch, provider, body):
         assert client.budget_exhausted
     finally:
         client.close()
+
+
+def test_retry_after_header_is_honored(monkeypatch):
+    monkeypatch.setenv('ADAPTION_API_KEY', 'test')
+    sleeps = []
+    monkeypatch.setattr('village.models.time.sleep', lambda s: sleeps.append(s))
+    calls = []
+
+    def respond(request):
+        calls.append(request)
+        if len(calls) == 1:
+            return httpx.Response(429, headers={'Retry-After': '0.5'})
+        return httpx.Response(200, json={'status': 'completed', 'output': [
+            {'type': 'message', 'content': [{'type': 'output_text', 'text': 'ok'}]}]})
+
+    client = AdaptionClient(transport=httpx.MockTransport(respond))
+    try:
+        assert client.chat('model', []).text == 'ok'
+        assert calls and sleeps == [0.5], sleeps
+        assert client.retry_count == 1
+    finally:
+        client.close()
+
+
+def test_retry_count_counts_transport_errors(monkeypatch):
+    monkeypatch.setenv('ADAPTION_API_KEY', 'test')
+    monkeypatch.setattr('village.models.time.sleep', lambda _: None)
+    calls = []
+
+    def respond(request):
+        calls.append(request)
+        if len(calls) < 3:
+            raise httpx.ConnectError('boom', request=request)
+        return httpx.Response(200, json={'status': 'completed', 'output': [
+            {'type': 'message', 'content': [{'type': 'output_text', 'text': 'ok'}]}]})
+
+    client = AdaptionClient(max_retries=5, transport=httpx.MockTransport(respond))
+    try:
+        assert client.chat('model', []).text == 'ok'
+        assert len(calls) == 3
+        assert client.retry_count == 2
+    finally:
+        client.close()
+
+
+def test_non_retryable_4xx_fails_fast(monkeypatch):
+    monkeypatch.setenv('ADAPTION_API_KEY', 'test')
+    monkeypatch.setattr('village.models.time.sleep', lambda _: None)
+    calls = []
+
+    def respond(request):
+        calls.append(request)
+        return httpx.Response(400, json={'error': 'bad request'})
+
+    client = AdaptionClient(max_retries=5, transport=httpx.MockTransport(respond))
+    try:
+        with pytest.raises(RuntimeError, match='HTTP 400'):
+            client.chat('model', [])
+        assert len(calls) == 1, 'a 400 must not be retried'
+        assert client.retry_count == 0
+    finally:
+        client.close()
+
+
+def test_exhausted_retries_report_attempt_count(monkeypatch):
+    monkeypatch.setenv('ADAPTION_API_KEY', 'test')
+    monkeypatch.setattr('village.models.time.sleep', lambda _: None)
+
+    def respond(request):
+        return httpx.Response(503)
+
+    client = AdaptionClient(max_retries=3, transport=httpx.MockTransport(respond))
+    try:
+        with pytest.raises(RuntimeError, match='after 3 attempts'):
+            client.chat('model', [])
+        assert client.retry_count == 3
+    finally:
+        client.close()
+
+
+def test_adaption_incomplete_max_tokens_returns_partial(monkeypatch):
+    """A truncated generation must yield its partial text, not fail the turn."""
+    monkeypatch.setenv('ADAPTION_API_KEY', 'test')
+    monkeypatch.setenv('ADAPTION_COST_UNIT', 'usd')
+    client = AdaptionClient()
+    try:
+        result = client._parse('model', {
+            'status': 'incomplete',
+            'incomplete_details': {'reason': 'max_output_tokens'},
+            'output': [{'type': 'message', 'content': [
+                {'type': 'output_text', 'text': '<action>{"tool":"bash","input":'}]}],
+            'usage': {'input_tokens': 4, 'output_tokens': 9, 'cost': .0002},
+        })
+        assert result.truncated is True
+        assert result.text.startswith('<action>')
+        assert result.completion_tokens == 9
+        assert client.truncated_count == 1
+    finally:
+        client.close()
+
+
+def test_adaption_incomplete_without_text_still_raises(monkeypatch):
+    monkeypatch.setenv('ADAPTION_API_KEY', 'test')
+    client = AdaptionClient()
+    try:
+        with pytest.raises(RuntimeError, match='did not complete'):
+            client._parse('model', {
+                'status': 'incomplete',
+                'incomplete_details': {'reason': 'max_output_tokens'},
+                'output': [],
+            })
+    finally:
+        client.close()

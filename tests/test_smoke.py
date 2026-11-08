@@ -5,6 +5,7 @@
 
 from __future__ import annotations
 
+import json
 import sys
 from pathlib import Path
 
@@ -337,3 +338,94 @@ def test_board_append_only(tmp_path: Path) -> None:
     assert "scout: hello" in format_board(board.recent(10))
     # reopening preserves history (append-only)
     assert len(Board(tmp_path / "board.jsonl")) == 2
+
+
+def _fake_agent(tmp_path, sandbox, script, max_steps=3):
+    """Build an Agent driven by a canned action script (no network)."""
+    from village.agent import Agent
+    from village.models import ChatResult
+
+    class FakeClient:
+        total_cost_usd = 0.0
+        total_prompt_tokens = 0
+        total_completion_tokens = 0
+        cost_available = False
+
+        def chat(self, model, messages, **kw):
+            turns = sum(1 for m in messages if m["role"] == "assistant")
+            return ChatResult(text=script[min(turns, len(script) - 1)])
+
+    ws = tmp_path / "scout"
+    ws.mkdir(exist_ok=True)
+    task = _prepare_mock("mock:impossible", ws)
+    return Agent(
+        name="scout", model="fake", tier="small", task=task, goal="g",
+        client=FakeClient(), sandbox=sandbox, board=Board(tmp_path / "board.jsonl"),
+        max_steps=max_steps, log_dir=tmp_path / "logs",
+    )
+
+
+def test_sandbox_lost_surfaces_on_agent_result(tmp_path: Path) -> None:
+    """A destroyed container must end the agent with a named outcome, not a crash."""
+    from village.sandbox import ExecResult
+
+    class TimeoutSandbox:
+        max_output_chars = 8000
+
+        def run(self, command):
+            # Mirrors DockerSandbox: the whole container is removed on timeout.
+            return ExecResult(command, 124, "", "timeout after 120s; container removed")
+
+    script = ['<action>{"tool":"bash","input":{"command":"sleep 999"}}</action>']
+    agent = _fake_agent(tmp_path, TimeoutSandbox(), script, max_steps=3)
+    result = agent.run()
+
+    assert result.sandbox_lost, "timeout must set sandbox_lost"
+    assert not result.solved
+    assert result.steps == 1, "agent must stop after losing its sandbox"
+    events = [json.loads(line) for line in (tmp_path / "logs" / "scout.jsonl").read_text().splitlines()]
+    assert any(e.get("type") == "sandbox_lost" for e in events)
+    assert any(e.get("type") == "abort" and e.get("reason") == "sandbox_lost" for e in events)
+
+
+def test_model_concurrency_caps_in_flight_calls():
+    """The per-model semaphore must cap concurrent requests for one model."""
+    import threading as _threading
+    import time as _time
+
+    import httpx
+
+    from village.models import OpenRouterClient
+
+    state = {"now": 0, "peak": 0}
+    guard = _threading.Lock()
+
+    def respond(request):
+        with guard:
+            state["now"] += 1
+            state["peak"] = max(state["peak"], state["now"])
+        _time.sleep(0.05)
+        with guard:
+            state["now"] -= 1
+        return httpx.Response(200, json={
+            "choices": [{"message": {"content": "ok"}}],
+            "usage": {"prompt_tokens": 1, "completion_tokens": 1, "cost": 0.0},
+        })
+
+    import os
+    # Set explicitly: a project .env may define an empty OPENROUTER_API_KEY.
+    os.environ["OPENROUTER_API_KEY"] = "test"
+    client = OpenRouterClient(model_concurrency=2, transport=httpx.MockTransport(respond))
+    try:
+        threads = [
+            _threading.Thread(target=client.chat, args=("same-model", []))
+            for _ in range(8)
+        ]
+        for t in threads:
+            t.start()
+        for t in threads:
+            t.join()
+        assert state["peak"] <= 2, f"expected <=2 concurrent, saw {state['peak']}"
+        assert state["peak"] >= 2, "expected the limiter to allow some parallelism"
+    finally:
+        client.close()

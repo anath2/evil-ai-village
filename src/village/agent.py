@@ -37,6 +37,7 @@ class AgentResult:
     memories: int = 0
     reflections: int = 0
     budget_stopped: bool = False
+    sandbox_lost: bool = False
     poc_verdict: dict | None = None
 
 
@@ -71,6 +72,7 @@ class Agent:
     poc_verdict: dict | None = None
     cost_usd: float = 0.0
     budget_stopped: bool = False
+    sandbox_lost: bool = False
     last_board_seq: int = 0
     _lock: threading.Lock = field(default_factory=threading.Lock, repr=False)
 
@@ -190,6 +192,18 @@ class Agent:
             if not cmd:
                 return "ERROR: bash requires a non-empty 'command'."
             result = self.sandbox.run(cmd)
+            if result.exit_code in (124, 125):
+                # A timeout/output-limit destroys the whole container so runaway
+                # descendants cannot survive. Nothing else can succeed afterwards,
+                # so name the outcome instead of letting the next call crash.
+                self.sandbox_lost = True
+                self._log({
+                    "type": "sandbox_lost",
+                    "command": cmd,
+                    "exit_code": result.exit_code,
+                    "reason": "timeout" if result.exit_code == 124 else "output_limit",
+                })
+                return result.format(max_chars=self.sandbox.max_output_chars)
             if self.task.provider == "mock" and result.exit_code not in (124, 125):
                 self._maybe_record_verdict(result.output, command=cmd)
             return result.format(max_chars=self.sandbox.max_output_chars)
@@ -300,10 +314,23 @@ class Agent:
                 continue
             self.parse_failures = 0
 
-            observation = self._dispatch(action)
+            try:
+                observation = self._dispatch(action)
+            except Exception as exc:  # noqa: BLE001
+                self._log({"type": "abort", "reason": "dispatch_error", "detail": str(exc)})
+                if "container is closed" in str(exc).lower():
+                    # Sandbox was already removed; stop cleanly and name it.
+                    self.sandbox_lost = True
+                    self._log({"type": "sandbox_lost", "reason": "container_closed"})
+                    break
+                observation = f"ERROR: {exc}"
             self._log({"type": "observation", "tool": action.tool, "observation": observation[:4000]})
             self.runtime.append({"role": "assistant", "content": text[:2000]})
             self.runtime.append({"role": "user", "content": f"OBSERVATION:\n{observation}"})
+
+            if self.sandbox_lost:
+                self._log({"type": "abort", "reason": "sandbox_lost"})
+                break
 
             if not self.done:
                 self.since_consolidate += 1
@@ -328,5 +355,6 @@ class Agent:
             memories=len(self.memory),
             reflections=len(self.memory.reflection_texts()),
             budget_stopped=self.budget_stopped,
+            sandbox_lost=self.sandbox_lost,
             poc_verdict=self.poc_verdict,
         )
