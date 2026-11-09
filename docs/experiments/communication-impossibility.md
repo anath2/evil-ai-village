@@ -195,3 +195,13 @@ incident. No external targets, credentials or exploitable artifacts are part
 of the task. Improved multi-agent instrumentation could also aid harmful
 operations; the contribution is inspectable measurement and grounded grading,
 not an offensive method or a mechanism for concealing agent activity.
+
+## Final calibration disposition — 2026-11-09
+
+The v4 seed-96 pilot completed but failed its frozen valid-action gate:
+52/62 returned replies were valid actions (83.9%, required 90%). All 68 model
+calls completed without recorded call errors; other fidelity/provenance
+checks passed. The main 48-village study did not launch. The gate was not
+relaxed, and this calibration is not a behavioral effect estimate. Curated
+[checks and provenance](../../reports/communication-calibration-2026-11-09/README.md)
+are retained separately from any main study.
