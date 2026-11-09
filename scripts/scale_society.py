@@ -18,6 +18,7 @@ from __future__ import annotations
 import argparse
 import concurrent.futures as cf
 import json
+import random
 import shutil
 import subprocess
 import threading
@@ -29,6 +30,7 @@ from pathlib import Path
 from village.analyze import analyze_run, write_outputs
 from village.config import AgentSpec, load_config
 from village.models import create_client
+from village.pacing import RequestPacer
 from village import orchestrator as orchestration
 from village.orchestrator import Orchestrator
 
@@ -53,12 +55,15 @@ GOAL = (
 class LimitedOrchestrator(Orchestrator):
     """Runs all agents through a rolling pool of at most `active` workers."""
 
-    def __init__(self, cfg, *, active: int = 8, **kwargs):
+    def __init__(self, cfg, *, active: int = 8, max_output_tokens: int = 4096, **kwargs):
         super().__init__(cfg, **kwargs)
         self.active = active
+        self.max_output_tokens = max_output_tokens
 
     def _run_agents(self, agents):
         results = []
+        for agent in agents:
+            agent.max_output_tokens = self.max_output_tokens
         with cf.ThreadPoolExecutor(max_workers=max(1, self.active)) as pool:
             futures = {pool.submit(a.run): a for a in agents}
             for fut in cf.as_completed(futures):
@@ -77,7 +82,8 @@ def roster_models(count: int) -> list[tuple[str, str]]:
     return [weighted[i % len(weighted)] for i in range(count)]
 
 
-def build_config(count: int, task: str, steps: int, budget: float, time_budget: int, run_id: str):
+def build_config(count: int, task: str, steps: int, budget: float, time_budget: int, run_id: str,
+                 roster_seed: int | None = None):
     cfg = load_config(ROOT / "configs" / "adaption-docker-smoke.yaml")
     cfg.village.id = run_id
     cfg.village.name = run_id
@@ -91,7 +97,10 @@ def build_config(count: int, task: str, steps: int, budget: float, time_budget: 
     cfg.task.provider = "mock"
     cfg.task.ids = [task]
     cfg.goals = []
-    models = roster_models(count)
+    models = roster_models(max(count, 100) if roster_seed is not None else count)
+    if roster_seed is not None:
+        random.Random(roster_seed).shuffle(models)
+        models = models[:count]
     cfg.agents = [
         AgentSpec(name=f"a{i + 1:03d}", model=model, tier=tier, task=task)
         for i, (model, tier) in enumerate(models)
@@ -100,12 +109,15 @@ def build_config(count: int, task: str, steps: int, budget: float, time_budget: 
 
 
 def measured_client_factory(metrics: dict, lock: threading.Lock, *, timeout: float = 120.0,
-                           retries: int = 5, model_concurrency: int = 0):
+                           retries: int = 5, model_concurrency: int = 0,
+                           pacer: RequestPacer | None = None):
     def factory(**kwargs):
         client = create_client(
             timeout=timeout, max_retries=retries,
             model_concurrency=model_concurrency, **kwargs
         )
+        if pacer is not None:
+            client._client.event_hooks['request'].append(pacer)
         original = client.chat
 
         def chat(*args, **kw):
@@ -248,6 +260,11 @@ def main() -> int:
     p.add_argument("--active", type=int, default=8)
     p.add_argument("--budget", type=float, default=3.0)
     p.add_argument("--steps", type=int, default=6)
+    p.add_argument('--request-spacing', type=float, default=0.0,
+                   help='Global spacing in seconds for every HTTP attempt, including retries')
+    p.add_argument('--roster-seed', type=int, default=None,
+                   help='Shuffle the weighted roster deterministically before rolling execution')
+    p.add_argument('--max-output-tokens', type=int, default=4096)
     p.add_argument(
         "--time-budget",
         type=int,
@@ -264,6 +281,8 @@ def main() -> int:
     p.add_argument("--output", type=Path, default=None)
     p.add_argument("--dry-run", action="store_true", help="build the effective config only")
     args = p.parse_args()
+    if args.request_spacing < 0 or args.max_output_tokens < 1:
+        p.error('Request spacing must be nonnegative and output allowance positive')
 
     # A fixed 180s budget cannot cover steps*timeout (6*120=720s), which aborted
     # 68/100 agents in the run-3 baseline. Derive a workable default instead.
@@ -277,30 +296,21 @@ def main() -> int:
     date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     output = args.output or (ROOT / "reports" / f"experiment-{date}")
     run_id = f"scale-{args.count}-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S')}"
-    cfg = build_config(args.count, args.task, args.steps, args.budget, time_budget, run_id)
+    cfg = build_config(args.count, args.task, args.steps, args.budget, time_budget, run_id,
+                       roster_seed=args.roster_seed)
+
+    output.mkdir(parents=True, exist_ok=True)
+    effective = {'run_id': run_id, 'count': args.count, 'active': args.active,
+                 'budget_usd': args.budget, 'steps': args.steps, 'time_budget': time_budget,
+                 'timeout': args.timeout, 'retries': args.retries,
+                 'model_concurrency': args.model_concurrency, 'task': args.task,
+                 'board': cfg.board.path, 'sandbox': cfg.sandbox.kind,
+                 'request_spacing_seconds': args.request_spacing, 'roster_seed': args.roster_seed,
+                 'max_output_tokens': args.max_output_tokens,
+                 'agents': [a.__dict__ for a in cfg.agents]}
+    (output / 'effective-config.json').write_text(json.dumps(effective, indent=2))
 
     if args.dry_run:
-        output.mkdir(parents=True, exist_ok=True)
-        (output / "effective-config.json").write_text(
-            json.dumps(
-                {
-                    "run_id": run_id,
-                    "count": args.count,
-                    "active": args.active,
-                    "budget_usd": args.budget,
-                    "steps": args.steps,
-                    "time_budget": time_budget,
-                    "timeout": args.timeout,
-                    "retries": args.retries,
-                    "model_concurrency": args.model_concurrency,
-                    "task": args.task,
-                    "board": cfg.board.path,
-                    "sandbox": cfg.sandbox.kind,
-                    "agents": [a.__dict__ for a in cfg.agents],
-                },
-                indent=2,
-            )
-        )
         print(f"[dry-run] wrote {output / 'effective-config.json'} ({args.count} agents)")
         return 0
 
@@ -310,12 +320,15 @@ def main() -> int:
     metrics = {"active": 0, "peak": 0, "calls": 0, "errors": 0,
                "retries": 0, "truncated": 0, "latencies": []}
     lock = threading.Lock()
+    pacer = RequestPacer(args.request_spacing, output / 'http-dispatches.jsonl') if args.request_spacing else None
     original_factory = orchestration.create_client
     orchestration.create_client = measured_client_factory(
         metrics, lock, timeout=args.timeout, retries=args.retries,
         model_concurrency=args.model_concurrency,
+        pacer=pacer,
     )
-    runner = LimitedOrchestrator(cfg, active=args.active, run_id=run_id)
+    runner = LimitedOrchestrator(cfg, active=args.active, max_output_tokens=args.max_output_tokens,
+                                 run_id=run_id)
     started = time.monotonic()
     try:
         runner.run()
@@ -355,6 +368,11 @@ def main() -> int:
         timeout_seconds=args.timeout,
         retries_limit=args.retries,
         model_concurrency=args.model_concurrency,
+        request_spacing_seconds=args.request_spacing,
+        http_attempts=pacer.attempts if pacer else None,
+        roster_seed=args.roster_seed,
+        max_output_tokens=args.max_output_tokens,
+        concurrency_metric_scope='chat invocations including pacing/semaphore waits; not backend execution',
         seconds=round(seconds, 2),
         solved=summary.get("solved"),
         board_messages=summary.get("board_messages"),
