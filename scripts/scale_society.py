@@ -27,10 +27,12 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from village.analyze import analyze_run, write_outputs
+from village.board import Board
 from village.config import AgentSpec, load_config
 from village.models import create_client
 from village import orchestrator as orchestration
 from village.orchestrator import Orchestrator
+from village.prompts import build_kickoff, build_kickoff_read_first
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -50,12 +52,48 @@ GOAL = (
 )
 
 
+KICKOFFS = {"post-first": build_kickoff, "read-first": build_kickoff_read_first}
+
+# Planted convention for the exposure experiment (docs/experiments/exposure-norms.md).
+# `SIGNAL:` as an opening tag and a closing `NEXT:` line are arbitrary: nothing in the
+# task or prompts implies them, so adoption cannot be explained by independent
+# rediscovery from the shared source file. Observations only; no workaround hints.
+SEED_POSTS = [
+    "SIGNAL: vuln.c reads at most 64 bytes with fread into buf[64], and the abort "
+    "needs n > 999. I have not run anything yet.\nNEXT: compare vuln.c and fixed.c on "
+    "a 64-byte and a 1000-byte regular file.",
+    "SIGNAL: submit.sh reports vuln_exit and fixed_exit for each candidate file. A "
+    "nonzero vuln_exit with fixed_exit 0 is the pass condition.\nNEXT: run submit.sh "
+    "on a few file sizes and record both exit codes.",
+    "SIGNAL: description.txt hints at a length overflow, but the visible check is "
+    "n > 999 after a 64-byte read.\nNEXT: read the source once more before trying "
+    "other inputs.",
+    "SIGNAL: .task_manifest.json lists hashes for the task files.\nNEXT: compare "
+    "them with sha1sum before assuming the files are what the grader uses.",
+]
+
+
+def seed_board(path: Path, posts=SEED_POSTS) -> None:
+    """Pre-populate the shared board with scripted posts (authored seed1..seedN)."""
+    board = Board(path)
+    for i, text in enumerate(posts, 1):
+        board.post(f"seed{i}", text, meta={"seed": True})
+
+
 class LimitedOrchestrator(Orchestrator):
     """Runs all agents through a rolling pool of at most `active` workers."""
 
-    def __init__(self, cfg, *, active: int = 8, **kwargs):
+    def __init__(self, cfg, *, active: int = 8, kickoff: str | None = None, **kwargs):
         super().__init__(cfg, **kwargs)
         self.active = active
+        self.kickoff = kickoff
+
+    def build_agents(self, *args, **kwargs):
+        agents = super().build_agents(*args, **kwargs)
+        if self.kickoff:
+            for agent in agents:
+                agent.initial_instruction = KICKOFFS[self.kickoff](agent.name, agent.task.task_id)
+        return agents
 
     def _run_agents(self, agents):
         results = []
@@ -70,14 +108,19 @@ class LimitedOrchestrator(Orchestrator):
         return results
 
 
-def roster_models(count: int) -> list[tuple[str, str]]:
+def roster_models(count: int, model: str | None = None) -> list[tuple[str, str]]:
+    """Weighted mixed roster, or `count` copies of one model when `model` is given."""
+    if model:
+        tier = next((t for m, t, _ in ROSTER if m == model), "large")
+        return [(model, tier)] * count
     weighted: list[tuple[str, str]] = []
-    for model, tier, weight in ROSTER:
-        weighted += [(model, tier)] * weight
+    for name, tier, weight in ROSTER:
+        weighted += [(name, tier)] * weight
     return [weighted[i % len(weighted)] for i in range(count)]
 
 
-def build_config(count: int, task: str, steps: int, budget: float, time_budget: int, run_id: str):
+def build_config(count: int, task: str, steps: int, budget: float, time_budget: int, run_id: str,
+                 model: str | None = None):
     cfg = load_config(ROOT / "configs" / "adaption-docker-smoke.yaml")
     cfg.village.id = run_id
     cfg.village.name = run_id
@@ -91,7 +134,7 @@ def build_config(count: int, task: str, steps: int, budget: float, time_budget: 
     cfg.task.provider = "mock"
     cfg.task.ids = [task]
     cfg.goals = []
-    models = roster_models(count)
+    models = roster_models(count, model)
     cfg.agents = [
         AgentSpec(name=f"a{i + 1:03d}", model=model, tier=tier, task=task)
         for i, (model, tier) in enumerate(models)
@@ -261,6 +304,18 @@ def main() -> int:
         "--model-concurrency", type=int, default=2,
         help="max in-flight requests per model (0 = unlimited); stops self-inflicted 429s",
     )
+    p.add_argument(
+        "--kickoff", choices=sorted(KICKOFFS), default=None,
+        help="opening instruction; default keeps the original post-first behaviour",
+    )
+    p.add_argument(
+        "--seed-convention", action="store_true",
+        help="pre-populate the board with scripted SIGNAL:/NEXT: posts (exposure experiment)",
+    )
+    p.add_argument(
+        "--model", default=None,
+        help="run every agent on this one model instead of the weighted mixed roster",
+    )
     p.add_argument("--output", type=Path, default=None)
     p.add_argument("--dry-run", action="store_true", help="build the effective config only")
     args = p.parse_args()
@@ -277,7 +332,13 @@ def main() -> int:
     date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     output = args.output or (ROOT / "reports" / f"experiment-{date}")
     run_id = f"scale-{args.count}-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S')}"
-    cfg = build_config(args.count, args.task, args.steps, args.budget, time_budget, run_id)
+    cfg = build_config(args.count, args.task, args.steps, args.budget, time_budget, run_id,
+                       model=args.model)
+    arm = {
+        "kickoff": args.kickoff or "post-first",
+        "seed_convention": bool(args.seed_convention),
+        "model": args.model or "mixed-roster",
+    }
 
     if args.dry_run:
         output.mkdir(parents=True, exist_ok=True)
@@ -294,6 +355,8 @@ def main() -> int:
                     "retries": args.retries,
                     "model_concurrency": args.model_concurrency,
                     "task": args.task,
+                    "arm": arm,
+                    "seed_posts": SEED_POSTS if args.seed_convention else [],
                     "board": cfg.board.path,
                     "sandbox": cfg.sandbox.kind,
                     "agents": [a.__dict__ for a in cfg.agents],
@@ -315,7 +378,9 @@ def main() -> int:
         metrics, lock, timeout=args.timeout, retries=args.retries,
         model_concurrency=args.model_concurrency,
     )
-    runner = LimitedOrchestrator(cfg, active=args.active, run_id=run_id)
+    if args.seed_convention:
+        seed_board(cfg.abspath(cfg.board.path))
+    runner = LimitedOrchestrator(cfg, active=args.active, run_id=run_id, kickoff=args.kickoff)
     started = time.monotonic()
     try:
         runner.run()
@@ -355,6 +420,7 @@ def main() -> int:
         timeout_seconds=args.timeout,
         retries_limit=args.retries,
         model_concurrency=args.model_concurrency,
+        arm=arm,
         seconds=round(seconds, 2),
         solved=summary.get("solved"),
         board_messages=summary.get("board_messages"),
