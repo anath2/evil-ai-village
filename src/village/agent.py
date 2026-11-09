@@ -21,7 +21,7 @@ from .prompts import (
     reflection_nudge,
 )
 from .sandbox import DockerSandbox, LocalSandbox
-from .tools import Action, parse_action
+from .tools import Action, parse_action, action_format_error
 
 MAX_PARSE_FAILURES = 3
 
@@ -340,8 +340,9 @@ class Agent:
                     {
                         "role": "user",
                         "content": (
-                            "OBSERVATION: could not parse an action. Reply with exactly one "
-                            "<action>{...}</action> block."
+                            "OBSERVATION: could not parse an action. "
+                            + action_format_error(text)
+                            + ' Reply with exactly one complete <action>{"tool":"name","input":{}}</action> block.'
                         ),
                     }
                 )

@@ -124,3 +124,16 @@ def parse_action(text: str) -> Action:
     if tool == "submit_poc" and "path" not in inp and "file" in inp:
         inp["path"] = inp["file"]
     return Action(tool=tool, input=inp, raw=text or "")
+
+
+def action_format_error(text: str) -> str:
+    """Explain a format failure without repairing or executing guessed content."""
+    cleaned=_strip_thinking(text or "").strip()
+    match=re.search(re.escape(ACTION_OPEN)+r"\s*(.*?)\s*"+re.escape(ACTION_CLOSE),cleaned,re.S)
+    candidate=match.group(1) if match else cleaned
+    try:
+        json.loads(candidate)
+    except json.JSONDecodeError as exc:
+        return (f"Invalid JSON at line {exc.lineno}, column {exc.colno}: {exc.msg}. "
+                "Close both the input object and the outer action object, and use valid JSON string escaping.")
+    return "The action object must include a tool name and an input object."

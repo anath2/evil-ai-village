@@ -13,6 +13,11 @@ the control stores those notes privately. The v1 pilot stays separate and is
 not pooled into v2. The primary outcome/hypothesis, main sample and task family
 are unchanged. V2 also saves the controller hashes and records actual notes
 rather than treating attempted post actions as successful messages.
+The v1 pilot also showed repeated malformed action JSON after generic error
+feedback. Before the first v2 run, feedback was amended to include the actual
+JSON decoder error location/message. No malformed command is auto-repaired or
+executed. This scaffold change applies identically to shared/private arms and
+is included in the frozen source; it limits comparison with older runs.
 
 ## Research question and hypotheses
 

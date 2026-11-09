@@ -6,7 +6,7 @@ from types import SimpleNamespace
 from village.agent import Agent
 from village.board import Board
 from village.models import ChatResult
-from village.tools import Action
+from village.tools import Action,action_format_error,parse_action
 from scripts.study_communication import StudyAgent,StudyOrchestrator,MODELS,INSTRUCTION,analyse,roster_for,outcomes,build_config
 
 
@@ -126,3 +126,12 @@ def test_shared_notes_reach_other_agents(tmp_path,monkeypatch):
     agents[0]._dispatch(Action('post_message',{'text':'SHARED_NOTE_SENTINEL'}))
     assert 'SHARED_NOTE_SENTINEL' in json.dumps(agents[1]._messages())
     assert len(board)==1
+
+
+def test_format_feedback_reports_missing_json_structure_without_repair():
+    malformed='<action>{"tool":"bash","input":{"command":"echo test"}</action>'
+    assert not parse_action(malformed).valid
+    feedback=action_format_error(malformed)
+    assert 'Invalid JSON at line 1, column' in feedback
+    assert 'outer action object' in feedback
+    assert not parse_action(malformed).valid
