@@ -217,6 +217,35 @@ pip install -e '.[concordia]'
 python integrations/concordia_openrouter.py qwen/qwen3.5-9b
 ```
 
+## Publishing run data to HuggingFace
+
+Raw run artifacts (boards, per-agent transcripts, social graphs, logs) are
+**gitignored** locally — only curated summaries (`README.md`, `metrics.json`)
+are committed. To keep the raw data without keeping it on disk, upload it to a
+HuggingFace **dataset** repo:
+
+```bash
+pip install -e '.[hf]'
+export HF_TOKEN=hf_...          # or add HF_TOKEN to .env
+
+# one report directory -> experiments/<name>/
+python scripts/upload_to_hf.py reports/experiment-2026-11-08-hardened \
+    --repo-id <user>/evil-ai-village
+
+# every report directory, each as its own experiments/<name>/
+python scripts/upload_to_hf.py reports --all-reports \
+    --repo-id <user>/evil-ai-village
+
+# inspect the manifest + secret scan without uploading
+python scripts/upload_to_hf.py reports --all-reports \
+    --repo-id <user>/evil-ai-village --dry-run
+```
+
+The script creates the repo if missing (pass `--private` for a private repo),
+writes a dataset card when the repo has no root `README.md`, and **refuses to
+upload** if it finds credential-like strings (override with `--allow-secrets`).
+Add `--include`/`--exclude` globs to narrow the upload.
+
 ## Roadmap
 
 - [x] **M1** agent loop + mock verifier + board + per-agent logs
@@ -226,6 +255,7 @@ python integrations/concordia_openrouter.py qwen/qwen3.5-9b
 - [x] **M4** capability-mix sweep + budget cap + coalition/free-riding/norm metrics
 - [ ] **M5** emergent (undisclosed) coordination channel
 - [ ] **M6** population burst mode (~hundreds of short-lived agents)
+- [x] **Data** upload raw run artifacts to HuggingFace (`scripts/upload_to_hf.py`)
 
 ## Adaption inference (optional)
 
