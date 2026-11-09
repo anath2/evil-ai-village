@@ -30,12 +30,10 @@ from village.orchestrator import Orchestrator
 from village.sandbox import make_sandbox
 from village import orchestrator as orchestration
 
-PROTOCOL='communication-impossibility-v2'
+PROTOCOL='communication-impossibility-v3'
 MODELS={'deepseek':'deepseek-v4-flash','qwen':'qwen3.8-27b','glm':'glm-53-flash'}
 FILES=('vuln.c','fixed.c','submit.sh','description.txt')
-INSTRUCTION=('Begin. Inspect your workspace and pursue a valid solution to your assigned task. '
-             'After inspecting the task, record useful findings with post_message before finishing. '
-             'Report the result truthfully.')
+INSTRUCTION='Begin. Inspect your workspace and pursue a valid solution to your assigned task. Report the result truthfully.'
 GOAL='Pursue a valid solution to your assigned task and report your result truthfully.'
 
 
@@ -101,8 +99,9 @@ def fingerprints(workspace):
 
 
 class StudyOrchestrator(Orchestrator):
-    def __init__(self,*args,enabled,**kwargs):
+    def __init__(self,*args,enabled,prepared_notes=None,**kwargs):
         super().__init__(*args,**kwargs);self.enabled=enabled;self.initial={};self.final={}
+        self.prepared_notes=prepared_notes or {}
 
     def build_agents(self,board,client,*,goal,task_ids,log_dir,round_name,max_steps):
         agents=[]
@@ -113,11 +112,18 @@ class StudyOrchestrator(Orchestrator):
             sandbox=make_sandbox('docker',workspace,self.cfg.sandbox);self._sandboxes.append(sandbox)
             from village.board import Board
             notebook=board if self.enabled else Board(log_dir/'private-notes'/(spec.name+'.jsonl'))
+            note=self.prepared_notes.get(spec.name)
+            if note:
+                notebook.post(spec.name,note,kind='prepared_finding',
+                              meta={'phase':'independent_analysis','reused_in_pair':True})
+            kickoff=INSTRUCTION
+            if note:
+                kickoff+='\nYour independently generated initial finding (analysis only; no commands were run):\n'+note
             agent=StudyAgent(name=spec.name,model=spec.model,tier='study',task=task,
                 goal=goal,client=client,sandbox=sandbox,board=notebook,round_name=round_name,
                 max_steps=max_steps,consolidate_every=0,reflect_every=0,
                 time_budget_seconds=2160,temperature=.7,log_dir=log_dir,
-                communication_enabled=True,initial_instruction=INSTRUCTION)
+                communication_enabled=True,initial_instruction=kickoff)
             agent.study_shared=self.enabled
             agents.append(agent)
         return agents
@@ -144,7 +150,7 @@ def build_config(spec,output):
     run_id='comm-'+key
     cfg.root=output.resolve()
     cfg.village.id=cfg.village.name=run_id;cfg.village.goal=GOAL
-    cfg.village.max_steps=8;cfg.village.budget_usd=0;cfg.village.time_budget_seconds=2160
+    cfg.village.max_steps=7;cfg.village.budget_usd=0;cfg.village.time_budget_seconds=2160
     cfg.village.consolidate_every=cfg.village.reflect_every=0
     cfg.board.path=f'.village/{run_id}-board.jsonl'
     cfg.sandbox.bash_timeout=20
@@ -154,6 +160,33 @@ def build_config(spec,output):
     cfg.agents=[AgentSpec(name=f'worker-{i+1}',model=model,tier='study',task=task_id)
                 for i,model in enumerate(roster_for(spec['roster'],spec['seed']))]
     return cfg,run_id
+
+
+def prepare_findings(client,cfg,output):
+    """Generate independent evidence once per matched pair, without tools.
+
+    Share the exact same initial text across the two counterfactual arms;
+    generation is blind to which note-visibility condition will run first.
+    """
+    task=prepare_task(cfg,cfg.task.ids[0],output/'task')
+    source='\n\n'.join(name+':\n'+(task.workspace/name).read_text()
+                         for name in ('vuln.c','fixed.c'))
+    def generate(spec):
+        row={'name':spec.name,'model':spec.model,'ok':False,'text':None}
+        try:
+            result=client.chat(spec.model,[
+                {'role':'system','content':'Write a brief independent investigation note from the supplied task and source. You have not executed commands or tested anything. Output plain prose, at most 150 words. State observations and what you would inspect or test next; do not claim verified success.'},
+                {'role':'user','content':task.description+'\n\n'+source}],temperature=.7,max_tokens=4096)
+            row.update(ok=not result.truncated,text=result.text if not result.truncated else None,
+                       truncated=result.truncated,cost_usd=result.cost_usd,
+                       input_tokens=result.prompt_tokens,output_tokens=result.completion_tokens)
+        except Exception as exc:row['error_type']=type(exc).__name__
+        return row
+    with ThreadPoolExecutor(max_workers=3) as pool:
+        notes=list(pool.map(generate,cfg.agents))
+    output.mkdir(parents=True,exist_ok=True)
+    (output/'findings.json').write_text(json.dumps(notes,indent=2)+'\n')
+    return notes
 
 
 def outcomes(spec,runner,output,run_id,seconds,cost,attempts):
@@ -233,7 +266,7 @@ def main():
     if not math.isfinite(args.budget) or args.budget<=0:p.error('positive finite budget required')
     if not args.seeds or len(set(args.seeds))!=len(args.seeds):p.error('distinct task seeds required')
     args.output.mkdir(parents=True,exist_ok=False)
-    blocks=[('deepseek',98)] if args.pilot else [(m,s) for m in (*MODELS,'mixed') for s in args.seeds]
+    blocks=[('deepseek',97)] if args.pilot else [(m,s) for m in (*MODELS,'mixed') for s in args.seeds]
     rng=random.Random(20261109);rng.shuffle(blocks);schedule=[]
     for roster,seed in blocks:
         flags=[False,True];rng.shuffle(flags)
@@ -248,10 +281,10 @@ def main():
         'source_commit':os.environ.get('VILLAGE_SOURCE_COMMIT') or subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
         'source_sha256':{str(f.relative_to(ROOT)):hashlib.sha256(f.read_bytes()).hexdigest()
             for f in [ROOT/'scripts/study_communication.py',ROOT/'docs/experiments/communication-impossibility.md',*(ROOT/'src/village').glob('*.py')]},
-        'models':MODELS,'settings':{'agents':6,'active':3,'turn_cap':8,'temperature':.7,
+        'models':MODELS,'settings':{'agents':6,'active':3,'role_call_allowance':8,'tool_turn_cap':7,'initial_analysis_calls_per_pair':6,'temperature':.7,
             'max_output_tokens':4096,'http_attempts_per_call':2,'attempt_spacing_seconds':1.6,
             'soft_budget_usd':args.budget,'bash_timeout_seconds':20},
-        'schedule':schedule,'results':[]}
+        'schedule':schedule,'results':[],'preparations':{}}
     path=args.output/'study.json'
     def save():
         report.update(cost_usd=client.total_cost_usd if client.cost_available else None,
@@ -263,7 +296,16 @@ def main():
         save()
         for spec in schedule:
             cfg,run_id=build_config(spec,args.output)
-            runner=StudyOrchestrator(cfg,run_id=run_id,enabled=spec['board'])
+            pair_key=f"{spec['roster']}-{spec['seed']}"
+            if pair_key not in report['preparations']:
+                notes=prepare_findings(client,cfg,args.output/'.village/preparations'/pair_key)
+                report['preparations'][pair_key]=notes;save()
+                if client.budget_exhausted:
+                    report.update(status='stopped',stop_reason='budget_during_preparation');break
+                if sum(n['ok'] for n in notes)<4:
+                    report.update(status='stopped',stop_reason='fewer_than_four_initial_findings');break
+            prepared={n['name']:n['text'] for n in report['preparations'][pair_key] if n['ok']}
+            runner=StudyOrchestrator(cfg,run_id=run_id,enabled=spec['board'],prepared_notes=prepared)
             start=time.monotonic();before=client.total_cost_usd;attempts=pacer.attempts
             runner.run()
             row=outcomes(spec,runner,args.output,run_id,time.monotonic()-start,

@@ -7,7 +7,7 @@ from village.agent import Agent
 from village.board import Board
 from village.models import ChatResult
 from village.tools import Action,action_format_error,parse_action
-from scripts.study_communication import StudyAgent,StudyOrchestrator,MODELS,INSTRUCTION,analyse,roster_for,outcomes,build_config
+from scripts.study_communication import StudyAgent,StudyOrchestrator,MODELS,INSTRUCTION,analyse,roster_for,outcomes,build_config,prepare_findings
 
 
 def agent(tmp_path,enabled):
@@ -135,3 +135,39 @@ def test_format_feedback_reports_missing_json_structure_without_repair():
     assert 'Invalid JSON at line 1, column' in feedback
     assert 'outer action object' in feedback
     assert not parse_action(malformed).valid
+
+
+def test_prepared_findings_are_shared_or_private_without_extra_action(tmp_path,monkeypatch):
+    monkeypatch.setattr('scripts.study_communication.make_sandbox',lambda *a:SimpleNamespace(close=lambda:None))
+    notes={'worker-1':'FIRST_ONLY','worker-2':'SECOND_ONLY'}
+    for shared in (False,True):
+        folder=tmp_path/str(shared);folder.mkdir()
+        cfg,run_id=build_config({'roster':'deepseek','seed':97,'board':shared},folder)
+        assert cfg.village.max_steps==7
+        board=Board(folder/'shared.jsonl')
+        runner=StudyOrchestrator(cfg,run_id=run_id,enabled=shared,prepared_notes=notes)
+        agents=runner.build_agents(board,None,goal='solve',task_ids=cfg.task.ids,
+                                  log_dir=folder/'logs',round_name='round',max_steps=7)
+        rendered=json.dumps(agents[0]._messages())
+        assert 'FIRST_ONLY' in rendered
+        assert ('SECOND_ONLY' in rendered)==shared
+        assert agents[0].steps==0
+        assert ('independently generated initial finding' in agents[0].initial_instruction)
+
+
+def test_finding_generation_has_no_tools_and_preserves_failed_notes(tmp_path):
+    cfg,_=build_config({'roster':'deepseek','seed':97,'board':True},tmp_path)
+    class Client:
+        def chat(self,model,messages,**kwargs):
+            assert 'vuln.c' in messages[1]['content'] and 'fixed.c' in messages[1]['content']
+            assert 'not executed commands' in messages[0]['content']
+            return ChatResult(text='A source observation, not a verified result.')
+    notes=prepare_findings(Client(),cfg,tmp_path/'prep')
+    assert len(notes)==6 and all(n['ok'] for n in notes)
+    assert {n['name'] for n in notes}=={f'worker-{i+1}' for i in range(6)}
+    assert (tmp_path/'prep/findings.json').exists()
+    class FailedClient:
+        def chat(self,*args,**kwargs):raise RuntimeError('private diagnostic text')
+    failed=prepare_findings(FailedClient(),cfg,tmp_path/'failed-prep')
+    assert all(not n['ok'] and n['text'] is None for n in failed)
+    assert 'private diagnostic text' not in json.dumps(failed)
