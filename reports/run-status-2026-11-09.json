@@ -1,5 +1,5 @@
 {
-  "observed_utc": "2026-11-09T09:34:59.806096+00:00",
+  "observed_utc": "2026-11-09T09:36:28.309457+00:00",
   "original_500": {
     "status": "retired",
     "removed_containers": 497,
@@ -15,7 +15,7 @@
     "note": "Do not thaw blindly: coordinator is also SIGSTOP-held so its old wall-clock timeout cannot immediately kill the runner. Resume needs supervision and stale HTTP/agent deadlines accounted for."
   },
   "ajit_settings_500": {
-    "status": "running_after_brief_host_pressure_pause",
+    "status": "replacement_setting_up_after_host_recovery",
     "steps": 6,
     "active_limit": 8,
     "budget_usd": 3,
@@ -24,6 +24,9 @@
     "model_concurrency": 4,
     "time_budget_seconds": 1800,
     "source_commit": "c40f9cc239ce902e7f10a35860dc4b5c20ed3342",
-    "note": "Repeats supplied CLI settings; Ajit original execution commit remains unverified. Host-relief pause contaminates wall-time comparison. No completed results claimed."
+    "note": "Repeats supplied CLI settings; Ajit original execution commit remains unverified. Host-relief pause contaminates wall-time comparison. No completed results claimed.",
+    "unit": "village-ajit-settings-500-retry-20261109t093546z",
+    "service_wall_limit_seconds": 8280,
+    "previous_attempt": "Container creation timed out under host pressure; zero model usage recorded. Replacement uses same c40f9cc frozen source and CLI parameters."
   }
 }
