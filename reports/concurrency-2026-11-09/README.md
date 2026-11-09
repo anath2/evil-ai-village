@@ -39,7 +39,7 @@ and sampling settings were unchanged. The control used a new nonce trial ID.
 
 Raw synthetic request records remain local under
 `.village/concurrency-20261109T042453Z/`. This public-facing report contains
-curated summaries only; the new code, notes and summaries are currently local.
+curated summaries only; the probe code, notes and summaries are versioned in Git.
 Reported API costs include warmup and are not reconciled billing; transport
 failures may incur unreported charges. Source files are hashed because the new
 probe was run from a frozen copy before its code was committed.

@@ -218,7 +218,7 @@ def main():
     pacer=Pacer();client._client.event_hooks['request']=[pacer]
     report={'protocol':PROTOCOL,'pilot':args.pilot,'status':'running',
         'started_utc':datetime.now(timezone.utc).isoformat(),
-        'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
+        'source_commit':os.environ.get('VILLAGE_SOURCE_COMMIT') or subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
         'source_sha256':{str(f.relative_to(ROOT)):hashlib.sha256(f.read_bytes()).hexdigest()
             for f in [ROOT/'scripts/study_communication.py',ROOT/'docs/experiments/communication-impossibility.md',*(ROOT/'src/village').glob('*.py')]},
         'models':MODELS,'settings':{'agents':6,'active':3,'turn_cap':8,'temperature':.7,
