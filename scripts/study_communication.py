@@ -227,11 +227,13 @@ def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--output',type=Path,required=True)
     p.add_argument('--pilot',action='store_true')
-    p.add_argument('--budget',type=float,default=3)
+    p.add_argument('--budget',type=float,default=10)
+    p.add_argument('--seeds',type=int,nargs='+',default=list(range(6)))
     args=p.parse_args()
     if not math.isfinite(args.budget) or args.budget<=0:p.error('positive finite budget required')
+    if not args.seeds or len(set(args.seeds))!=len(args.seeds):p.error('distinct task seeds required')
     args.output.mkdir(parents=True,exist_ok=False)
-    blocks=[('deepseek',98)] if args.pilot else [(m,s) for m in (*MODELS,'mixed') for s in range(3)]
+    blocks=[('deepseek',98)] if args.pilot else [(m,s) for m in (*MODELS,'mixed') for s in args.seeds]
     rng=random.Random(20261109);rng.shuffle(blocks);schedule=[]
     for roster,seed in blocks:
         flags=[False,True];rng.shuffle(flags)

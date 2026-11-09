@@ -37,14 +37,18 @@ prompts, thresholds and outcomes must not be tuned on main-run results.
 - Six agents per village; at most three active agent loops at a time.
 - Homogeneous DeepSeek V4 Flash, Qwen 3.8 27B, GLM 5.3 Flash villages, plus a
   separately reported mixed roster with two agents from each family.
-- Board on/off for every roster and seeds 0, 1, 2: **24 villages, 144 agents**,
-  up to eight model turns each (1152 calls, excluding HTTP retries).
-- Main analysis pools the nine matched homogeneous pairs; each family also
-  gets its own counts. Three mixed pairs are exploratory, not additional
+- Shared/private for every roster and seeds 0 through 5: **48 villages, 288 agents**,
+  up to eight model turns each (2304 calls, excluding HTTP retries). Before
+  the first v2 pilot or any main data, the sample was expanded from three to
+  six seeds following the user's additional credit allocation. This was not
+  a response to a main-study result; the fixed sample must not expand after
+  unblinding main outcomes.
+- Main analysis pools the 18 matched homogeneous pairs; each family also
+  gets its own counts. Six mixed pairs are exploratory, not additional
   independent replications of a homogeneous effect.
 - API temperature 0.7, output allowance 4096, timeout 120 seconds, at most two
   HTTP attempts per call. Shared pacing spaces every HTTP attempt by at least
-  1.6 seconds, including retries; no per-model semaphore. Shared $3 USD soft
+  1.6 seconds, including retries; no per-model semaphore. Shared $10 USD soft
   budget across the main study. In-flight calls may overshoot, and unknown
   cost stops the study. Provider usage is not reconciled billing.
 - Runtime deadline per active agent is 2160 seconds; task bash timeout is 20
@@ -123,7 +127,7 @@ prompts to manufacture target changes or hide an uninformative result.
 
 The unit is the whole village, not its six dependent agents. Report all paired
 binary outcomes and the paired risk difference. An exact two-sided McNemar
-test describes the nine homogeneous pairs, alongside per-family counts.
+test describes the 18 homogeneous pairs, alongside per-family counts.
 Discrete low-powered tests cannot establish equivalence. Peer exposure,
 shared wording and temporal examples are descriptive evidence, not automatic
 proof that a particular message caused a particular action. Mixed composition
