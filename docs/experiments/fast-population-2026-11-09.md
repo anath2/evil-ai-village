@@ -1,5 +1,23 @@
 # Fresh paced population run — 2026-11-09
 
+## User-requested speed amendment
+
+After the 28-agent canary passed operational readiness (28/28 returned, zero
+model-call errors, no sandbox loss; valid-turn yield 89.3%), the six-turn
+500-agent run began at 08:27 UTC. The user immediately requested a faster run.
+Only that new run was interrupted; its partial evidence is retained separately.
+The original earlier SIGSTOP-paused process remains unchanged.
+
+The replacement keeps 500 agents, the shuffled four-model roster, 28 rolling
+active loops, 1.6-second HTTP spacing and the 8,192-token output allowance,
+but caps each agent at **three action turns**. At most 1,500 action calls means
+approximately 40 minutes of paced dispatch before retries/setup/tail. Target
+45–60 minutes, with a 90-minute main cutoff. The successful canary is reused,
+not rerun. This is a shorter behavioral window and is not comparable to a
+completed six-turn study. A completed process must still report malformed
+actions and cannot establish useful cooperation. The remaining frozen-plan
+text below describes the superseded six-turn attempt for provenance.
+
 The user authorised a separate faster 500-agent run because the original
 SIGSTOP-paused run would likely need approximately six additional hours at
 its old settings. The old process and its containers remain untouched.
