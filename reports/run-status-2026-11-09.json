@@ -1,0 +1,29 @@
+{
+  "observed_utc": "2026-11-09T09:34:59.806096+00:00",
+  "original_500": {
+    "status": "retired",
+    "removed_containers": 497,
+    "data_preserved": true,
+    "resumable": false,
+    "note": "Small stopped controller retained temporarily to prevent root service ExecStopPost from revoking Docker socket access needed by remaining runs."
+  },
+  "fast_500": {
+    "status": "cgroup_frozen",
+    "steps": 6,
+    "active_limit": 28,
+    "runtime_service_limit": "infinity while paused",
+    "note": "Do not thaw blindly: coordinator is also SIGSTOP-held so its old wall-clock timeout cannot immediately kill the runner. Resume needs supervision and stale HTTP/agent deadlines accounted for."
+  },
+  "ajit_settings_500": {
+    "status": "running_after_brief_host_pressure_pause",
+    "steps": 6,
+    "active_limit": 8,
+    "budget_usd": 3,
+    "timeout_seconds": 120,
+    "retries": 5,
+    "model_concurrency": 4,
+    "time_budget_seconds": 1800,
+    "source_commit": "c40f9cc239ce902e7f10a35860dc4b5c20ed3342",
+    "note": "Repeats supplied CLI settings; Ajit original execution commit remains unverified. Host-relief pause contaminates wall-time comparison. No completed results claimed."
+  }
+}
