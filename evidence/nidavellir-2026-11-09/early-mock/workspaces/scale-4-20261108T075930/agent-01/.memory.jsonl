@@ -1,0 +1,1 @@
+{"text": "mock:1 solved. PoC is poc.bin containing 9 bytes ('123456789'). Vulnerability: vuln.c aborts when fread returns n>8; fixed.c just prints length and exits 0. submit.sh confirmed exit_code 0, poc_id f7c3bc1d808e04732adf679965ccc34ca7ae3441, length 9.", "kind": "consolidate", "ts": 1794124789.1536381}

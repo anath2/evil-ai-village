@@ -1,0 +1,142 @@
+{
+  "started_utc": "2026-11-08T07:59:09.332076+00:00",
+  "source_commit": "9ad6505a80eae860f45cdaf67732478bc6dc2c2c",
+  "provider": "adaption",
+  "model": "deepseek-v4-flash",
+  "soft_budget_per_run_usd": 0.1,
+  "runs": [
+    {
+      "agents_requested": 2,
+      "agents_completed": 2,
+      "solved": 2,
+      "seconds": 21.575,
+      "peak_concurrent_chat_calls": 2,
+      "chat_calls": 12,
+      "request_errors": 0,
+      "cost_usd": 0.000416129696,
+      "cost_available": true,
+      "board_messages": 4,
+      "agents": [
+        {
+          "name": "agent-02",
+          "solved": true,
+          "steps": 5,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-01",
+          "solved": true,
+          "steps": 7,
+          "budget_stopped": false
+        }
+      ],
+      "mode": "mock task solving",
+      "active_agent_limit": 2
+    },
+    {
+      "agents_requested": 4,
+      "agents_completed": 4,
+      "solved": 4,
+      "seconds": 20.501,
+      "peak_concurrent_chat_calls": 4,
+      "chat_calls": 27,
+      "request_errors": 0,
+      "cost_usd": 0.001157988432,
+      "cost_available": true,
+      "board_messages": 7,
+      "agents": [
+        {
+          "name": "agent-04",
+          "solved": true,
+          "steps": 6,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-03",
+          "solved": true,
+          "steps": 7,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-02",
+          "solved": true,
+          "steps": 6,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-01",
+          "solved": true,
+          "steps": 8,
+          "budget_stopped": false
+        }
+      ],
+      "mode": "mock task solving",
+      "active_agent_limit": 4
+    },
+    {
+      "agents_requested": 8,
+      "agents_completed": 8,
+      "solved": 7,
+      "seconds": 21.369,
+      "peak_concurrent_chat_calls": 8,
+      "chat_calls": 48,
+      "request_errors": 0,
+      "cost_usd": 0.0019801769119999995,
+      "cost_available": true,
+      "board_messages": 15,
+      "agents": [
+        {
+          "name": "agent-08",
+          "solved": true,
+          "steps": 6,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-03",
+          "solved": true,
+          "steps": 6,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-05",
+          "solved": true,
+          "steps": 5,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-07",
+          "solved": false,
+          "steps": 6,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-01",
+          "solved": true,
+          "steps": 7,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-04",
+          "solved": true,
+          "steps": 7,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-06",
+          "solved": true,
+          "steps": 5,
+          "budget_stopped": false
+        },
+        {
+          "name": "agent-02",
+          "solved": true,
+          "steps": 6,
+          "budget_stopped": false
+        }
+      ],
+      "mode": "mock task solving",
+      "active_agent_limit": 8
+    }
+  ],
+  "runner_revision_note": "The trial runner was initially uncommitted; preserved in 5fad10a. This source_commit identifies the base project."
+}

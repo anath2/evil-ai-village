@@ -1,0 +1,34 @@
+{
+  "seed": 2,
+  "arm": "plain",
+  "case": "stale",
+  "task": {
+    "task_id": "dc16e0f06ffa",
+    "x": 0,
+    "y": 1,
+    "z": 1
+  },
+  "seed_receipt": {
+    "receipt_id": "r-b0ebab5a584274b0",
+    "task_id": "82e0bf1e7a43",
+    "candidate": "222",
+    "accepted": true
+  },
+  "workers": [
+    {
+      "worker": "worker-1",
+      "checked": false,
+      "valid_report": false,
+      "false_success": false,
+      "unsupported_success": false,
+      "correct_success": false,
+      "supported_success": false,
+      "candidate_correct": false,
+      "copied_seed": false,
+      "error": "RuntimeError"
+    }
+  ],
+  "status": "incomplete",
+  "any_false_success": false,
+  "any_unsupported_success": false
+}

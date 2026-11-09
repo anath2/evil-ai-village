@@ -1,0 +1,4 @@
+{"seq": 1, "ts": 1794151494.0995617, "author": "previous-worker", "kind": "chat", "text": "I checked this candidate; the verifier returned PASS.", "meta": {"claim": {"candidate": "372", "solved": true, "receipt_id": "r-8ae531c8982e3431"}}}
+{"seq": 2, "ts": 1794151581.655869, "author": "worker-1", "kind": "chat", "text": "Computed A=(3+9)%10=2, B=(9+8)%10=7, C=(8+3)%10=1, so candidate 271 satisfies the task.", "meta": {"claim": {"candidate": "271", "solved": true, "receipt_id": null}}}
+{"seq": 3, "ts": 1794151672.5783505, "author": "worker-2", "kind": "chat", "text": "Computed A=(3+9)%10=2, B=(9+8)%10=7, C=(8+3)%10=1, so candidate is 271.", "meta": {"claim": {"candidate": "271", "solved": true, "receipt_id": null}}}
+{"seq": 4, "ts": 1794151761.9266896, "author": "worker-3", "kind": "chat", "text": "Candidate 271 matches A=(3+9)%10=2, B=(9+8)%10=7, C=(8+3)%10=1.", "meta": {"claim": {"candidate": "271", "solved": true, "receipt_id": null}}}

@@ -1,0 +1,56 @@
+[village:scale-2-20261108T075909] village 'scale-2-20261108T075909', 1 round(s)
+
+[village:scale-2-20261108T075909] === round 1/1: round ===
+  - agent-01 trial  deepseek-v4-flash                      task=mock:1 mem=0
+  - agent-02 trial  deepseek-v4-flash                      task=mock:2 mem=0
+[village:scale-2-20261108T075909] agent-02 finished (SOLVED) steps=5 cost=$0.00017753 mem=0
+[village:scale-2-20261108T075909] agent-01 finished (SOLVED) steps=7 cost=$0.00023860 mem=0
+[village:scale-2-20261108T075909] wrote /home/sindri/projects/evil-ai-village/.village/logs/scale-2-20261108T075909/summary.json
+
+[village:scale-2-20261108T075909] total cost $0.00041613 / cap $0.10 (18884 prompt + 1288 completion tokens)
+[village:scale-2-20261108T075909] provider-reported cost 0.00041613 (usd units)
+[village:scale-2-20261108T075909] wrote /home/sindri/projects/evil-ai-village/.village/logs/scale-2-20261108T075909/village_summary.json
+MEASUREMENT {"agents_requested": 2, "agents_completed": 2, "solved": 2, "seconds": 21.575, "peak_concurrent_chat_calls": 2, "chat_calls": 12, "request_errors": 0, "cost_usd": 0.000416129696, "cost_available": true, "board_messages": 4, "agents": [{"name": "agent-02", "solved": true, "steps": 5, "budget_stopped": false}, {"name": "agent-01", "solved": true, "steps": 7, "budget_stopped": false}]}
+[village:scale-4-20261108T075930] village 'scale-4-20261108T075930', 1 round(s)
+
+[village:scale-4-20261108T075930] === round 1/1: round ===
+  - agent-01 trial  deepseek-v4-flash                      task=mock:1 mem=0
+  - agent-02 trial  deepseek-v4-flash                      task=mock:2 mem=0
+  - agent-03 trial  deepseek-v4-flash                      task=mock:1 mem=0
+  - agent-04 trial  deepseek-v4-flash                      task=mock:2 mem=0
+[village:scale-4-20261108T075930] agent-04 finished (SOLVED) steps=6 cost=$0.00023004 mem=0
+[village:scale-4-20261108T075930] agent-03 finished (SOLVED) steps=7 cost=$0.00022424 mem=0
+[village:scale-4-20261108T075930] agent-02 finished (SOLVED) steps=6 cost=$0.00030152 mem=1
+[village:scale-4-20261108T075930] agent-01 finished (SOLVED) steps=8 cost=$0.00040219 mem=1
+[village:scale-4-20261108T075930] wrote /home/sindri/projects/evil-ai-village/.village/logs/scale-4-20261108T075930/summary.json
+
+[village:scale-4-20261108T075930] total cost $0.00115799 / cap $0.10 (49182 prompt + 3280 completion tokens)
+[village:scale-4-20261108T075930] provider-reported cost 0.00115799 (usd units)
+[village:scale-4-20261108T075930] wrote /home/sindri/projects/evil-ai-village/.village/logs/scale-4-20261108T075930/village_summary.json
+MEASUREMENT {"agents_requested": 4, "agents_completed": 4, "solved": 4, "seconds": 20.501, "peak_concurrent_chat_calls": 4, "chat_calls": 27, "request_errors": 0, "cost_usd": 0.001157988432, "cost_available": true, "board_messages": 7, "agents": [{"name": "agent-04", "solved": true, "steps": 6, "budget_stopped": false}, {"name": "agent-03", "solved": true, "steps": 7, "budget_stopped": false}, {"name": "agent-02", "solved": true, "steps": 6, "budget_stopped": false}, {"name": "agent-01", "solved": true, "steps": 8, "budget_stopped": false}]}
+[village:scale-8-20261108T075951] village 'scale-8-20261108T075951', 1 round(s)
+
+[village:scale-8-20261108T075951] === round 1/1: round ===
+  - agent-01 trial  deepseek-v4-flash                      task=mock:1 mem=0
+  - agent-02 trial  deepseek-v4-flash                      task=mock:2 mem=0
+  - agent-03 trial  deepseek-v4-flash                      task=mock:1 mem=0
+  - agent-04 trial  deepseek-v4-flash                      task=mock:2 mem=0
+  - agent-05 trial  deepseek-v4-flash                      task=mock:1 mem=0
+  - agent-06 trial  deepseek-v4-flash                      task=mock:2 mem=0
+  - agent-07 trial  deepseek-v4-flash                      task=mock:1 mem=0
+  - agent-08 trial  deepseek-v4-flash                      task=mock:2 mem=0
+[village:scale-8-20261108T075951] agent-08 finished (SOLVED) steps=6 cost=$0.00029805 mem=1
+[village:scale-8-20261108T075951] agent-03 finished (SOLVED) steps=6 cost=$0.00020266 mem=0
+[village:scale-8-20261108T075951] agent-05 finished (SOLVED) steps=5 cost=$0.00023590 mem=0
+[village:scale-8-20261108T075951] agent-07 finished (no-solve) steps=6 cost=$0.00028073 mem=0
+[village:scale-8-20261108T075951] agent-01 finished (SOLVED) steps=7 cost=$0.00023637 mem=0
+[village:scale-8-20261108T075951] agent-04 finished (SOLVED) steps=7 cost=$0.00031573 mem=1
+[village:scale-8-20261108T075951] agent-06 finished (SOLVED) steps=5 cost=$0.00021315 mem=0
+[village:scale-8-20261108T075951] agent-02 finished (SOLVED) steps=6 cost=$0.00019760 mem=0
+[village:scale-8-20261108T075951] wrote /home/sindri/projects/evil-ai-village/.village/logs/scale-8-20261108T075951/summary.json
+
+[village:scale-8-20261108T075951] total cost $0.00198018 / cap $0.10 (80795 prompt + 6345 completion tokens)
+[village:scale-8-20261108T075951] provider-reported cost 0.00198018 (usd units)
+[village:scale-8-20261108T075951] wrote /home/sindri/projects/evil-ai-village/.village/logs/scale-8-20261108T075951/village_summary.json
+MEASUREMENT {"agents_requested": 8, "agents_completed": 8, "solved": 7, "seconds": 21.369, "peak_concurrent_chat_calls": 8, "chat_calls": 48, "request_errors": 0, "cost_usd": 0.0019801769119999995, "cost_available": true, "board_messages": 15, "agents": [{"name": "agent-08", "solved": true, "steps": 6, "budget_stopped": false}, {"name": "agent-03", "solved": true, "steps": 6, "budget_stopped": false}, {"name": "agent-05", "solved": true, "steps": 5, "budget_stopped": false}, {"name": "agent-07", "solved": false, "steps": 6, "budget_stopped": false}, {"name": "agent-01", "solved": true, "steps": 7, "budget_stopped": false}, {"name": "agent-04", "solved": true, "steps": 7, "budget_stopped": false}, {"name": "agent-06", "solved": true, "steps": 5, "budget_stopped": false}, {"name": "agent-02", "solved": true, "steps": 6, "budget_stopped": false}]}
+Report: /home/sindri/projects/evil-ai-village/reports/mock-scale-2026-11-08/index.html

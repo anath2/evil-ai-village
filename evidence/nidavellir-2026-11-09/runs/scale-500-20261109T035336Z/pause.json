@@ -1,0 +1,9 @@
+{
+  "pid": 1759486,
+  "paused_at_unix": 1794197762.1265655,
+  "method": "SIGSTOP harness with runtime-only systemd deadline override",
+  "state": "paused",
+  "service_runtime_limit": "infinity",
+  "verified_at_unix": 1794198014.8675034,
+  "resume_command": "bash /home/sindri/projects/evil-ai-village/.village/scale-500-20261109T035336Z/resume-service.sh"
+}

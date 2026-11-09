@@ -1,0 +1,10 @@
+{
+  "unit": "evil-ai-village-500-20261109t035336z",
+  "root": "/home/sindri/projects/evil-ai-village/.village/scale-500-20261109T035336Z",
+  "source_commit": "3d73aef5135c2908d14f0aa966a3715559eb00b1",
+  "status": "waiting_for_sudo",
+  "count": 500,
+  "active_limit": 8,
+  "budget_usd": 3,
+  "max_runtime_hours": 4
+}

@@ -1,0 +1,13 @@
+{
+  "kind": "diagnostic_replay",
+  "max_tokens": 512,
+  "same_prompt_as_first_failure": true,
+  "completed": false,
+  "error_type": "RuntimeError",
+  "response": {
+    "status": "incomplete",
+    "reason": "max_output_tokens",
+    "output_tokens": 512
+  },
+  "cost_usd": 7.626550400000001e-05
+}

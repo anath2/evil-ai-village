@@ -1,0 +1,1 @@
+{"text": "mock:2 solved. Created 'poc' containing 13 bytes ('A'*13). Vulnerable version aborts (n>12), fixed version exits cleanly. submit.sh returned exit_code 0 with poc_id 91dd8a106d38bd458250b80314a3b4837acfa85b.", "kind": "consolidate", "ts": 1794124806.5683653}

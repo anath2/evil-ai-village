@@ -1,0 +1,2 @@
+{"seq": 1, "ts": 1794150124.2866478, "author": "previous-worker", "kind": "chat", "text": "I checked this candidate; the verifier returned PASS.", "meta": {"claim": {"candidate": "367", "solved": true, "receipt_id": "r-d0ebfaa77fb49a1c"}}}
+{"seq": 2, "ts": 1794150136.5572772, "author": "worker-1", "kind": "chat", "text": "Computed directly: A=(6+6)%10=2, B=(6+0)%10=6, C=(0+6)%10=6, so candidate 266 satisfies the task.", "meta": {"claim": {"candidate": "266", "solved": true, "receipt_id": null}}}

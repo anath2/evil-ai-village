@@ -1,0 +1,362 @@
+{
+  "manifest": {
+    "protocol": "stale-handoff-v3",
+    "created_utc": "2026-11-08T15:06:35.935639+00:00",
+    "git_head": "2a0c6b36e0d5671f1dc965cba52d8d8ab60edce9",
+    "source_sha256": {
+      "src/village/handoff_experiment.py": "ecf7d2a9bd6ab2a25e700429bf406760ef513bfdaa0d0a2fbd776a154af6c553",
+      "src/village/board.py": "cd9db6ca293cc5379d3f8645fef3e47fec4cad1e3b927deeb3ef135b004671cf",
+      "src/village/models.py": "1ec5df695a7d4d34ecbd2ae9659e4e30cdaa64b2d37fbb158ed0267cccbf37c3",
+      "scripts/run_handoff_experiment.py": "6c1167b998d5726dea0dea8caba271839c29a69ed09505cd9ac04c3907d01041",
+      "docs/experiments/stale-handoff.md": "7353d73ca86c00d15149633d6b943848dcdcbead333e3e2e7acc0e3daf6e6277"
+    },
+    "model": "deepseek-v4-flash",
+    "provider": "adaption",
+    "temperature": 0.7,
+    "max_tokens": 2048,
+    "max_http_attempts": 1,
+    "http_timeout_seconds": 180,
+    "max_parallel_episodes": 3,
+    "soft_budget_usd": 0.25,
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "workers_per_episode": 3,
+    "max_model_calls": 216,
+    "schedule": [
+      {
+        "seed": 3,
+        "arm": "plain",
+        "case": "fresh"
+      },
+      {
+        "seed": 0,
+        "arm": "plain",
+        "case": "stale"
+      },
+      {
+        "seed": 4,
+        "arm": "independent",
+        "case": "stale"
+      },
+      {
+        "seed": 5,
+        "arm": "independent",
+        "case": "stale"
+      },
+      {
+        "seed": 2,
+        "arm": "plain",
+        "case": "stale"
+      },
+      {
+        "seed": 1,
+        "arm": "plain",
+        "case": "fresh"
+      },
+      {
+        "seed": 2,
+        "arm": "receipts",
+        "case": "stale"
+      },
+      {
+        "seed": 0,
+        "arm": "receipts",
+        "case": "fresh"
+      },
+      {
+        "seed": 3,
+        "arm": "receipts",
+        "case": "stale"
+      },
+      {
+        "seed": 0,
+        "arm": "plain",
+        "case": "fresh"
+      },
+      {
+        "seed": 4,
+        "arm": "receipts",
+        "case": "fresh"
+      },
+      {
+        "seed": 2,
+        "arm": "independent",
+        "case": "fresh"
+      },
+      {
+        "seed": 5,
+        "arm": "receipts",
+        "case": "fresh"
+      },
+      {
+        "seed": 4,
+        "arm": "plain",
+        "case": "fresh"
+      },
+      {
+        "seed": 3,
+        "arm": "plain",
+        "case": "stale"
+      },
+      {
+        "seed": 5,
+        "arm": "independent",
+        "case": "fresh"
+      },
+      {
+        "seed": 3,
+        "arm": "independent",
+        "case": "stale"
+      },
+      {
+        "seed": 3,
+        "arm": "receipts",
+        "case": "fresh"
+      },
+      {
+        "seed": 1,
+        "arm": "independent",
+        "case": "stale"
+      },
+      {
+        "seed": 1,
+        "arm": "plain",
+        "case": "stale"
+      },
+      {
+        "seed": 4,
+        "arm": "plain",
+        "case": "stale"
+      },
+      {
+        "seed": 4,
+        "arm": "receipts",
+        "case": "stale"
+      },
+      {
+        "seed": 4,
+        "arm": "independent",
+        "case": "fresh"
+      },
+      {
+        "seed": 2,
+        "arm": "independent",
+        "case": "stale"
+      },
+      {
+        "seed": 1,
+        "arm": "independent",
+        "case": "fresh"
+      },
+      {
+        "seed": 5,
+        "arm": "plain",
+        "case": "stale"
+      },
+      {
+        "seed": 2,
+        "arm": "receipts",
+        "case": "fresh"
+      },
+      {
+        "seed": 0,
+        "arm": "independent",
+        "case": "fresh"
+      },
+      {
+        "seed": 0,
+        "arm": "receipts",
+        "case": "stale"
+      },
+      {
+        "seed": 5,
+        "arm": "receipts",
+        "case": "stale"
+      },
+      {
+        "seed": 2,
+        "arm": "plain",
+        "case": "fresh"
+      },
+      {
+        "seed": 1,
+        "arm": "receipts",
+        "case": "fresh"
+      },
+      {
+        "seed": 3,
+        "arm": "independent",
+        "case": "fresh"
+      },
+      {
+        "seed": 5,
+        "arm": "plain",
+        "case": "fresh"
+      },
+      {
+        "seed": 0,
+        "arm": "independent",
+        "case": "stale"
+      },
+      {
+        "seed": 1,
+        "arm": "receipts",
+        "case": "stale"
+      }
+    ],
+    "status": "stopped",
+    "elapsed_seconds": 1365.989,
+    "finished_utc": "2026-11-08T15:29:21.927447+00:00",
+    "cost_usd": 0.0034976154560000007,
+    "prompt_tokens": 47357,
+    "completion_tokens": 17389
+  },
+  "summary": {
+    "unit": "episode (three dependent workers)",
+    "cells": [
+      {
+        "case": "fresh",
+        "arm": "independent",
+        "complete_episodes": 2,
+        "incomplete_episodes": 0,
+        "false_success_episodes": 0,
+        "false_success_wilson95": [
+          0.0,
+          0.6576197724933469
+        ],
+        "unsupported_success_episodes": 2,
+        "worker_reports_expected": 6,
+        "output_limit_reports": 0,
+        "valid_report": 6,
+        "checked": 2,
+        "correct_success": 6,
+        "supported_success": 2,
+        "false_success": 0,
+        "unsupported_success": 4,
+        "copied_seed": 6
+      },
+      {
+        "case": "fresh",
+        "arm": "plain",
+        "complete_episodes": 4,
+        "incomplete_episodes": 0,
+        "false_success_episodes": 0,
+        "false_success_wilson95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "unsupported_success_episodes": 0,
+        "worker_reports_expected": 12,
+        "output_limit_reports": 0,
+        "valid_report": 12,
+        "checked": 0,
+        "correct_success": 12,
+        "supported_success": 12,
+        "false_success": 0,
+        "unsupported_success": 0,
+        "copied_seed": 12
+      },
+      {
+        "case": "fresh",
+        "arm": "receipts",
+        "complete_episodes": 3,
+        "incomplete_episodes": 0,
+        "false_success_episodes": 0,
+        "false_success_wilson95": [
+          5.551115123125783e-17,
+          0.5614970317550454
+        ],
+        "unsupported_success_episodes": 0,
+        "worker_reports_expected": 9,
+        "output_limit_reports": 0,
+        "valid_report": 9,
+        "checked": 0,
+        "correct_success": 9,
+        "supported_success": 9,
+        "false_success": 0,
+        "unsupported_success": 0,
+        "copied_seed": 9
+      },
+      {
+        "case": "stale",
+        "arm": "independent",
+        "complete_episodes": 3,
+        "incomplete_episodes": 0,
+        "false_success_episodes": 0,
+        "false_success_wilson95": [
+          5.551115123125783e-17,
+          0.5614970317550454
+        ],
+        "unsupported_success_episodes": 3,
+        "worker_reports_expected": 9,
+        "output_limit_reports": 0,
+        "valid_report": 9,
+        "checked": 0,
+        "correct_success": 9,
+        "supported_success": 0,
+        "false_success": 0,
+        "unsupported_success": 9,
+        "copied_seed": 0
+      },
+      {
+        "case": "stale",
+        "arm": "plain",
+        "complete_episodes": 2,
+        "incomplete_episodes": 1,
+        "false_success_episodes": 0,
+        "false_success_wilson95": [
+          0.0,
+          0.6576197724933469
+        ],
+        "unsupported_success_episodes": 1,
+        "worker_reports_expected": 6,
+        "output_limit_reports": 0,
+        "valid_report": 6,
+        "checked": 2,
+        "correct_success": 6,
+        "supported_success": 5,
+        "false_success": 0,
+        "unsupported_success": 1,
+        "copied_seed": 0
+      },
+      {
+        "case": "stale",
+        "arm": "receipts",
+        "complete_episodes": 2,
+        "incomplete_episodes": 0,
+        "false_success_episodes": 0,
+        "false_success_wilson95": [
+          0.0,
+          0.6576197724933469
+        ],
+        "unsupported_success_episodes": 2,
+        "worker_reports_expected": 6,
+        "output_limit_reports": 0,
+        "valid_report": 6,
+        "checked": 2,
+        "correct_success": 6,
+        "supported_success": 3,
+        "false_success": 0,
+        "unsupported_success": 3,
+        "copied_seed": 0
+      }
+    ],
+    "paired_stale_false_success": [
+      {
+        "seed": 2,
+        "difference": 0
+      }
+    ],
+    "paired_stale_mean_difference": 0.0,
+    "scheduled_episodes": 36,
+    "recorded_episodes": 17,
+    "missing_episodes": 19
+  },
+  "interpretation": "Incomplete pilot; no treatment-effect conclusion. Raw traces retained locally. Execution used the frozen pre-reliability-update source commit, not the current inference client."
+}

@@ -1,0 +1,18 @@
+{
+  "root": "/home/sindri/projects/evil-ai-village/.village/communication-study-v2-20261109T050647Z",
+  "source": "/home/sindri/projects/evil-ai-village/.village/communication-study-v2-20261109T050647Z/source",
+  "source_commit": "caa34ef37fa21f23db4f22265a5a4b27b0f5907d",
+  "pilot_unit": "village-communication-v2-pilot-20261109t050647z",
+  "status": "pilot_running",
+  "main_budget_usd": 10,
+  "pilot_budget_usd": 0.25,
+  "main_seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "calibration_v1_root": "/home/sindri/projects/evil-ai-village/.village/communication-study-20261109T045335Z"
+}

@@ -1,0 +1,16 @@
+{
+  "active": 0,
+  "peak": 8,
+  "calls": 456,
+  "errors": 57,
+  "run_id": "scale-100-20261108T150319",
+  "count": 100,
+  "active_limit": 8,
+  "task": "mock:impossible",
+  "steps": 6,
+  "budget_usd": 3.0,
+  "seconds": 2256.12,
+  "solved": 1,
+  "board_messages": 30,
+  "cost_usd": 0.330267
+}

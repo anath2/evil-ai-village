@@ -1,5 +1,9 @@
 # Partner handoff — 2026-11-08
 
+**Latest research status and shared raw evidence:**
+[2026-11-09 handoff](handoff-2026-11-09.md). Read that first; the historical
+checkpoint below predates the subsequent runs and current paused service.
+
 Everything is kept on `main`. Commit `5dc23cf` preserves the exact in-progress
 source snapshot before this closeout; the following commit adds this handoff,
 disables unfinished integration at the runner/MCP entry points, and caps the

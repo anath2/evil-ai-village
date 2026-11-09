@@ -1,0 +1,10 @@
+{
+  "kind": "diagnostic_replay",
+  "max_tokens": 2048,
+  "timeout_seconds": 45,
+  "same_prompt_as_v2_failure": true,
+  "completed": false,
+  "error_type": "RuntimeError",
+  "known_cause": "ReadTimeout",
+  "cost_usd": 0.0
+}

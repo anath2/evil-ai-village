@@ -1,0 +1,28 @@
+{
+  "run_id": "scale-2-20261108T075909",
+  "inference_provider": "adaption",
+  "cost_available": true,
+  "cost_unit": "usd",
+  "total_reported_cost": 0.000416129696,
+  "total_cost_usd": 0.000416129696,
+  "village_id": "scale-2-20261108T075909",
+  "workspace_root": "/home/sindri/projects/evil-ai-village/.village/workspaces/scale-2-20261108T075909",
+  "board_path": "/home/sindri/projects/evil-ai-village/.village/scale-2-20261108T075909-board.jsonl",
+  "board_messages": 4,
+  "rounds": [
+    {
+      "name": "round",
+      "solved": 2,
+      "agents": 2,
+      "cost_usd": 0.0004,
+      "memories": {
+        "agent-02": 0,
+        "agent-01": 0
+      },
+      "reflections": {
+        "agent-02": 0,
+        "agent-01": 0
+      }
+    }
+  ]
+}

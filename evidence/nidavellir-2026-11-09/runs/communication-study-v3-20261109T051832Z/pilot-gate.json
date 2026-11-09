@@ -1,0 +1,12 @@
+{
+  "passed": false,
+  "reason": "output_limit_model_noncompletion_rate_above_10_percent",
+  "returned_actions": 60,
+  "valid_actions": 55,
+  "model_call_errors": 9,
+  "total_model_calls": 75,
+  "error_fraction": 0.12,
+  "peer_exposure_shared": 6,
+  "peer_exposure_private": 0,
+  "valid_action_fraction": 0.9166666666666666
+}

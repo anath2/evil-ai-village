@@ -1,0 +1,8 @@
+{"ts": 1794124871.1626673, "agent": "agent-21", "type": "start", "model": "deepseek-v4-flash", "tier": "trial", "task": "mock:1", "loaded_memories": 0}
+{"ts": 1794124874.8026338, "agent": "agent-21", "type": "usage", "model": "deepseek-v4-flash", "prompt_tokens": 768, "completion_tokens": 325, "reported_cost": 7.745892000000001e-05, "cost_usd": 7.745892000000001e-05, "cost_unit": "usd"}
+{"ts": 1794124874.8028386, "agent": "agent-21", "type": "turn", "step": 1, "text": "<action>\n{\"tool\": \"post_message\", \"input\": {\"text\": \"Hello from agent-21! Ready to collaborate.\"}}\n</action>", "tool": "post_message"}
+{"ts": 1794124874.8029668, "agent": "agent-21", "type": "observation", "tool": "post_message", "observation": "posted as message #19"}
+{"ts": 1794124878.335759, "agent": "agent-21", "type": "usage", "model": "deepseek-v4-flash", "prompt_tokens": 813, "completion_tokens": 311, "reported_cost": 5.5562928000000006e-05, "cost_usd": 5.5562928000000006e-05, "cost_unit": "usd"}
+{"ts": 1794124878.3359575, "agent": "agent-21", "type": "turn", "step": 2, "text": "<action>\n{\"tool\": \"finish\", \"input\": {\"summary\": \"Posted greeting to the board as required for the throughput-only trial. Not running bash, solving, or submitting a PoC per village goal.\"}}\n</action>", "tool": "finish"}
+{"ts": 1794124878.3360527, "agent": "agent-21", "type": "observation", "tool": "finish", "observation": "run ended"}
+{"ts": 1794124878.336237, "agent": "agent-21", "type": "end", "solved": false, "summary": "Posted greeting to the board as required for the throughput-only trial. Not running bash, solving, or submitting a PoC per village goal."}

@@ -1,0 +1,72 @@
+{
+  "prompt": "Reply with the single word: ready",
+  "max_output_tokens": 1024,
+  "budget_usd": 0.01,
+  "total_cost_usd": 0.004235703799999999,
+  "models": [
+    {
+      "model": "glm-53-flash",
+      "ok": true,
+      "reply": "ready",
+      "cost_usd": 4.435e-05,
+      "input_tokens": 19,
+      "output_tokens": 83,
+      "seconds": 0.85
+    },
+    {
+      "model": "glm-5.2",
+      "ok": true,
+      "reply": "ready",
+      "cost_usd": 0.0005546,
+      "input_tokens": 19,
+      "output_tokens": 120,
+      "seconds": 1.78
+    },
+    {
+      "model": "qwen3.5-397b",
+      "ok": false,
+      "error": "Adaption response did not complete for qwen3.5-397b: status=incomplete, reason=max_output_tokens",
+      "cost_usd": 0.0035933499999999995,
+      "input_tokens": 17,
+      "output_tokens": 1024,
+      "seconds": 14.8
+    },
+    {
+      "model": "gemma-4-26b-a4b-it",
+      "ok": true,
+      "reply": "ready",
+      "cost_usd": 2.040000000000028e-06,
+      "input_tokens": 20,
+      "output_tokens": 2,
+      "seconds": 0.31
+    },
+    {
+      "model": "qwen3.8-27b",
+      "ok": true,
+      "reply": "ready",
+      "cost_usd": 3.355099999999972e-05,
+      "input_tokens": 59,
+      "output_tokens": 25,
+      "seconds": 0.74
+    },
+    {
+      "model": "deepseek-v4-flash",
+      "ok": true,
+      "reply": "ready",
+      "cost_usd": 5.332799999999659e-06,
+      "input_tokens": 90,
+      "output_tokens": 10,
+      "seconds": 0.43
+    },
+    {
+      "model": "gemma-4-31b-it",
+      "ok": true,
+      "reply": "ready",
+      "cost_usd": 2.480000000000017e-06,
+      "input_tokens": 20,
+      "output_tokens": 2,
+      "seconds": 0.37
+    }
+  ],
+  "note": "Single observed prompt costs, not a model price list or capability benchmark."
+}

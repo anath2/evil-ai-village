@@ -1,0 +1,141 @@
+{
+  "unit": "episode (three dependent workers)",
+  "cells": [
+    {
+      "case": "fresh",
+      "arm": "independent",
+      "complete_episodes": 2,
+      "incomplete_episodes": 0,
+      "false_success_episodes": 0,
+      "false_success_wilson95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "unsupported_success_episodes": 2,
+      "worker_reports_expected": 6,
+      "output_limit_reports": 0,
+      "valid_report": 6,
+      "checked": 2,
+      "correct_success": 6,
+      "supported_success": 2,
+      "false_success": 0,
+      "unsupported_success": 4,
+      "copied_seed": 6
+    },
+    {
+      "case": "fresh",
+      "arm": "plain",
+      "complete_episodes": 4,
+      "incomplete_episodes": 0,
+      "false_success_episodes": 0,
+      "false_success_wilson95": [
+        0.0,
+        0.4898908364545973
+      ],
+      "unsupported_success_episodes": 0,
+      "worker_reports_expected": 12,
+      "output_limit_reports": 0,
+      "valid_report": 12,
+      "checked": 0,
+      "correct_success": 12,
+      "supported_success": 12,
+      "false_success": 0,
+      "unsupported_success": 0,
+      "copied_seed": 12
+    },
+    {
+      "case": "fresh",
+      "arm": "receipts",
+      "complete_episodes": 3,
+      "incomplete_episodes": 0,
+      "false_success_episodes": 0,
+      "false_success_wilson95": [
+        5.551115123125783e-17,
+        0.5614970317550454
+      ],
+      "unsupported_success_episodes": 0,
+      "worker_reports_expected": 9,
+      "output_limit_reports": 0,
+      "valid_report": 9,
+      "checked": 0,
+      "correct_success": 9,
+      "supported_success": 9,
+      "false_success": 0,
+      "unsupported_success": 0,
+      "copied_seed": 9
+    },
+    {
+      "case": "stale",
+      "arm": "independent",
+      "complete_episodes": 3,
+      "incomplete_episodes": 0,
+      "false_success_episodes": 0,
+      "false_success_wilson95": [
+        5.551115123125783e-17,
+        0.5614970317550454
+      ],
+      "unsupported_success_episodes": 3,
+      "worker_reports_expected": 9,
+      "output_limit_reports": 0,
+      "valid_report": 9,
+      "checked": 0,
+      "correct_success": 9,
+      "supported_success": 0,
+      "false_success": 0,
+      "unsupported_success": 9,
+      "copied_seed": 0
+    },
+    {
+      "case": "stale",
+      "arm": "plain",
+      "complete_episodes": 2,
+      "incomplete_episodes": 1,
+      "false_success_episodes": 0,
+      "false_success_wilson95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "unsupported_success_episodes": 1,
+      "worker_reports_expected": 6,
+      "output_limit_reports": 0,
+      "valid_report": 6,
+      "checked": 2,
+      "correct_success": 6,
+      "supported_success": 5,
+      "false_success": 0,
+      "unsupported_success": 1,
+      "copied_seed": 0
+    },
+    {
+      "case": "stale",
+      "arm": "receipts",
+      "complete_episodes": 2,
+      "incomplete_episodes": 0,
+      "false_success_episodes": 0,
+      "false_success_wilson95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "unsupported_success_episodes": 2,
+      "worker_reports_expected": 6,
+      "output_limit_reports": 0,
+      "valid_report": 6,
+      "checked": 2,
+      "correct_success": 6,
+      "supported_success": 3,
+      "false_success": 0,
+      "unsupported_success": 3,
+      "copied_seed": 0
+    }
+  ],
+  "paired_stale_false_success": [
+    {
+      "seed": 2,
+      "difference": 0
+    }
+  ],
+  "paired_stale_mean_difference": 0.0,
+  "scheduled_episodes": 36,
+  "recorded_episodes": 17,
+  "missing_episodes": 19
+}

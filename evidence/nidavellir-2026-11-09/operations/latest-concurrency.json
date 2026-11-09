@@ -1,0 +1,8 @@
+{
+  "unit": "village-concurrency-20261109t042453z",
+  "root": "/home/sindri/projects/evil-ai-village/.village/concurrency-20261109T042453Z",
+  "status": "probe_stopped_on_429; cooldown_control_complete",
+  "description": "Mixed all-catalogue-model API capacity probe. Separate from behavioral generalisation.",
+  "summary": "/home/sindri/projects/evil-ai-village/reports/concurrency-2026-11-09",
+  "control": "/home/sindri/projects/evil-ai-village/.village/concurrency-20261109T042453Z/cooldown-control.json"
+}

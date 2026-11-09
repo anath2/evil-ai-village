@@ -13,7 +13,8 @@ __pycache__/
 .ralph/
 
 # Experiment data — commit only curated summaries (README.md, metrics.json).
-# Raw boards, transcripts, graphs, and per-run logs are local artifacts.
+# Runtime originals remain local. Explicitly reviewed research exports under
+# evidence/ may be committed with user authorisation and a checksum manifest.
 reports/**/board.jsonl
 reports/**/logs/
 reports/**/social_graph.json

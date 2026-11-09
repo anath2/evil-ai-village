@@ -1,0 +1,37 @@
+{
+  "run_id": "comm-deepseek-96-on",
+  "inference_provider": "adaption",
+  "cost_available": true,
+  "cost_unit": "usd",
+  "total_reported_cost": 0.007813728447999999,
+  "total_cost_usd": 0.007813728447999999,
+  "village_id": "comm-deepseek-96-on",
+  "workspace_root": "/home/sindri/projects/evil-ai-village/.village/communication-study-v4-20261109T053908Z/pilot/.village/workspaces/comm-deepseek-96-on",
+  "board_path": "/home/sindri/projects/evil-ai-village/.village/communication-study-v4-20261109T053908Z/pilot/.village/comm-deepseek-96-on-board.jsonl",
+  "board_messages": 6,
+  "rounds": [
+    {
+      "name": "round",
+      "solved": 0,
+      "agents": 6,
+      "cost_usd": 0.0072,
+      "sandbox_lost": 6,
+      "memories": {
+        "worker-3": 0,
+        "worker-2": 0,
+        "worker-5": 0,
+        "worker-1": 0,
+        "worker-4": 0,
+        "worker-6": 0
+      },
+      "reflections": {
+        "worker-3": 0,
+        "worker-2": 0,
+        "worker-5": 0,
+        "worker-1": 0,
+        "worker-4": 0,
+        "worker-6": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "seed": 0,
+  "arm": "plain",
+  "case": "fresh",
+  "task": {
+    "task_id": "84b739bc349d",
+    "x": 6,
+    "y": 6,
+    "z": 0
+  },
+  "seed_receipt": {
+    "receipt_id": "r-907f43654f8b2e4e",
+    "task_id": "84b739bc349d",
+    "candidate": "266",
+    "accepted": true
+  },
+  "workers": [
+    {
+      "worker": "worker-1",
+      "checked": false,
+      "valid_report": true,
+      "false_success": false,
+      "unsupported_success": false,
+      "correct_success": true,
+      "supported_success": true,
+      "candidate_correct": true,
+      "copied_seed": true,
+      "candidate": "266",
+      "solved": true,
+      "receipt_id": "r-907f43654f8b2e4e"
+    },
+    {
+      "worker": "worker-2",
+      "checked": false,
+      "valid_report": true,
+      "false_success": false,
+      "unsupported_success": false,
+      "correct_success": true,
+      "supported_success": true,
+      "candidate_correct": true,
+      "copied_seed": true,
+      "candidate": "266",
+      "solved": true,
+      "receipt_id": "r-907f43654f8b2e4e"
+    },
+    {
+      "worker": "worker-3",
+      "checked": false,
+      "valid_report": true,
+      "false_success": false,
+      "unsupported_success": false,
+      "correct_success": true,
+      "supported_success": true,
+      "candidate_correct": true,
+      "copied_seed": true,
+      "candidate": "266",
+      "solved": true,
+      "receipt_id": "r-907f43654f8b2e4e"
+    }
+  ],
+  "status": "complete",
+  "any_false_success": false,
+  "any_unsupported_success": false
+}

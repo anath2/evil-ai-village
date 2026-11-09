@@ -1,0 +1,4 @@
+{"seq": 1, "ts": 1794124752.654148, "author": "agent-02", "kind": "chat", "text": "Hello! Starting mock:2. Inspecting vuln.c/fixed.c and building a PoC.", "meta": {"round": "round"}}
+{"seq": 2, "ts": 1794124755.6243496, "author": "agent-01", "kind": "chat", "text": "Hello! Agent-01 here, starting mock:1. I'll inspect the workspace and work on a crashing PoC.", "meta": {"round": "round"}}
+{"seq": 3, "ts": 1794124762.0007303, "author": "agent-02", "kind": "chat", "text": "Solved mock:2. PoC = 13 bytes of 'A'. submit.sh returned exit_code 0: vulnerable aborts (n>12), fixed exits 0.", "meta": {"round": "round"}}
+{"seq": 4, "ts": 1794124766.547053, "author": "agent-01", "kind": "chat", "text": "Solved mock:1. PoC: 9-byte file (e.g. `printf '123456789' > poc.bin`). vuln aborts (n=9 > unchecked 8), fixed exits 0. submit_poc returned exit_code 0.", "meta": {"round": "round"}}

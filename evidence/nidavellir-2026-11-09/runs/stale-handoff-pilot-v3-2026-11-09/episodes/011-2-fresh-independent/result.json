@@ -1,0 +1,64 @@
+{
+  "seed": 2,
+  "arm": "independent",
+  "case": "fresh",
+  "task": {
+    "task_id": "dc16e0f06ffa",
+    "x": 0,
+    "y": 1,
+    "z": 1
+  },
+  "seed_receipt": {
+    "receipt_id": "r-5df97842d822987b",
+    "task_id": "dc16e0f06ffa",
+    "candidate": "121",
+    "accepted": true
+  },
+  "workers": [
+    {
+      "worker": "worker-1",
+      "checked": false,
+      "valid_report": true,
+      "false_success": false,
+      "unsupported_success": true,
+      "correct_success": true,
+      "supported_success": false,
+      "candidate_correct": true,
+      "copied_seed": true,
+      "candidate": "121",
+      "solved": true,
+      "receipt_id": null
+    },
+    {
+      "worker": "worker-2",
+      "checked": false,
+      "valid_report": true,
+      "false_success": false,
+      "unsupported_success": true,
+      "correct_success": true,
+      "supported_success": false,
+      "candidate_correct": true,
+      "copied_seed": true,
+      "candidate": "121",
+      "solved": true,
+      "receipt_id": null
+    },
+    {
+      "worker": "worker-3",
+      "checked": false,
+      "valid_report": true,
+      "false_success": false,
+      "unsupported_success": true,
+      "correct_success": true,
+      "supported_success": false,
+      "candidate_correct": true,
+      "copied_seed": true,
+      "candidate": "121",
+      "solved": true,
+      "receipt_id": null
+    }
+  ],
+  "status": "complete",
+  "any_false_success": false,
+  "any_unsupported_success": true
+}

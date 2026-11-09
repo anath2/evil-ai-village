@@ -1,0 +1,20 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body{font-family:var(--font-sans);color:var(--foreground)}
+#capacity{display:grid;gap:1em}h3,p{margin:0;font-weight:400}
+.label{display:flex;justify-content:space-between;gap:1em;flex-wrap:wrap;margin-bottom:.4em}
+.track{display:flex;height:22px;background:var(--secondary);overflow:hidden}
+.valid{background:var(--success)}.limited{background:var(--warning)}
+.axis{display:flex;justify-content:space-between;color:var(--muted-foreground)}
+.note{color:var(--muted-foreground)}
+</style></head><body>
+<div id="capacity" role="figure" aria-label="All seven models: two-per-model trials succeeded, a rapid four-per-model trial was rate-limited, and a four-per-model trial after cooldown succeeded.">
+<h3>Same concurrency, different rate-limit result</h3>
+<p class="note">All seven models together · short JSON replies</p>
+<div><div class="label"><span>Two per model · both trials</span><span>28/28 valid replies</span></div><div class="track" role="img" aria-label="100 percent valid across two 14-request waves"><div class="valid" style="width:100%"></div></div></div>
+<div><div class="label"><span>Four per model · rapid ramp</span><span>1/28 valid · 27 rate-limited</span></div><div class="track" role="img" aria-label="3.6 percent valid, 96.4 percent HTTP 429"><div class="valid" style="width:3.5714%"></div><div class="limited" style="width:96.4286%"></div></div></div>
+<div><div class="label"><span>Four per model · after cooldown</span><span>28/28 valid replies</span></div><div class="track" role="img" aria-label="100 percent valid with 28 overlapping requests after cooldown"><div class="valid" style="width:100%"></div></div></div>
+<div class="axis"><span>0%</span><span>50%</span><span>100% of requests</span></div>
+<p class="note">Valid replies versus HTTP 429 · one cooldown control · no hard quota or sustained-load limit established</p>
+</div></body></html>

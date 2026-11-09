@@ -1,0 +1,5 @@
+#!/bin/bash
+set -euo pipefail
+sudo systemd-run --unit=evil-ai-village-500-20261109t035336z '--description=Bounded 500-agent village trial' --property=User=sindri --property=Group=sindri --property=WorkingDirectory=/home/sindri/projects/evil-ai-village/.village/scale-500-20261109T035336Z/source --property=Environment=PYTHONPATH=/home/sindri/projects/evil-ai-village/.village/scale-500-20261109T035336Z/source/src '--property=ExecStartPre=+/usr/bin/setfacl -m u:sindri:rw /run/docker.sock' '--property=ExecStopPost=+/usr/bin/setfacl -x u:sindri /run/docker.sock' --property=RuntimeMaxSec=4h --property=KillSignal=SIGINT --property=TimeoutStopSec=120 --property=Nice=10 /home/sindri/projects/evil-ai-village/.venv/bin/python -u /home/sindri/projects/evil-ai-village/.village/scale-500-20261109T035336Z/source/scripts/scale_society.py --count 500 --active 8 --steps 6 --budget 3 --timeout 120 --retries 5 --model-concurrency 2 --task mock:impossible --output /home/sindri/projects/evil-ai-village/.village/scale-500-20261109T035336Z/report
+printf "\nRun started. Logs: journalctl -u evil-ai-village-500-20261109t035336z -f\n"
+exec bash

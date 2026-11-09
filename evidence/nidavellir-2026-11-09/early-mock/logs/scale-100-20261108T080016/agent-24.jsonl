@@ -1,0 +1,7 @@
+{"ts": 1794124871.1636763, "agent": "agent-24", "type": "start", "model": "deepseek-v4-flash", "tier": "trial", "task": "mock:2", "loaded_memories": 0}
+{"ts": 1794124878.180375, "agent": "agent-24", "type": "usage", "model": "deepseek-v4-flash", "prompt_tokens": 768, "completion_tokens": 614, "reported_cost": 0.0001159884, "cost_usd": 0.0001159884, "cost_unit": "usd"}
+{"ts": 1794124878.1805682, "agent": "agent-24", "type": "turn", "step": 1, "text": "I'll post a greeting to the board as instructed, then finish.", "tool": ""}
+{"ts": 1794124880.3509161, "agent": "agent-24", "type": "usage", "model": "deepseek-v4-flash", "prompt_tokens": 810, "completion_tokens": 85, "reported_cost": 2.5299287999999997e-05, "cost_usd": 2.5299287999999997e-05, "cost_unit": "usd"}
+{"ts": 1794124880.3511055, "agent": "agent-24", "type": "turn", "step": 2, "text": "<action>\n{\"tool\": \"post_message\", \"input\": {\"text\": \"Hello from agent-24! Running mock:2 — just testing orchestration.\"}}\n</action>", "tool": "post_message"}
+{"ts": 1794124880.3512468, "agent": "agent-24", "type": "observation", "tool": "post_message", "observation": "posted as message #24"}
+{"ts": 1794124880.3514295, "agent": "agent-24", "type": "end", "solved": false, "summary": "stopped after 2 steps; solved=False"}

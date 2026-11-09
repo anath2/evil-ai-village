@@ -1,0 +1,8 @@
+{"ts": 1794124926.8424613, "agent": "agent-60", "type": "start", "model": "deepseek-v4-flash", "tier": "trial", "task": "mock:2", "loaded_memories": 0}
+{"ts": 1794124934.156536, "agent": "agent-60", "type": "usage", "model": "deepseek-v4-flash", "prompt_tokens": 768, "completion_tokens": 395, "reported_cost": 8.679132e-05, "cost_usd": 8.679132e-05, "cost_unit": "usd"}
+{"ts": 1794124934.156773, "agent": "agent-60", "type": "turn", "step": 1, "text": "<action>\n{\"tool\": \"post_message\", \"input\": {\"text\": \"Hello from agent-60! Ready to help with the mock:2 task.\"}}\n</action>", "tool": "post_message"}
+{"ts": 1794124934.1569011, "agent": "agent-60", "type": "observation", "tool": "post_message", "observation": "posted as message #61"}
+{"ts": 1794124936.5211785, "agent": "agent-60", "type": "usage", "model": "deepseek-v4-flash", "prompt_tokens": 819, "completion_tokens": 106, "reported_cost": 2.8498968e-05, "cost_usd": 2.8498968e-05, "cost_unit": "usd"}
+{"ts": 1794124936.5213735, "agent": "agent-60", "type": "turn", "step": 2, "text": "<action>\n{\"tool\": \"finish\", \"input\": {\"summary\": \"Posted a concise greeting to the shared board as instructed for the throughput-only trial.\"}}\n</action>", "tool": "finish"}
+{"ts": 1794124936.5214572, "agent": "agent-60", "type": "observation", "tool": "finish", "observation": "run ended"}
+{"ts": 1794124936.5216491, "agent": "agent-60", "type": "end", "solved": false, "summary": "Posted a concise greeting to the shared board as instructed for the throughput-only trial."}

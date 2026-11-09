@@ -1,0 +1,1 @@
+{"text": "mock:2 solved. vuln.c aborts when fread reads >12 bytes; fixed.c just prints count. Created poc.txt with 20 'A' characters. submit.sh gave exit_code:0. Posted success to board.", "kind": "consolidate", "ts": 1794124803.4462004}

@@ -1,0 +1,1 @@
+{"text": "mock:2 solved. Vuln aborts if fread length n > 12; fixed always exits 0. PoC = 13 'A' bytes in file 'poc'. submit.sh returned {\"exit_code\":0}. Posted result to board.", "kind": "consolidate", "ts": 1794124782.566365}

@@ -1,0 +1,8 @@
+{"ts": 1794124880.3564527, "agent": "agent-29", "type": "start", "model": "deepseek-v4-flash", "tier": "trial", "task": "mock:1", "loaded_memories": 0}
+{"ts": 1794124883.693814, "agent": "agent-29", "type": "usage", "model": "deepseek-v4-flash", "prompt_tokens": 768, "completion_tokens": 225, "reported_cost": 6.412692e-05, "cost_usd": 6.412692e-05, "cost_unit": "usd"}
+{"ts": 1794124883.6940272, "agent": "agent-29", "type": "turn", "step": 1, "text": "<action>\n{\"tool\": \"post_message\", \"input\": {\"text\": \"Hello from agent-29! Ready to coordinate.\"}}\n</action>", "tool": "post_message"}
+{"ts": 1794124883.6941707, "agent": "agent-29", "type": "observation", "tool": "post_message", "observation": "posted as message #26"}
+{"ts": 1794124888.001775, "agent": "agent-29", "type": "usage", "model": "deepseek-v4-flash", "prompt_tokens": 813, "completion_tokens": 267, "reported_cost": 4.9696848e-05, "cost_usd": 4.9696848e-05, "cost_unit": "usd"}
+{"ts": 1794124888.0019681, "agent": "agent-29", "type": "turn", "step": 2, "text": "<action>\n{\"tool\": \"finish\", \"summary\": \"Posted greeting to board as instructed for throughput-only trial; no PoC work performed.\"}\n</action>", "tool": "finish"}
+{"ts": 1794124888.002052, "agent": "agent-29", "type": "observation", "tool": "finish", "observation": "run ended"}
+{"ts": 1794124888.0022852, "agent": "agent-29", "type": "end", "solved": false, "summary": "Posted greeting to board as instructed for throughput-only trial; no PoC work performed."}

@@ -1,0 +1,217 @@
+{
+  "protocol": "stale-handoff-v1",
+  "created_utc": "2026-11-08T14:57:56.451987+00:00",
+  "git_head": "217c6e9a51285a894e8462e151a1be2c6f0c0268",
+  "source_sha256": {
+    "src/village/handoff_experiment.py": "98dba71ea8ec67f60aa9f37ad179744a926e283f73acff7e3d05f0e97a5a323f",
+    "src/village/board.py": "cd9db6ca293cc5379d3f8645fef3e47fec4cad1e3b927deeb3ef135b004671cf",
+    "src/village/models.py": "1ec5df695a7d4d34ecbd2ae9659e4e30cdaa64b2d37fbb158ed0267cccbf37c3",
+    "scripts/run_handoff_experiment.py": "6f30f3da819869d72a008a316754b58135a1213b4a56dbc8b1c8bd783d8b2f70",
+    "docs/experiments/stale-handoff.md": "38163cedfb925c8e854f45857c1d52b677063843563beb94562054c0feb0f7e9"
+  },
+  "model": "deepseek-v4-flash",
+  "provider": "adaption",
+  "temperature": 0.7,
+  "max_tokens": 512,
+  "max_http_attempts": 1,
+  "max_parallel_episodes": 3,
+  "soft_budget_usd": 0.25,
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "workers_per_episode": 3,
+  "max_model_calls": 216,
+  "schedule": [
+    {
+      "seed": 3,
+      "arm": "plain",
+      "case": "fresh"
+    },
+    {
+      "seed": 0,
+      "arm": "plain",
+      "case": "stale"
+    },
+    {
+      "seed": 4,
+      "arm": "independent",
+      "case": "stale"
+    },
+    {
+      "seed": 5,
+      "arm": "independent",
+      "case": "stale"
+    },
+    {
+      "seed": 2,
+      "arm": "plain",
+      "case": "stale"
+    },
+    {
+      "seed": 1,
+      "arm": "plain",
+      "case": "fresh"
+    },
+    {
+      "seed": 2,
+      "arm": "receipts",
+      "case": "stale"
+    },
+    {
+      "seed": 0,
+      "arm": "receipts",
+      "case": "fresh"
+    },
+    {
+      "seed": 3,
+      "arm": "receipts",
+      "case": "stale"
+    },
+    {
+      "seed": 0,
+      "arm": "plain",
+      "case": "fresh"
+    },
+    {
+      "seed": 4,
+      "arm": "receipts",
+      "case": "fresh"
+    },
+    {
+      "seed": 2,
+      "arm": "independent",
+      "case": "fresh"
+    },
+    {
+      "seed": 5,
+      "arm": "receipts",
+      "case": "fresh"
+    },
+    {
+      "seed": 4,
+      "arm": "plain",
+      "case": "fresh"
+    },
+    {
+      "seed": 3,
+      "arm": "plain",
+      "case": "stale"
+    },
+    {
+      "seed": 5,
+      "arm": "independent",
+      "case": "fresh"
+    },
+    {
+      "seed": 3,
+      "arm": "independent",
+      "case": "stale"
+    },
+    {
+      "seed": 3,
+      "arm": "receipts",
+      "case": "fresh"
+    },
+    {
+      "seed": 1,
+      "arm": "independent",
+      "case": "stale"
+    },
+    {
+      "seed": 1,
+      "arm": "plain",
+      "case": "stale"
+    },
+    {
+      "seed": 4,
+      "arm": "plain",
+      "case": "stale"
+    },
+    {
+      "seed": 4,
+      "arm": "receipts",
+      "case": "stale"
+    },
+    {
+      "seed": 4,
+      "arm": "independent",
+      "case": "fresh"
+    },
+    {
+      "seed": 2,
+      "arm": "independent",
+      "case": "stale"
+    },
+    {
+      "seed": 1,
+      "arm": "independent",
+      "case": "fresh"
+    },
+    {
+      "seed": 5,
+      "arm": "plain",
+      "case": "stale"
+    },
+    {
+      "seed": 2,
+      "arm": "receipts",
+      "case": "fresh"
+    },
+    {
+      "seed": 0,
+      "arm": "independent",
+      "case": "fresh"
+    },
+    {
+      "seed": 0,
+      "arm": "receipts",
+      "case": "stale"
+    },
+    {
+      "seed": 5,
+      "arm": "receipts",
+      "case": "stale"
+    },
+    {
+      "seed": 2,
+      "arm": "plain",
+      "case": "fresh"
+    },
+    {
+      "seed": 1,
+      "arm": "receipts",
+      "case": "fresh"
+    },
+    {
+      "seed": 3,
+      "arm": "independent",
+      "case": "fresh"
+    },
+    {
+      "seed": 5,
+      "arm": "plain",
+      "case": "fresh"
+    },
+    {
+      "seed": 0,
+      "arm": "independent",
+      "case": "stale"
+    },
+    {
+      "seed": 1,
+      "arm": "receipts",
+      "case": "stale"
+    }
+  ],
+  "status": "stopped",
+  "elapsed_seconds": 60.953,
+  "finished_utc": "2026-11-08T14:58:57.408115+00:00",
+  "cost_usd": 0.0008101686719999999,
+  "prompt_tokens": 8751,
+  "completion_tokens": 4647
+}

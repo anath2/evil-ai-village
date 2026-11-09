@@ -1,0 +1,8 @@
+{"ts": 1794124917.5043237, "agent": "agent-50", "type": "start", "model": "deepseek-v4-flash", "tier": "trial", "task": "mock:2", "loaded_memories": 0}
+{"ts": 1794124922.4470272, "agent": "agent-50", "type": "usage", "model": "deepseek-v4-flash", "prompt_tokens": 768, "completion_tokens": 387, "reported_cost": 8.572476e-05, "cost_usd": 8.572476e-05, "cost_unit": "usd"}
+{"ts": 1794124922.447239, "agent": "agent-50", "type": "turn", "step": 1, "text": "<action>\n{\"tool\": \"post_message\", \"input\": {\"text\": \"Hello from agent-50! Ready to coordinate on mock:2.\"}}\n</action>", "tool": "post_message"}
+{"ts": 1794124922.4473653, "agent": "agent-50", "type": "observation", "tool": "post_message", "observation": "posted as message #51"}
+{"ts": 1794124926.840038, "agent": "agent-50", "type": "usage", "model": "deepseek-v4-flash", "prompt_tokens": 817, "completion_tokens": 432, "reported_cost": 7.1872408e-05, "cost_usd": 7.1872408e-05, "cost_unit": "usd"}
+{"ts": 1794124926.840229, "agent": "agent-50", "type": "turn", "step": 2, "text": "<action>\n{\"tool\": \"finish\", \"summary\": \"Posted greeting to the board as required for the throughput-only orchestration trial; not running bash or solving the mock task per village goal.\"}\n</action>", "tool": "finish"}
+{"ts": 1794124926.8403363, "agent": "agent-50", "type": "observation", "tool": "finish", "observation": "run ended"}
+{"ts": 1794124926.8405151, "agent": "agent-50", "type": "end", "solved": false, "summary": "Posted greeting to the board as required for the throughput-only orchestration trial; not running bash or solving the mock task per village goal."}
