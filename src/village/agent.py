@@ -63,6 +63,7 @@ class Agent:
     log_dir: Path | None = None
     communication_enabled: bool = True
     initial_instruction: str | None = None
+    max_output_tokens: int = 4096
 
     memory: MemoryStore | None = None
     runtime: list[dict] = field(default_factory=list)
@@ -310,7 +311,8 @@ class Agent:
                 break
             self.steps += 1
             try:
-                res = self.client.chat(self.model, self._messages(), temperature=self.temperature)
+                res = self.client.chat(self.model, self._messages(), temperature=self.temperature,
+                                       max_tokens=self.max_output_tokens)
                 self.cost_usd += res.cost_usd
                 self._log({"type": "usage", "model": self.model,
                            "truncated": bool(getattr(res, "truncated", False)),
