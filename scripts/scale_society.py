@@ -111,11 +111,14 @@ def build_config(count: int, task: str, steps: int, budget: float, time_budget: 
 def measured_client_factory(metrics: dict, lock: threading.Lock, *, timeout: float = 120.0,
                            retries: int = 5, model_concurrency: int = 0,
                            pacer: RequestPacer | None = None):
+    clients = []
     def factory(**kwargs):
         client = create_client(
             timeout=timeout, max_retries=retries,
             model_concurrency=model_concurrency, **kwargs
         )
+        with lock:
+            clients.append(client)
         if pacer is not None:
             client._client.event_hooks['request'].append(pacer)
         original = client.chat
@@ -126,8 +129,6 @@ def measured_client_factory(metrics: dict, lock: threading.Lock, *, timeout: flo
                 metrics["calls"] += 1
                 metrics["peak"] = max(metrics["peak"], metrics["active"])
             started_call = time.monotonic()
-            retries_before = getattr(client, "retry_count", 0)
-            truncated_before = getattr(client, "truncated_count", 0)
             try:
                 return original(*args, **kw)
             except Exception:
@@ -138,8 +139,10 @@ def measured_client_factory(metrics: dict, lock: threading.Lock, *, timeout: flo
                 with lock:
                     metrics["active"] -= 1
                     metrics["latencies"].append(round(time.monotonic() - started_call, 3))
-                    metrics["retries"] += max(0, getattr(client, "retry_count", 0) - retries_before)
-                    metrics["truncated"] += max(0, getattr(client, "truncated_count", 0) - truncated_before)
+                    # Client counters already include all concurrent calls. Summing
+                    # per-call before/after deltas double-counts overlapping retries.
+                    metrics["retries"] = sum(getattr(c, 'retry_count', 0) for c in clients)
+                    metrics["truncated"] = sum(getattr(c, 'truncated_count', 0) for c in clients)
 
         client.chat = chat
         return client

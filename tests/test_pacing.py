@@ -44,3 +44,31 @@ def test_shuffled_roster_preserves_main_model_counts():
     cfg = build_config(500, 'mock:impossible', 6, 10, 1800, 'test', roster_seed=20261109)
     assert Counter(a.model for a in cfg.agents) == Counter(m for m, _ in roster_models(500))
     assert len({a.model for a in cfg.agents[:28]}) == 4
+
+
+def test_overlapping_calls_do_not_double_count_client_retries(monkeypatch):
+    import threading
+    from scripts import scale_society as scale
+    entered = threading.Barrier(2)
+    counted = threading.Barrier(2)
+    guard = threading.Lock()
+    class Client:
+        retry_count = 0
+        truncated_count = 0
+        def chat(self):
+            entered.wait()
+            with guard:
+                self.retry_count = 1
+                self.truncated_count = 1
+            counted.wait()
+            return 'ok'
+    client = Client()
+    monkeypatch.setattr(scale, 'create_client', lambda **kw: client)
+    metrics = dict(active=0, peak=0, calls=0, errors=0, retries=0, truncated=0, latencies=[])
+    factory = scale.measured_client_factory(metrics, threading.Lock())
+    measured = factory()
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        assert list(pool.map(lambda _: measured.chat(), range(2))) == ['ok', 'ok']
+    assert metrics['calls'] == 2
+    assert metrics['retries'] == 1
+    assert metrics['truncated'] == 1

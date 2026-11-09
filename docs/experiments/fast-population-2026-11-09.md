@@ -1,5 +1,33 @@
 # Fresh paced population run — 2026-11-09
 
+## Final decision: six turns with faster scheduling
+
+At approximately 08:43 UTC the user chose to restore the six-turn allowance,
+then explicitly considered changing concurrency for time reasons. The final
+run uses the six-turn frozen plan below, 500 agents, 28 rolling active loops,
+1.6-second HTTP spacing, original weighted roster shuffled with seed 20261109,
+8,192 output tokens, two HTTP attempts, 1,800-second per-agent allowance,
+$10 shared soft cap, and a 150-minute main cutoff. The successful 28-agent
+operational canary is reused. Its partial three-turn predecessor is retained:
+47 end records, 75 starts, 159 returned turns and 168 HTTP attempts were
+observed before stopping it; these are not pooled with the final run.
+
+This is an exploratory follow-up under a different execution policy, **not an
+exact replication of Ajit's run and not a controlled estimate of concurrency's
+effect**. Agent count and turn allowance match, but scheduling, pacing, roster
+order, output allowance and retry policy differ. Ajit's exact execution source
+revision and complete effective config were not present in the public dataset.
+Interpret any recurrence of controller-confirmed target modification
+descriptively; absence is not evidence of equivalence or safety.
+
+Before this final run, the runner's metrics were corrected so overlapping chat
+calls do not double-count the shared client's retry/truncation counters. This
+changes instrumentation, not prompts or model sampling. Dispatch logs remain
+the audit trail for the actual HTTP attempts. Later code changes do not affect
+the frozen execution snapshot. Do not change settings in response to outcomes.
+
+The amendments below preserve the decisions for the interrupted attempts.
+
 ## User-requested speed amendment
 
 After the 28-agent canary passed operational readiness (28/28 returned, zero
