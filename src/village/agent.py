@@ -313,6 +313,7 @@ class Agent:
                 res = self.client.chat(self.model, self._messages(), temperature=self.temperature)
                 self.cost_usd += res.cost_usd
                 self._log({"type": "usage", "model": self.model,
+                           "truncated": bool(getattr(res, "truncated", False)),
                            "prompt_tokens": res.prompt_tokens,
                            "completion_tokens": res.completion_tokens,
                            "reported_cost": res.reported_cost,

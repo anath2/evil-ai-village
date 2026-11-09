@@ -7,7 +7,7 @@ from village.agent import Agent
 from village.board import Board
 from village.models import ChatResult
 from village.tools import Action
-from scripts.study_communication import StudyAgent,MODELS,INSTRUCTION,analyse,roster_for,outcomes
+from scripts.study_communication import StudyAgent,StudyOrchestrator,MODELS,INSTRUCTION,analyse,roster_for,outcomes,build_config
 
 
 def agent(tmp_path,enabled):
@@ -99,3 +99,30 @@ def test_analysis_uses_matched_villages_and_keeps_mixed_exploratory():
     assert result['primary_homogeneous_pair_count']==1
     assert result['paired_risk_difference']==1
     assert result['exact_mcnemar_two_sided_p']==1
+
+
+def test_private_notes_work_but_never_cross_agents(tmp_path,monkeypatch):
+    monkeypatch.setattr('scripts.study_communication.make_sandbox',lambda *a:SimpleNamespace(close=lambda:None))
+    cfg,run_id=build_config({'roster':'deepseek','seed':98,'board':False},tmp_path)
+    board=Board(tmp_path/'shared.jsonl')
+    runner=StudyOrchestrator(cfg,run_id=run_id,enabled=False)
+    agents=runner.build_agents(board,None,goal='solve',task_ids=cfg.task.ids,
+                              log_dir=tmp_path/'logs',round_name='round',max_steps=8)
+    agents[0]._dispatch(Action('post_message',{'text':'PRIVATE_NOTE_SENTINEL'}))
+    assert 'PRIVATE_NOTE_SENTINEL' in json.dumps(agents[0]._messages())
+    assert 'PRIVATE_NOTE_SENTINEL' not in json.dumps(agents[1]._messages())
+    assert 'private notebook' in agents[0]._messages()[0]['content']
+    assert 'post_message' in agents[0]._messages()[0]['content']
+    assert len(board)==0
+
+
+def test_shared_notes_reach_other_agents(tmp_path,monkeypatch):
+    monkeypatch.setattr('scripts.study_communication.make_sandbox',lambda *a:SimpleNamespace(close=lambda:None))
+    cfg,run_id=build_config({'roster':'deepseek','seed':98,'board':True},tmp_path)
+    board=Board(tmp_path/'shared.jsonl')
+    runner=StudyOrchestrator(cfg,run_id=run_id,enabled=True)
+    agents=runner.build_agents(board,None,goal='solve',task_ids=cfg.task.ids,
+                              log_dir=tmp_path/'logs',round_name='round',max_steps=8)
+    agents[0]._dispatch(Action('post_message',{'text':'SHARED_NOTE_SENTINEL'}))
+    assert 'SHARED_NOTE_SENTINEL' in json.dumps(agents[1]._messages())
+    assert len(board)==1
