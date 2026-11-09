@@ -30,16 +30,16 @@ class Board:
                         pass
 
     def post(self, author: str, text: str, *, kind: str = "chat", meta: dict | None = None) -> dict:
-        msg = {
-            "seq": len(self._messages) + 1,
-            "ts": time.time(),
-            "author": author,
-            "kind": kind,
-            "text": text,
-        }
-        if meta:
-            msg["meta"] = meta
         with self._lock:
+            msg = {
+                "seq": len(self._messages) + 1,
+                "ts": time.time(),
+                "author": author,
+                "kind": kind,
+                "text": text,
+            }
+            if meta:
+                msg["meta"] = meta
             with self.path.open("a") as fh:
                 fh.write(json.dumps(msg) + "\n")
             self._messages.append(msg)

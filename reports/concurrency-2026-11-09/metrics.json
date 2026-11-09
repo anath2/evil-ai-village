@@ -1,0 +1,688 @@
+{
+  "protocol": "mixed-api-capacity-v1",
+  "status": "stopped",
+  "started_utc": "2026-11-09T04:24:54.035639+00:00",
+  "source_commit": "3d73aef5135c2908d14f0aa966a3715559eb00b1",
+  "script_sha256": "f497dd5be204cd1c358b5ff6f5fd7f178d782c4f29b87913e8e3a6e75e306fd1",
+  "model_client_sha256": "4e671e236697940e02d892e634426575307546728d7949bc1e4a3e6cc2eacbde",
+  "levels": [
+    1,
+    2,
+    4,
+    8,
+    16
+  ],
+  "repeats": 2,
+  "soft_budget_usd": 0.25,
+  "request_timeout_seconds": 90,
+  "max_output_tokens": 2048,
+  "retries": 0,
+  "model_semaphore": false,
+  "interpretation": "28 concurrent client-issued requests across all seven catalogue models succeeded after cooldown. Earlier 429s followed 50 successful requests in rapid succession; a shared rate window is plausible, but neither a 50 RPM quota nor a hard concurrency ceiling has been established.",
+  "models": [
+    "deepseek-v4-flash",
+    "gemma-4-26b-a4b-it",
+    "gemma-4-31b-it",
+    "glm-5.2",
+    "glm-53-flash",
+    "qwen3.5-397b",
+    "qwen3.8-27b"
+  ],
+  "catalogue": [
+    "deepseek-v4-flash",
+    "gemma-4-26b-a4b-it",
+    "gemma-4-31b-it",
+    "glm-5.2",
+    "glm-53-flash",
+    "qwen3.5-397b",
+    "qwen3.8-27b"
+  ],
+  "max_http_connections": 112,
+  "cost_usd": 0.025995958840000003,
+  "input_tokens": 3813,
+  "output_tokens": 8472,
+  "stop_reason": "rate_limit; honor provider before escalating",
+  "finished_utc": "2026-11-09T04:25:32.499890+00:00",
+  "waves": [
+    {
+      "copies_per_model": 1,
+      "trial": -1,
+      "warmup": true,
+      "summary": {
+        "seconds": 5.811147425964009,
+        "models": [
+          {
+            "model": "deepseek-v4-flash",
+            "attempts": 1,
+            "valid": 1,
+            "errors": {},
+            "p50_seconds": 2.5820613999967463,
+            "p95_seconds": 2.5820613999967463,
+            "valid_per_second": 0.17208305463599735
+          },
+          {
+            "model": "gemma-4-26b-a4b-it",
+            "attempts": 1,
+            "valid": 1,
+            "errors": {},
+            "p50_seconds": 1.1139942120062187,
+            "p95_seconds": 1.1139942120062187,
+            "valid_per_second": 0.17208305463599735
+          },
+          {
+            "model": "gemma-4-31b-it",
+            "attempts": 1,
+            "valid": 1,
+            "errors": {},
+            "p50_seconds": 1.284863493987359,
+            "p95_seconds": 1.284863493987359,
+            "valid_per_second": 0.17208305463599735
+          },
+          {
+            "model": "glm-5.2",
+            "attempts": 1,
+            "valid": 1,
+            "errors": {},
+            "p50_seconds": 3.433116895961575,
+            "p95_seconds": 3.433116895961575,
+            "valid_per_second": 0.17208305463599735
+          },
+          {
+            "model": "glm-53-flash",
+            "attempts": 1,
+            "valid": 1,
+            "errors": {},
+            "p50_seconds": 2.2591690639965236,
+            "p95_seconds": 2.2591690639965236,
+            "valid_per_second": 0.17208305463599735
+          },
+          {
+            "model": "qwen3.5-397b",
+            "attempts": 1,
+            "valid": 1,
+            "errors": {},
+            "p50_seconds": 5.8063327870331705,
+            "p95_seconds": 5.8063327870331705,
+            "valid_per_second": 0.17208305463599735
+          },
+          {
+            "model": "qwen3.8-27b",
+            "attempts": 1,
+            "valid": 1,
+            "errors": {},
+            "p50_seconds": 1.8032307400135323,
+            "p95_seconds": 1.8032307400135323,
+            "valid_per_second": 0.17208305463599735
+          }
+        ],
+        "issued_http_peak": 7,
+        "issued_http_peak_by_model": {
+          "qwen3.8-27b": 1,
+          "gemma-4-26b-a4b-it": 1,
+          "deepseek-v4-flash": 1,
+          "gemma-4-31b-it": 1,
+          "glm-5.2": 1,
+          "glm-53-flash": 1,
+          "qwen3.5-397b": 1
+        },
+        "all_models_overlapped": true,
+        "valid": 7,
+        "attempts": 7,
+        "valid_per_second": 1.2045813824519815
+      }
+    },
+    {
+      "copies_per_model": 1,
+      "trial": 0,
+      "warmup": false,
+      "summary": {
+        "seconds": 6.116513197950553,
+        "models": [
+          {
+            "model": "deepseek-v4-flash",
+            "attempts": 1,
+            "valid": 1,
+            "errors": {},
+            "p50_seconds": 0.7236163209890947,
+            "p95_seconds": 0.7236163209890947,
+            "valid_per_second": 0.163491840471311
+          },
+          {
+            "model": "gemma-4-26b-a4b-it",
+            "attempts": 1,
+            "valid": 1,
+            "errors": {},
+            "p50_seconds": 0.436166871979367,
+            "p95_seconds": 0.436166871979367,
+            "valid_per_second": 0.163491840471311
+          },
+          {
+            "model": "gemma-4-31b-it",
+            "attempts": 1,
+            "valid": 1,
+            "errors": {},
+            "p50_seconds": 0.6306513030431233,
+            "p95_seconds": 0.6306513030431233,
+            "valid_per_second": 0.163491840471311
+          },
+          {
+            "model": "glm-5.2",
+            "attempts": 1,
+            "valid": 1,
+            "errors": {},
+            "p50_seconds": 2.2528336549876258,
+            "p95_seconds": 2.2528336549876258,
+            "valid_per_second": 0.163491840471311
+          },
+          {
+            "model": "glm-53-flash",
+            "attempts": 1,
+            "valid": 1,
+            "errors": {},
+            "p50_seconds": 0.9405741499504074,
+            "p95_seconds": 0.9405741499504074,
+            "valid_per_second": 0.163491840471311
+          },
+          {
+            "model": "qwen3.5-397b",
+            "attempts": 1,
+            "valid": 1,
+            "errors": {},
+            "p50_seconds": 6.1115554249845445,
+            "p95_seconds": 6.1115554249845445,
+            "valid_per_second": 0.163491840471311
+          },
+          {
+            "model": "qwen3.8-27b",
+            "attempts": 1,
+            "valid": 1,
+            "errors": {},
+            "p50_seconds": 1.3102039369987324,
+            "p95_seconds": 1.3102039369987324,
+            "valid_per_second": 0.163491840471311
+          }
+        ],
+        "issued_http_peak": 7,
+        "issued_http_peak_by_model": {
+          "qwen3.8-27b": 1,
+          "gemma-4-31b-it": 1,
+          "glm-5.2": 1,
+          "gemma-4-26b-a4b-it": 1,
+          "glm-53-flash": 1,
+          "deepseek-v4-flash": 1,
+          "qwen3.5-397b": 1
+        },
+        "all_models_overlapped": true,
+        "valid": 7,
+        "attempts": 7,
+        "valid_per_second": 1.1444428832991769
+      }
+    },
+    {
+      "copies_per_model": 1,
+      "trial": 1,
+      "warmup": false,
+      "summary": {
+        "seconds": 7.049282586027402,
+        "models": [
+          {
+            "model": "deepseek-v4-flash",
+            "attempts": 1,
+            "valid": 1,
+            "errors": {},
+            "p50_seconds": 0.6568893200019374,
+            "p95_seconds": 0.6568893200019374,
+            "valid_per_second": 0.1418584072629079
+          },
+          {
+            "model": "gemma-4-26b-a4b-it",
+            "attempts": 1,
+            "valid": 1,
+            "errors": {},
+            "p50_seconds": 1.0528958479990251,
+            "p95_seconds": 1.0528958479990251,
+            "valid_per_second": 0.1418584072629079
+          },
+          {
+            "model": "gemma-4-31b-it",
+            "attempts": 1,
+            "valid": 1,
+            "errors": {},
+            "p50_seconds": 1.1939953499822877,
+            "p95_seconds": 1.1939953499822877,
+            "valid_per_second": 0.1418584072629079
+          },
+          {
+            "model": "glm-5.2",
+            "attempts": 1,
+            "valid": 1,
+            "errors": {},
+            "p50_seconds": 3.0791284070000984,
+            "p95_seconds": 3.0791284070000984,
+            "valid_per_second": 0.1418584072629079
+          },
+          {
+            "model": "glm-53-flash",
+            "attempts": 1,
+            "valid": 1,
+            "errors": {},
+            "p50_seconds": 0.6489874030230567,
+            "p95_seconds": 0.6489874030230567,
+            "valid_per_second": 0.1418584072629079
+          },
+          {
+            "model": "qwen3.5-397b",
+            "attempts": 1,
+            "valid": 1,
+            "errors": {},
+            "p50_seconds": 7.045868453045841,
+            "p95_seconds": 7.045868453045841,
+            "valid_per_second": 0.1418584072629079
+          },
+          {
+            "model": "qwen3.8-27b",
+            "attempts": 1,
+            "valid": 1,
+            "errors": {},
+            "p50_seconds": 1.1821817409945652,
+            "p95_seconds": 1.1821817409945652,
+            "valid_per_second": 0.1418584072629079
+          }
+        ],
+        "issued_http_peak": 7,
+        "issued_http_peak_by_model": {
+          "qwen3.8-27b": 1,
+          "glm-53-flash": 1,
+          "deepseek-v4-flash": 1,
+          "glm-5.2": 1,
+          "qwen3.5-397b": 1,
+          "gemma-4-26b-a4b-it": 1,
+          "gemma-4-31b-it": 1
+        },
+        "all_models_overlapped": true,
+        "valid": 7,
+        "attempts": 7,
+        "valid_per_second": 0.9930088508403555
+      }
+    },
+    {
+      "copies_per_model": 2,
+      "trial": 0,
+      "warmup": false,
+      "summary": {
+        "seconds": 8.301669728010893,
+        "models": [
+          {
+            "model": "deepseek-v4-flash",
+            "attempts": 2,
+            "valid": 2,
+            "errors": {},
+            "p50_seconds": 1.515821752982447,
+            "p95_seconds": 1.5577535339980386,
+            "valid_per_second": 0.24091538997892736
+          },
+          {
+            "model": "gemma-4-26b-a4b-it",
+            "attempts": 2,
+            "valid": 2,
+            "errors": {},
+            "p50_seconds": 1.1031895505147986,
+            "p95_seconds": 1.1574996800045483,
+            "valid_per_second": 0.24091538997892736
+          },
+          {
+            "model": "gemma-4-31b-it",
+            "attempts": 2,
+            "valid": 2,
+            "errors": {},
+            "p50_seconds": 1.6943941494973842,
+            "p95_seconds": 2.032916155003477,
+            "valid_per_second": 0.24091538997892736
+          },
+          {
+            "model": "glm-5.2",
+            "attempts": 2,
+            "valid": 2,
+            "errors": {},
+            "p50_seconds": 2.6626988654898014,
+            "p95_seconds": 3.0098482340108603,
+            "valid_per_second": 0.24091538997892736
+          },
+          {
+            "model": "glm-53-flash",
+            "attempts": 2,
+            "valid": 2,
+            "errors": {},
+            "p50_seconds": 1.8560679490037728,
+            "p95_seconds": 2.0426603259984404,
+            "valid_per_second": 0.24091538997892736
+          },
+          {
+            "model": "qwen3.5-397b",
+            "attempts": 2,
+            "valid": 2,
+            "errors": {},
+            "p50_seconds": 8.029559914022684,
+            "p95_seconds": 8.295342888042796,
+            "valid_per_second": 0.24091538997892736
+          },
+          {
+            "model": "qwen3.8-27b",
+            "attempts": 2,
+            "valid": 2,
+            "errors": {},
+            "p50_seconds": 1.5336994149547536,
+            "p95_seconds": 1.878816433949396,
+            "valid_per_second": 0.24091538997892736
+          }
+        ],
+        "issued_http_peak": 14,
+        "issued_http_peak_by_model": {
+          "qwen3.8-27b": 2,
+          "deepseek-v4-flash": 2,
+          "gemma-4-26b-a4b-it": 2,
+          "gemma-4-31b-it": 2,
+          "glm-5.2": 2,
+          "glm-53-flash": 2,
+          "qwen3.5-397b": 2
+        },
+        "all_models_overlapped": true,
+        "valid": 14,
+        "attempts": 14,
+        "valid_per_second": 1.6864077298524915
+      }
+    },
+    {
+      "copies_per_model": 2,
+      "trial": 1,
+      "warmup": false,
+      "summary": {
+        "seconds": 7.8260449200170115,
+        "models": [
+          {
+            "model": "deepseek-v4-flash",
+            "attempts": 2,
+            "valid": 2,
+            "errors": {},
+            "p50_seconds": 1.467300976975821,
+            "p95_seconds": 1.6009706939803436,
+            "valid_per_second": 0.25555692823644727
+          },
+          {
+            "model": "gemma-4-26b-a4b-it",
+            "attempts": 2,
+            "valid": 2,
+            "errors": {},
+            "p50_seconds": 0.7315717750170734,
+            "p95_seconds": 1.0687474500155076,
+            "valid_per_second": 0.25555692823644727
+          },
+          {
+            "model": "gemma-4-31b-it",
+            "attempts": 2,
+            "valid": 2,
+            "errors": {},
+            "p50_seconds": 1.21589418099029,
+            "p95_seconds": 1.2301578769693151,
+            "valid_per_second": 0.25555692823644727
+          },
+          {
+            "model": "glm-5.2",
+            "attempts": 2,
+            "valid": 2,
+            "errors": {},
+            "p50_seconds": 4.833505755988881,
+            "p95_seconds": 6.442466482985765,
+            "valid_per_second": 0.25555692823644727
+          },
+          {
+            "model": "glm-53-flash",
+            "attempts": 2,
+            "valid": 2,
+            "errors": {},
+            "p50_seconds": 1.9015417270129547,
+            "p95_seconds": 2.1390878050005995,
+            "valid_per_second": 0.25555692823644727
+          },
+          {
+            "model": "qwen3.5-397b",
+            "attempts": 2,
+            "valid": 2,
+            "errors": {},
+            "p50_seconds": 7.634929022489814,
+            "p95_seconds": 7.82187383598648,
+            "valid_per_second": 0.25555692823644727
+          },
+          {
+            "model": "qwen3.8-27b",
+            "attempts": 2,
+            "valid": 2,
+            "errors": {},
+            "p50_seconds": 1.58474108952214,
+            "p95_seconds": 1.9150146240135655,
+            "valid_per_second": 0.25555692823644727
+          }
+        ],
+        "issued_http_peak": 14,
+        "issued_http_peak_by_model": {
+          "qwen3.8-27b": 2,
+          "gemma-4-26b-a4b-it": 2,
+          "glm-5.2": 2,
+          "glm-53-flash": 2,
+          "qwen3.5-397b": 2,
+          "deepseek-v4-flash": 2,
+          "gemma-4-31b-it": 2
+        },
+        "all_models_overlapped": true,
+        "valid": 14,
+        "attempts": 14,
+        "valid_per_second": 1.7888984976551308
+      }
+    },
+    {
+      "copies_per_model": 4,
+      "trial": 0,
+      "warmup": false,
+      "summary": {
+        "seconds": 2.1369038450066,
+        "models": [
+          {
+            "model": "deepseek-v4-flash",
+            "attempts": 4,
+            "valid": 0,
+            "errors": {
+              "http_429": 4
+            },
+            "p50_seconds": 0.9468823534843978,
+            "p95_seconds": 0.9649172910139896,
+            "valid_per_second": 0.0
+          },
+          {
+            "model": "gemma-4-26b-a4b-it",
+            "attempts": 4,
+            "valid": 0,
+            "errors": {
+              "http_429": 4
+            },
+            "p50_seconds": 1.053037095000036,
+            "p95_seconds": 1.1053580730222166,
+            "valid_per_second": 0.0
+          },
+          {
+            "model": "gemma-4-31b-it",
+            "attempts": 4,
+            "valid": 0,
+            "errors": {
+              "http_429": 4
+            },
+            "p50_seconds": 1.037143752007978,
+            "p95_seconds": 1.1443634040188044,
+            "valid_per_second": 0.0
+          },
+          {
+            "model": "glm-5.2",
+            "attempts": 4,
+            "valid": 1,
+            "errors": {
+              "http_429": 3
+            },
+            "p50_seconds": 1.1289429879980162,
+            "p95_seconds": 2.1290350039489567,
+            "valid_per_second": 0.46796677461025926
+          },
+          {
+            "model": "glm-53-flash",
+            "attempts": 4,
+            "valid": 0,
+            "errors": {
+              "http_429": 4
+            },
+            "p50_seconds": 0.9789454585115891,
+            "p95_seconds": 1.0134829210001044,
+            "valid_per_second": 0.0
+          },
+          {
+            "model": "qwen3.5-397b",
+            "attempts": 4,
+            "valid": 0,
+            "errors": {
+              "http_429": 4
+            },
+            "p50_seconds": 1.0095256519853137,
+            "p95_seconds": 1.048190048953984,
+            "valid_per_second": 0.0
+          },
+          {
+            "model": "qwen3.8-27b",
+            "attempts": 4,
+            "valid": 0,
+            "errors": {
+              "http_429": 4
+            },
+            "p50_seconds": 0.9726189829816576,
+            "p95_seconds": 1.0923238000250421,
+            "valid_per_second": 0.0
+          }
+        ],
+        "issued_http_peak": 28,
+        "issued_http_peak_by_model": {
+          "qwen3.8-27b": 4,
+          "deepseek-v4-flash": 4,
+          "gemma-4-31b-it": 4,
+          "glm-5.2": 4,
+          "glm-53-flash": 4,
+          "qwen3.5-397b": 4,
+          "gemma-4-26b-a4b-it": 4
+        },
+        "all_models_overlapped": true,
+        "valid": 1,
+        "attempts": 28,
+        "valid_per_second": 0.46796677461025926
+      }
+    }
+  ],
+  "cooldown_control": {
+    "protocol": "mixed-api-capacity-cooldown-control-v1",
+    "started_utc": "2026-11-09T04:27:21.579485+00:00",
+    "cooldown_seconds": 109.07961201667786,
+    "copies_per_model": 4,
+    "models": [
+      "deepseek-v4-flash",
+      "gemma-4-26b-a4b-it",
+      "gemma-4-31b-it",
+      "glm-5.2",
+      "glm-53-flash",
+      "qwen3.5-397b",
+      "qwen3.8-27b"
+    ],
+    "trial": 100,
+    "soft_budget_usd": 0.05,
+    "script_sha256": "aaeebadd46a7ca15f884caa264db1939f4bb5a64e55695d24bc0d629f374191d",
+    "note": "One independently labelled 28-request burst after >=90 seconds without probe traffic. This distinguishes cumulative-rate effects from the previous same-sized burst, not a measured hard quota.",
+    "summary": {
+      "seconds": 10.952498372003902,
+      "models": [
+        {
+          "model": "deepseek-v4-flash",
+          "attempts": 4,
+          "valid": 4,
+          "errors": {},
+          "p50_seconds": 1.565103058994282,
+          "p95_seconds": 1.8818686929880641,
+          "valid_per_second": 0.3652134758791247
+        },
+        {
+          "model": "gemma-4-26b-a4b-it",
+          "attempts": 4,
+          "valid": 4,
+          "errors": {},
+          "p50_seconds": 1.1766580074909143,
+          "p95_seconds": 1.8401961490162648,
+          "valid_per_second": 0.3652134758791247
+        },
+        {
+          "model": "gemma-4-31b-it",
+          "attempts": 4,
+          "valid": 4,
+          "errors": {},
+          "p50_seconds": 1.698552440473577,
+          "p95_seconds": 2.001640453992877,
+          "valid_per_second": 0.3652134758791247
+        },
+        {
+          "model": "glm-5.2",
+          "attempts": 4,
+          "valid": 4,
+          "errors": {},
+          "p50_seconds": 4.012046513002133,
+          "p95_seconds": 6.397516958008055,
+          "valid_per_second": 0.3652134758791247
+        },
+        {
+          "model": "glm-53-flash",
+          "attempts": 4,
+          "valid": 4,
+          "errors": {},
+          "p50_seconds": 2.6627642619714607,
+          "p95_seconds": 3.733522307011299,
+          "valid_per_second": 0.3652134758791247
+        },
+        {
+          "model": "qwen3.5-397b",
+          "attempts": 4,
+          "valid": 4,
+          "errors": {},
+          "p50_seconds": 8.865735172497807,
+          "p95_seconds": 10.938106940011494,
+          "valid_per_second": 0.3652134758791247
+        },
+        {
+          "model": "qwen3.8-27b",
+          "attempts": 4,
+          "valid": 4,
+          "errors": {},
+          "p50_seconds": 2.1030381160089746,
+          "p95_seconds": 2.538152288994752,
+          "valid_per_second": 0.3652134758791247
+        }
+      ],
+      "issued_http_peak": 28,
+      "issued_http_peak_by_model": {
+        "qwen3.8-27b": 4,
+        "deepseek-v4-flash": 4,
+        "gemma-4-26b-a4b-it": 4,
+        "gemma-4-31b-it": 4,
+        "glm-5.2": 4,
+        "glm-53-flash": 4,
+        "qwen3.5-397b": 4
+      },
+      "all_models_overlapped": true,
+      "valid": 28,
+      "attempts": 28,
+      "valid_per_second": 2.556494331153873
+    },
+    "status": "complete",
+    "cost_usd": 0.016935089740000003
+  },
+  "combined_reported_cost_usd": 0.042931048580000006
+}

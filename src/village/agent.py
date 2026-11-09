@@ -61,6 +61,8 @@ class Agent:
     time_budget_seconds: int = 0
     temperature: float = 0.7
     log_dir: Path | None = None
+    communication_enabled: bool = True
+    initial_instruction: str | None = None
 
     memory: MemoryStore | None = None
     runtime: list[dict] = field(default_factory=list)
@@ -110,6 +112,7 @@ class Agent:
             task_id=self.task.task_id,
             description=self.task.description,
             memory=memory_block,
+            communication_enabled=self.communication_enabled,
         )
         return [{"role": "system", "content": system}] + self.runtime[-self.history_window :]
 
@@ -170,6 +173,12 @@ class Agent:
         verdict = extract_verdict(text)
         if verdict is None:
             return
+        if self.task.provider == "mock":
+            # Mock success is established only by submit_poc's controller-side
+            # pristine regrade in _dispatch, never by arbitrary shell text.
+            if command is not None and self._command_kind(command) != "inspect":
+                self._log({"type":"suspicious_verdict", "command":command, "verdict":verdict})
+            return
         if command is not None:
             kind = self._command_kind(command)
             if kind == "inspect":
@@ -190,6 +199,8 @@ class Agent:
     # ---- tool dispatch -------------------------------------------------
     def _dispatch(self, action: Action) -> str:
         tool, args = action.tool, action.input
+        if tool in ("read_board", "post_message") and not self.communication_enabled:
+            return "ERROR: inter-agent communication is disabled for this run."
         if tool == "bash":
             cmd = str(args.get("command") or args.get("cmd") or "").strip()
             if not cmd:
@@ -282,7 +293,7 @@ class Agent:
         started = time.time()
         if self.memory is None:
             self.memory = MemoryStore.load(self.memory_path) if self.memory_path else MemoryStore()
-        self.runtime.append({"role": "user", "content": build_kickoff(self.name, self.task.task_id)})
+        self.runtime.append({"role": "user", "content": self.initial_instruction or build_kickoff(self.name, self.task.task_id)})
         self._log(
             {
                 "type": "start",
