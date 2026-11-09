@@ -1,0 +1,79 @@
+[village:scale-500-20261109T091520] village 'scale-500-20261109T091520', 1 round(s)
+
+[village:scale-500-20261109T091520] === round 1/1: round ===
+
+[village:scale-500-20261109T091520] total cost $0.00000000 / cap $3.00 (0 prompt + 0 completion tokens)
+[village:scale-500-20261109T091520] provider-reported cost 0.00000000 (usd units)
+/home/sindri/projects/evil-ai-village/.village/ajit-settings-500-20261109T091519Z/source/src/village/orchestrator.py:119: RuntimeWarning: Container cleanup failed: Command '['docker', 'rm', '--force', 'village-467169877863']' timed out after 30 seconds
+  warnings.warn(f"Container cleanup failed: {exc}", RuntimeWarning)
+/home/sindri/projects/evil-ai-village/.village/ajit-settings-500-20261109T091519Z/source/src/village/orchestrator.py:119: RuntimeWarning: Container cleanup failed: Command '['docker', 'rm', '--force', 'village-77659a9021ef']' timed out after 30 seconds
+  warnings.warn(f"Container cleanup failed: {exc}", RuntimeWarning)
+Traceback (most recent call last):
+  File "/home/sindri/projects/evil-ai-village/.village/ajit-settings-500-20261109T091519Z/source/src/village/sandbox.py", line 152, in create
+    subprocess.run(cmd, check=True, capture_output=True, text=True, timeout=120)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 557, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 1221, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 2154, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 1268, in _check_timeout
+    raise TimeoutExpired(
+    ...<2 lines>...
+            stderr=b''.join(stderr_seq) if stderr_seq else None)
+subprocess.TimeoutExpired: Command '['docker', 'run', '--detach', '--name', 'village-9043a44cf598', '--label', 'evil-ai-village.managed=true', '--network', 'none', '--read-only', '--init', '--log-driver', 'none', '--cap-drop', 'ALL', '--security-opt', 'no-new-privileges', '--pids-limit', '128', '--memory', '512m', '--memory-swap', '512m', '--cpus', '1', '--ulimit', 'core=0', '--user', '1000:1000', '--tmpfs', '/tmp:rw,exec,nosuid,nodev,size=128m,mode=1777', '--mount', 'type=bind,src=/home/sindri/projects/evil-ai-village/.village/ajit-settings-500-20261109T091519Z/source/.village/workspaces/scale-500-20261109T091520/a135,dst=/workspace', '--workdir', '/workspace', '--env', 'HOME=/tmp', 'evil-ai-village/agent:latest', 'sleep', 'infinity']' timed out after 120 seconds
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/sindri/projects/evil-ai-village/.village/ajit-settings-500-20261109T091519Z/source/src/village/orchestrator.py", line 146, in run
+    agents = self.build_agents(
+        board,
+    ...<5 lines>...
+        max_steps=max_steps,
+    )
+  File "/home/sindri/projects/evil-ai-village/.village/ajit-settings-500-20261109T091519Z/source/src/village/orchestrator.py", line 69, in build_agents
+    sandbox = make_sandbox(self.cfg.sandbox.kind, workspace, self.cfg.sandbox)
+  File "/home/sindri/projects/evil-ai-village/.village/ajit-settings-500-20261109T091519Z/source/src/village/sandbox.py", line 206, in make_sandbox
+    return DockerSandbox.create(workspace, settings)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sindri/projects/evil-ai-village/.village/ajit-settings-500-20261109T091519Z/source/src/village/sandbox.py", line 155, in create
+    sandbox.close()
+    ~~~~~~~~~~~~~^^
+  File "/home/sindri/projects/evil-ai-village/.village/ajit-settings-500-20261109T091519Z/source/src/village/sandbox.py", line 161, in close
+    result = subprocess.run(["docker", "rm", "--force", self.container],
+                            capture_output=True, text=True, timeout=30)
+  File "/usr/lib/python3.14/subprocess.py", line 557, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 1221, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 2154, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 1268, in _check_timeout
+    raise TimeoutExpired(
+    ...<2 lines>...
+            stderr=b''.join(stderr_seq) if stderr_seq else None)
+subprocess.TimeoutExpired: Command '['docker', 'rm', '--force', 'village-9043a44cf598']' timed out after 30 seconds
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/sindri/projects/evil-ai-village/.village/ajit-settings-500-20261109T091519Z/source/scripts/scale_society.py", line 403, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/sindri/projects/evil-ai-village/.village/ajit-settings-500-20261109T091519Z/source/scripts/scale_society.py", line 337, in main
+    runner.run()
+    ~~~~~~~~~~^^
+  File "/home/sindri/projects/evil-ai-village/.village/ajit-settings-500-20261109T091519Z/source/src/village/orchestrator.py", line 179, in run
+    self._close_sandboxes()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/sindri/projects/evil-ai-village/.village/ajit-settings-500-20261109T091519Z/source/src/village/orchestrator.py", line 123, in _close_sandboxes
+    raise RuntimeError("Agent container cleanup failed; refusing to start another round")
+RuntimeError: Agent container cleanup failed; refusing to start another round

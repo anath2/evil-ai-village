@@ -1,0 +1,13 @@
+{
+  "unit": "village-fast-500-final-20261109t084446z",
+  "paused_at_unix": 1794215614.511244,
+  "method": "systemd user cgroup freeze",
+  "runtime_override": "/run/user/1000/systemd/user/village-fast-500-final-20261109t084446z.service.d/90-paused-deadline.conf",
+  "status": "paused",
+  "resume_caveat": "HTTP and per-agent wall-clock deadlines may expire. Wrapper 9000s timeout also includes paused time unless addressed before thaw.",
+  "coordinator_held_sigstop": true,
+  "coordinator_pid": 2051063,
+  "runner_child_pids": [
+    2051071
+  ]
+}

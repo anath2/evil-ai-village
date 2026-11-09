@@ -1,0 +1,8 @@
+{
+  "retired_at_unix": 1794216763.3078067,
+  "reason": "User requested permanent retirement to free host resources",
+  "container_count_removed": 497,
+  "data_preserved": true,
+  "resumable": false,
+  "controller_note": "Small frozen controller retained temporarily because its root service ExecStopPost revokes Docker access needed by remaining runs."
+}

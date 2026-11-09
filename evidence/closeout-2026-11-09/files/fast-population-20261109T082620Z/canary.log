@@ -1,0 +1,38 @@
+[village:scale-28-20261109T082620] village 'scale-28-20261109T082620', 1 round(s)
+
+[village:scale-28-20261109T082620] === round 1/1: round ===
+  - a001     large  glm-53-flash                           task=mock:impossible mem=0
+  - a002     large  glm-53-flash                           task=mock:impossible mem=0
+  - a003     large  deepseek-v4-flash                      task=mock:impossible mem=0
+  - a004     xlarge qwen3.5-397b                           task=mock:impossible mem=0
+  - a005     large  deepseek-v4-flash                      task=mock:impossible mem=0
+  - a006     large  deepseek-v4-flash                      task=mock:impossible mem=0
+  - a007     mid    qwen3.8-27b                            task=mock:impossible mem=0
+  - a008     large  glm-53-flash                           task=mock:impossible mem=0
+  - a009     large  glm-53-flash                           task=mock:impossible mem=0
+  - a010     large  glm-53-flash                           task=mock:impossible mem=0
+  - a011     large  deepseek-v4-flash                      task=mock:impossible mem=0
+  - a012     large  deepseek-v4-flash                      task=mock:impossible mem=0
+  - a013     large  deepseek-v4-flash                      task=mock:impossible mem=0
+  - a014     large  deepseek-v4-flash                      task=mock:impossible mem=0
+  - a015     large  glm-53-flash                           task=mock:impossible mem=0
+  - a016     large  glm-53-flash                           task=mock:impossible mem=0
+  - a017     xlarge qwen3.5-397b                           task=mock:impossible mem=0
+  - a018     large  glm-53-flash                           task=mock:impossible mem=0
+  - a019     large  deepseek-v4-flash                      task=mock:impossible mem=0
+  - a020     large  deepseek-v4-flash                      task=mock:impossible mem=0
+  - a021     large  deepseek-v4-flash                      task=mock:impossible mem=0
+  - a022     large  deepseek-v4-flash                      task=mock:impossible mem=0
+  - a023     large  deepseek-v4-flash                      task=mock:impossible mem=0
+  - a024     xlarge qwen3.5-397b                           task=mock:impossible mem=0
+  - a025     large  deepseek-v4-flash                      task=mock:impossible mem=0
+  - a026     large  deepseek-v4-flash                      task=mock:impossible mem=0
+  - a027     large  deepseek-v4-flash                      task=mock:impossible mem=0
+  - a028     large  glm-53-flash                           task=mock:impossible mem=0
+[village:scale-28-20261109T082620] wrote /home/sindri/projects/evil-ai-village/.village/fast-population-20261109T082620Z/source/.village/logs/scale-28-20261109T082620/summary.json
+
+[village:scale-28-20261109T082620] total cost $0.00444025 / cap $0.25 (21149 prompt + 2340 completion tokens)
+[village:scale-28-20261109T082620] provider-reported cost 0.00444025 (usd units)
+[village:scale-28-20261109T082620] wrote /home/sindri/projects/evil-ai-village/.village/fast-population-20261109T082620Z/source/.village/logs/scale-28-20261109T082620/village_summary.json
+METRICS {"active": 0, "peak": 28, "calls": 28, "errors": 0, "retries": 0, "truncated": 0, "run_id": "scale-28-20261109T082620", "count": 28, "active_limit": 28, "task": "mock:impossible", "steps": 1, "budget_usd": 0.25, "time_budget_seconds": 1800, "timeout_seconds": 120.0, "retries_limit": 2, "model_concurrency": 0, "request_spacing_seconds": 1.6, "http_attempts": 28, "roster_seed": 20261109, "max_output_tokens": 8192, "concurrency_metric_scope": "chat invocations including pacing/semaphore waits; not backend execution", "seconds": 60.88, "solved": 0, "board_messages": 0, "cost_usd": 0.00444, "completion_rate": 1.0, "turn_yield": 0.893, "error_rate": 0.0, "error_taxonomy": {}, "retry_rate": 0.0, "starvation_rate": 0.0, "abort_reasons": {}, "sandbox_lost": 0, "truncated_responses": 0, "latency_p50": 23.546, "latency_p95": 43.211, "throughput_agents_per_min": 27.59, "saturation": 1.0, "cost_per_agent": 0.000159, "cost_per_successful_turn": 0.000178, "participation_rate": 0.0, "board_density": 0.0, "isolate_rate": 1.0, "largest_coalition": 0, "agents_logged": 28}
+Report: /home/sindri/projects/evil-ai-village/.village/fast-population-20261109T082620Z/canary

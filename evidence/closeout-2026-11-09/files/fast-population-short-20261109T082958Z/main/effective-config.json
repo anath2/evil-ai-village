@@ -1,0 +1,3019 @@
+{
+  "run_id": "scale-500-20261109T082958",
+  "count": 500,
+  "active": 28,
+  "budget_usd": 10.0,
+  "steps": 3,
+  "time_budget": 1800,
+  "timeout": 120.0,
+  "retries": 2,
+  "model_concurrency": 0,
+  "task": "mock:impossible",
+  "board": ".village/scale-500-20261109T082958-board.jsonl",
+  "sandbox": "docker",
+  "request_spacing_seconds": 1.6,
+  "roster_seed": 20261109,
+  "max_output_tokens": 8192,
+  "agents": [
+    {
+      "name": "a001",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a002",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a003",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a004",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a005",
+      "model": "qwen3.5-397b",
+      "tier": "xlarge",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a006",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a007",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a008",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a009",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a010",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a011",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a012",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a013",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a014",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a015",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a016",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a017",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a018",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a019",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a020",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a021",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a022",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a023",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a024",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a025",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a026",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a027",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a028",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a029",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a030",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a031",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a032",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a033",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a034",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a035",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a036",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a037",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a038",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a039",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a040",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a041",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a042",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a043",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a044",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a045",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a046",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a047",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a048",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a049",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a050",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a051",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a052",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a053",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a054",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a055",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a056",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a057",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a058",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a059",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a060",
+      "model": "qwen3.5-397b",
+      "tier": "xlarge",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a061",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a062",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a063",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a064",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a065",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a066",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a067",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a068",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a069",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a070",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a071",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a072",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a073",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a074",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a075",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a076",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a077",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a078",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a079",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a080",
+      "model": "qwen3.5-397b",
+      "tier": "xlarge",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a081",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a082",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a083",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a084",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a085",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a086",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a087",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a088",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a089",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a090",
+      "model": "qwen3.5-397b",
+      "tier": "xlarge",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a091",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a092",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a093",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a094",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a095",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a096",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a097",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a098",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a099",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a100",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a101",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a102",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a103",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a104",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a105",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a106",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a107",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a108",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a109",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a110",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a111",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a112",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a113",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a114",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a115",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a116",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a117",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a118",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a119",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a120",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a121",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a122",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a123",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a124",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a125",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a126",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a127",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a128",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a129",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a130",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a131",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a132",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a133",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a134",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a135",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a136",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a137",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a138",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a139",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a140",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a141",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a142",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a143",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a144",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a145",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a146",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a147",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a148",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a149",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a150",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a151",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a152",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a153",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a154",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a155",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a156",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a157",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a158",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a159",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a160",
+      "model": "qwen3.5-397b",
+      "tier": "xlarge",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a161",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a162",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a163",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a164",
+      "model": "qwen3.5-397b",
+      "tier": "xlarge",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a165",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a166",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a167",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a168",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a169",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a170",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a171",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a172",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a173",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a174",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a175",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a176",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a177",
+      "model": "qwen3.5-397b",
+      "tier": "xlarge",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a178",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a179",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a180",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a181",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a182",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a183",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a184",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a185",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a186",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a187",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a188",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a189",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a190",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a191",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a192",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a193",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a194",
+      "model": "qwen3.5-397b",
+      "tier": "xlarge",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a195",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a196",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a197",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a198",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a199",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a200",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a201",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a202",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a203",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a204",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a205",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a206",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a207",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a208",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a209",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a210",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a211",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a212",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a213",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a214",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a215",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a216",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a217",
+      "model": "qwen3.5-397b",
+      "tier": "xlarge",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a218",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a219",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a220",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a221",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a222",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a223",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a224",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a225",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a226",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a227",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a228",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a229",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a230",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a231",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a232",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a233",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a234",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a235",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a236",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a237",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a238",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a239",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a240",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a241",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a242",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a243",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a244",
+      "model": "qwen3.5-397b",
+      "tier": "xlarge",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a245",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a246",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a247",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a248",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a249",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a250",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a251",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a252",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a253",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a254",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a255",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a256",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a257",
+      "model": "qwen3.5-397b",
+      "tier": "xlarge",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a258",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a259",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a260",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a261",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a262",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a263",
+      "model": "qwen3.5-397b",
+      "tier": "xlarge",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a264",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a265",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a266",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a267",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a268",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a269",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a270",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a271",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a272",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a273",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a274",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a275",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a276",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a277",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a278",
+      "model": "qwen3.5-397b",
+      "tier": "xlarge",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a279",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a280",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a281",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a282",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a283",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a284",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a285",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a286",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a287",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a288",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a289",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a290",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a291",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a292",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a293",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a294",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a295",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a296",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a297",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a298",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a299",
+      "model": "qwen3.5-397b",
+      "tier": "xlarge",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a300",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a301",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a302",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a303",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a304",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a305",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a306",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a307",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a308",
+      "model": "qwen3.5-397b",
+      "tier": "xlarge",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a309",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a310",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a311",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a312",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a313",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a314",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a315",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a316",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a317",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a318",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a319",
+      "model": "qwen3.5-397b",
+      "tier": "xlarge",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a320",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a321",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a322",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a323",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a324",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a325",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a326",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a327",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a328",
+      "model": "qwen3.5-397b",
+      "tier": "xlarge",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a329",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a330",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a331",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a332",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a333",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a334",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a335",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a336",
+      "model": "qwen3.5-397b",
+      "tier": "xlarge",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a337",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a338",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a339",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a340",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a341",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a342",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a343",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a344",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a345",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a346",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a347",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a348",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a349",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a350",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a351",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a352",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a353",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a354",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a355",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a356",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a357",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a358",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a359",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a360",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a361",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a362",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a363",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a364",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a365",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a366",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a367",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a368",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a369",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a370",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a371",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a372",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a373",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a374",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a375",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a376",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a377",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a378",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a379",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a380",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a381",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a382",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a383",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a384",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a385",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a386",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a387",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a388",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a389",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a390",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a391",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a392",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a393",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a394",
+      "model": "qwen3.5-397b",
+      "tier": "xlarge",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a395",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a396",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a397",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a398",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a399",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a400",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a401",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a402",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a403",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a404",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a405",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a406",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a407",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a408",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a409",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a410",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a411",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a412",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a413",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a414",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a415",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a416",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a417",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a418",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a419",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a420",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a421",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a422",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a423",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a424",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a425",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a426",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a427",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a428",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a429",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a430",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a431",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a432",
+      "model": "qwen3.5-397b",
+      "tier": "xlarge",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a433",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a434",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a435",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a436",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a437",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a438",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a439",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a440",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a441",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a442",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a443",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a444",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a445",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a446",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a447",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a448",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a449",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a450",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a451",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a452",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a453",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a454",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a455",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a456",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a457",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a458",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a459",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a460",
+      "model": "qwen3.5-397b",
+      "tier": "xlarge",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a461",
+      "model": "qwen3.5-397b",
+      "tier": "xlarge",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a462",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a463",
+      "model": "qwen3.5-397b",
+      "tier": "xlarge",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a464",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a465",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a466",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a467",
+      "model": "qwen3.5-397b",
+      "tier": "xlarge",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a468",
+      "model": "qwen3.5-397b",
+      "tier": "xlarge",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a469",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a470",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a471",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a472",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a473",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a474",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a475",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a476",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a477",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a478",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a479",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a480",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a481",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a482",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a483",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a484",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a485",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a486",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a487",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a488",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a489",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a490",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a491",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a492",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a493",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a494",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a495",
+      "model": "glm-53-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a496",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a497",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a498",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a499",
+      "model": "deepseek-v4-flash",
+      "tier": "large",
+      "task": "mock:impossible"
+    },
+    {
+      "name": "a500",
+      "model": "qwen3.8-27b",
+      "tier": "mid",
+      "task": "mock:impossible"
+    }
+  ]
+}

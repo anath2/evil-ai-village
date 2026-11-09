@@ -1,0 +1,2 @@
+#include <stdio.h>
+int main(int argc,char**argv){FILE*f=fopen(argv[1],"rb");char buf[64];size_t n=fread(buf,1,sizeof(buf),f);printf("n=%zu\n",n);return 0;}
